@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_init/config/flutter_extension_methods.dart';
+import 'package:flutter_init/config/build_context_extention.dart';
 import 'package:flutter_init/theme/app_theme.dart';
 import 'package:provider/provider.dart';
 
@@ -21,7 +21,6 @@ class MyApp extends StatelessWidget {
       ],
       builder: (context, _) => MaterialApp(
         title: 'Flutter Demo',
-        // P_TODO: 이거 컬러만 해야되나 ..
         theme: AppTheme.light,
         darkTheme: AppTheme.dark,
         themeMode: context.watch<AppTheme>().themeMode,
@@ -48,7 +47,14 @@ class _MyHomePageState extends State<MyHomePage> {
   int _counter = 0;
 
   void darkMode() {
-    context.read<AppTheme>().themeMode = ThemeMode.dark;
+    var themeMode = context.read<AppTheme>().themeMode;
+    // 이게 검사가 되는게 신기하네..
+    if (themeMode == ThemeMode.dark) {
+      context.read<AppTheme>().themeMode = ThemeMode.light;
+    } else {
+      context.read<AppTheme>().themeMode = ThemeMode.dark;
+    }
+    print(themeMode);
   }
 
   void _incrementCounter() {
@@ -61,11 +67,11 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: context.appColors.gray[500],
+        backgroundColor: context.colors.gray[500],
         title: Text(
           widget.title,
           style: TextStyle(
-            color: context.appColors.gray[100],
+            color: context.colors.gray[100],
           ),
         ),
       ),
@@ -73,8 +79,11 @@ class _MyHomePageState extends State<MyHomePage> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            const Text(
+            Text(
               'You have pushed the button this many times:',
+              style: context.textStyle.h1.copyWith(
+                color: context.colors.gray[700],
+              ),
             ),
             Text(
               '$_counter',

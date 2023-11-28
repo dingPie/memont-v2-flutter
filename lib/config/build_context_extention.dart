@@ -1,24 +1,21 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_init/theme/app_color_extension.dart';
-import 'package:flutter_init/theme/app_theme.dart';
 
-extension AppThemeExtension on ThemeData {
-  /// Usage example: Theme.of(context).appColors;
-  AppColorsExtension get appColors =>
-      extension<AppColorsExtension>() ?? AppTheme.lightAppColors;
-}
+import 'package:flutter_init/theme/color/app_colors_extension.dart';
+import 'package:flutter_init/theme/textStyle/app_text_style_extension.dart';
 
-extension BuildContextExtensions on BuildContext {
+extension BuildContextExtension on BuildContext {
   ThemeData get theme => Theme.of(this);
 
   TextTheme get textTheme => theme.textTheme;
 
+  AppColorsExtension get colors => theme.extension<AppColorsExtension>()!;
+
+  AppTextStyleExtension get textStyle =>
+      theme.extension<AppTextStyleExtension>()!;
+
+  // 하단은 아직 안쓰는 것들.
+
   ColorScheme get colorScheme => theme.colorScheme;
-
-  AppColorsExtension get appColors =>
-      theme.extension<AppColorsExtension>() ?? AppTheme.lightAppColors;
-
-  DefaultTextStyle get defaultTextStyle => DefaultTextStyle.of(this);
 
   MediaQueryData get mediaQuery => MediaQuery.of(this);
 
