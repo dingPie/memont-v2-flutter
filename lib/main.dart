@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_init/config/build_context_extention.dart';
+
+import 'package:flutter_init/providers/user.dart';
+import 'package:flutter_init/screens/router.dart';
 import 'package:flutter_init/theme/app_theme.dart';
 import 'package:provider/provider.dart';
 
@@ -13,92 +15,25 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MultiProvider(
+      // P_TODO: 이거 자리잡으면 Global Provider로 뺴도 될듯
       providers: [
         // P_MEMO: Theme Provider
         ChangeNotifierProvider(
           create: (context) => AppTheme(),
         ),
+        ChangeNotifierProvider(
+          create: (context) => User(),
+        ),
       ],
-      builder: (context, _) => MaterialApp(
-        title: 'Flutter Demo',
+      builder: (context, _) => MaterialApp.router(
+        title: 'Flutter Init',
         theme: AppTheme.light,
         darkTheme: AppTheme.dark,
+        routerConfig: AppRouter(context.watch<User>()).router,
+        // P_FIX: theme 이 작동하지 않음. 고쳐야 함.
         themeMode: context.watch<AppTheme>().themeMode,
-        // debugShowCheckedModeBanner: false,
-        home: const MyHomePage(title: '테스트 앱'),
+        debugShowCheckedModeBanner: false,
       ),
-    );
-  }
-}
-
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({
-    super.key,
-    required this.title,
-  });
-
-  final String title;
-
-  @override
-  State<MyHomePage> createState() => _MyHomePageState();
-}
-
-class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
-
-  void darkMode() {
-    var themeMode = context.read<AppTheme>().themeMode;
-    // 이게 검사가 되는게 신기하네..
-    if (themeMode == ThemeMode.dark) {
-      context.read<AppTheme>().themeMode = ThemeMode.light;
-    } else {
-      context.read<AppTheme>().themeMode = ThemeMode.dark;
-    }
-    print(themeMode);
-  }
-
-  void _incrementCounter() {
-    setState(() {
-      _counter++;
-    });
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        backgroundColor: context.colors.gray[500],
-        title: Text(
-          widget.title,
-          style: TextStyle(
-            color: context.colors.gray[100],
-          ),
-        ),
-      ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Text(
-              'You have pushed the button this many times:',
-              style: context.textStyle.h1.copyWith(
-                color: context.colors.gray[700],
-              ),
-            ),
-            Text(
-              '$_counter',
-              style: context.textTheme.headlineMedium?.copyWith(
-                color: context.colorScheme.secondary,
-              ),
-            ),
-          ],
-        ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: darkMode,
-        tooltip: 'Increment',
-        child: const Icon(Icons.add),
-      ), // This trailing comma makes auto-formatting nicer for build methods.
     );
   }
 }

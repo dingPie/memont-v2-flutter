@@ -8,6 +8,6 @@ abstract class AppTypography {
 
   static const h1 = TextStyle(
     fontSize: 60,
-    fontWeight: FontWeight.w300,
+    fontWeight: FontWeight.w700,
   );
 }
