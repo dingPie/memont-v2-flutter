@@ -3,7 +3,7 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter_init/config/build_context_extention.dart';
 import 'package:flutter_init/providers/user.dart';
-import 'package:flutter_init/screens/app_route_extension.dart';
+import 'package:flutter_init/config/app_route_extension.dart';
 import 'package:flutter_init/theme/app_theme.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
@@ -15,15 +15,16 @@ class HomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var themeMode = context.watch<AppTheme>().themeMode;
+    var themeMode = context.read<AppTheme>().themeMode;
     var user = context.watch<User>();
 
     void toggleThemeMode() {
-      print('test ${themeMode.name}');
-      if (themeMode == ThemeMode.dark) {
-        themeMode = ThemeMode.light;
+      // read는 변경사항을 수신하진 않지만 값을 반환한고 (set 가능)
+      // watch는 변경값을 수신만 한다 ? -> 한번 더 확인 필요
+      if (context.read<AppTheme>().themeMode == ThemeMode.dark) {
+        context.read<AppTheme>().themeMode = ThemeMode.light;
       } else {
-        themeMode = ThemeMode.dark;
+        context.read<AppTheme>().themeMode = ThemeMode.dark;
       }
     }
 
@@ -54,9 +55,8 @@ class HomeScreen extends StatelessWidget {
           children: [
             Text(
               'HOME SCREEN',
-              style: context.textStyle.h1.copyWith(
-                fontSize: 40,
-              ),
+              style: context.textStyle.h1
+                  .copyWith(fontSize: 40, color: context.colors.primary),
             ),
             Column(
               children: [

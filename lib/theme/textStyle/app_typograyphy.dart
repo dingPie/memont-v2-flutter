@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-abstract class AppTypography {
+class AppTypography {
   static const body1 = TextStyle(
     fontSize: 16,
     fontWeight: FontWeight.normal,

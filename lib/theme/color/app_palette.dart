@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-abstract class AppPalette {
+class AppPalette {
   // gray
   static const Map<int, Color> gray = {
     50: Color(0xFFFAFAFA),
