@@ -1,25 +1,30 @@
-import 'dart:io';
-
 import 'package:dio/dio.dart';
+import 'package:flutter_init/constants/const_key.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-base class DioIn {
+// P_TODO: BASE URL env에서 받아와야 함, 임시설정
+const String baseUrl = 'https://webtoon-crawler.nomadcoders.workers.dev/';
+
+final class DioIn {
+  DioIn() {
+    init();
+  }
+
   static final options = BaseOptions(
-    baseUrl: 'https://google.com', // P_TODO: BASE URL 밖에서 받아와야 함 .
+    baseUrl: baseUrl,
     connectTimeout: const Duration(seconds: 5),
     receiveTimeout: const Duration(seconds: 5),
     contentType: Headers.jsonContentType,
+    // headers: {
+    //   HttpHeaders.accessControlAllowOriginHeader: '*',
+    // },
   );
 
   static final _instance = Dio(options);
 
   late final SharedPreferences _prefs;
 
-  // P_TODO: 초기 할당 방법이 이거밖에 없나 ?
-  Dio get dio {
-    init();
-    return _instance;
-  }
+  Dio get dio => _instance;
 
   void init() async {
     _prefs = await SharedPreferences.getInstance();
@@ -29,9 +34,10 @@ base class DioIn {
         onRequest:
             (RequestOptions options, RequestInterceptorHandler handler) async {
           // P_TODO: enum (상수) key로 바꿔야 함.
-          final String? token = _prefs?.getString('token');
+          final String? token = _prefs.getString(ConstKey.token);
 
           options.headers['Authorization'] = 'Bearer $token';
+          print('header 확인: ${options.headers['Authorization']}');
           return handler.next(options);
         },
         onResponse: (Response response, ResponseInterceptorHandler handler) {
@@ -51,5 +57,3 @@ base class DioIn {
     );
   }
 }
-// P_TODO: static 메서드라 이렇게 사용 가능.
-// var test = DioIn().dio;
