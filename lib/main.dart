@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
-
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_init/providers/user.dart';
 import 'package:flutter_init/screens/router.dart';
 import 'package:flutter_init/theme/app_theme.dart';
 import 'package:provider/provider.dart';
 
-void main() {
+Future main() async {
+  await dotenv.load(fileName: ".env");
   runApp(const MyApp());
 }
 
