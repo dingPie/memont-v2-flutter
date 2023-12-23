@@ -3,14 +3,12 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter_init/apis/dio.dart';
 import 'package:flutter_init/config/build_context_extention.dart';
-import 'package:flutter_init/constants/const_key.dart';
-import 'package:flutter_init/providers/storage.dart';
+
 import 'package:flutter_init/providers/user.dart';
 import 'package:flutter_init/config/app_route_extension.dart';
 import 'package:flutter_init/theme/app_theme.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({
@@ -23,7 +21,6 @@ class HomeScreen extends StatelessWidget {
     var user = context.watch<User>();
 
     void toggleThemeMode() {
-      print('TEST: ${Storage.accessToken}');
       // read는 변경사항을 수신하진 않지만 값을 반환한고 (set 가능)
       // watch는 변경값을 수신만 한다 ? -> 한번 더 확인 필요
       if (context.read<AppTheme>().themeMode == ThemeMode.dark) {
@@ -47,14 +44,14 @@ class HomeScreen extends StatelessWidget {
 
     void onPressLogout() => user.logout();
 
-    void test() async {
+    void apiTest() async {
       // final SharedPreferences prefs = await SharedPreferences.getInstance();
       // await prefs.setString(ConstKey.token, '테스트 문구입니다.');
 
       var dio = DioIn().dio;
 
       try {
-        var result = await dio.get('/today');
+        var result = await dio.get('/today-test');
         print('결과 확인! ${result.toString()}');
       } catch (err) {
         print('ERROR: ${err.toString()}');
@@ -104,9 +101,9 @@ class HomeScreen extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     GestureDetector(
-                      onTap: test,
+                      onTap: apiTest,
                       child: Text(
-                        '테스트     ',
+                        'API 호출 테스트     ',
                         style: context.textStyle.body1.copyWith(
                           decoration: TextDecoration.underline,
                         ),
