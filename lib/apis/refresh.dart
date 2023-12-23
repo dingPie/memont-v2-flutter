@@ -1,12 +1,11 @@
-// 일단 에러가 난 시점에서 실행되지 못한 api들 쌓아놔야 하고
-// 리프레시 토큰 가져와서 리프레시 살행
-// 그리고 남은 api 들 털어주기
-
 import 'package:dio/dio.dart';
+import 'package:flutter/foundation.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_init/apis/dio.dart';
-import 'package:flutter_init/constants/const_key.dart';
+
 import 'package:flutter_init/providers/storage.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+
+// late final SharedPreferences _prefs; // P_MEMO: accessToken은 그냥 전역으로 사용할 static instance에 추가.
 
 typedef RequestType = void Function(String accessToken);
 
@@ -14,12 +13,10 @@ final class Refresh {
   bool isRefreshing =
       false; // 토큰 만료로 error 가 여러번 나도 refresh token 발급은 한번만 이뤄주기 위한 상태
   List<RequestType> retryApiList = []; // 현재 error 상태의 api callback 목록함수,
-  // late final SharedPreferences _prefs;
   late Dio dioIn;
 
   void init() async {
     dioIn = DioIn().dio;
-    // _prefs = await SharedPreferences.getInstance(); // init으로 빼나?
   }
 
   Refresh() {
@@ -27,24 +24,23 @@ final class Refresh {
   }
 
   Future<String?> refreshToken() async {
-    // final String? token = _prefs.getString(ConstKey.accessToken);
     var token = Storage.accessToken;
     try {
       if (token == null) {
         throw Error(); //  not found refresh token
       }
+      String? baseUrl = kReleaseMode
+          ? dotenv.env['PROD_API_BASE_URL']
+          : dotenv.env['DEV_API_BASE_URL'];
       var result = await Dio().get(
-        '토큰 리프레시 URL',
-        // options: {}, // 추가할 옵션 넣어주기
+        '$baseUrl/v1/refresh',
       );
-      Storage.accessToken = 'result에서 가져온 데이터 세팅';
-      // _prefs.setString(
-      //   ConstKey.accessToken,
-      //   'result에서 가져온 데이터 세팅',
-      // );
-      return result.data; // P_TODO: 반환받은 데이터 넣어주기
+      Storage.accessToken =
+          result.data?.access.toString() ?? 'TEST_TOKEN'; // P_MEMO: 반환받은 데이터 저장
+
+      return result.data;
     } catch (err) {
-      print('token refreshing error: ${err.toString()} ');
+      print('토큰 리프레시 에러: ${err.toString()} ');
       rethrow;
     }
   }
@@ -63,9 +59,8 @@ final class Refresh {
         if (token == null) throw 'err';
         // 2. api 호출 요청을 전부 동기적으로 실행하고
         retryApiList.map((RequestType callback) => callback(token));
-        // P_TODO; await Future.wait(); 해야되나?
 
-        // 3. 이번에 실행한 목록 비워줌
+        // 3. 이번에 실행한 목록 비워줌 P_TODO; await Future.wait(); 해야되나?
         retryApiList = [];
       }
     } catch (err) {
@@ -76,5 +71,5 @@ final class Refresh {
     }
   }
 
-  // P_TODO: 여기서 뭐 리턴해줘야함 ?
+  // P_TODO: retryApiList 를 return 해줘야 하는지? 실제 refresh 해보면서 확인해야 할듯
 }
