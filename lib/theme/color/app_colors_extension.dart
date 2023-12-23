@@ -8,6 +8,14 @@ import 'package:flutter/material.dart';
 /// 추후 수정될 수 있음. ColorPalette와 사용을 완전히 분리시킬지 어떨지는 고민중.
 ///
 class AppColorsExtension extends ThemeExtension<AppColorsExtension> {
+  final Color primary;
+  final Color secondary;
+  final Color error;
+  final Color success;
+  final Color warning;
+  final Color background;
+  final Map<int, Color> gray;
+
   AppColorsExtension({
     required this.primary,
     required this.secondary,
@@ -17,14 +25,6 @@ class AppColorsExtension extends ThemeExtension<AppColorsExtension> {
     required this.background,
     required this.gray,
   });
-
-  final Color primary;
-  final Color secondary;
-  final Color error;
-  final Color success;
-  final Color warning;
-  final Color background;
-  final Map<int, Color> gray;
 
   @override
   ThemeExtension<AppColorsExtension> copyWith({

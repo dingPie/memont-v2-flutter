@@ -1,15 +1,17 @@
 import 'package:flutter/material.dart';
-
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_init/providers/user.dart';
 import 'package:flutter_init/screens/router.dart';
 import 'package:flutter_init/theme/app_theme.dart';
 import 'package:provider/provider.dart';
 
-void main() {
+Future main() async {
+  await dotenv.load(fileName: ".env");
   runApp(const MyApp());
 }
 
-class MyApp extends StatelessWidget {
+// P_CHECK: final 써도 무방하지 않음?
+final class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
   @override
@@ -30,7 +32,6 @@ class MyApp extends StatelessWidget {
         theme: AppTheme.light,
         darkTheme: AppTheme.dark,
         routerConfig: AppRouter(context.watch<User>()).router,
-        // P_FIX: theme 이 작동하지 않음. 고쳐야 함.
         themeMode: context.watch<AppTheme>().themeMode,
         debugShowCheckedModeBanner: false,
       ),

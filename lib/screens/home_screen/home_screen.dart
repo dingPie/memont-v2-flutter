@@ -1,9 +1,11 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_init/apis/dio.dart';
 import 'package:flutter_init/config/build_context_extention.dart';
+
 import 'package:flutter_init/providers/user.dart';
-import 'package:flutter_init/screens/app_route_extension.dart';
+import 'package:flutter_init/config/app_route_extension.dart';
 import 'package:flutter_init/theme/app_theme.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
@@ -15,15 +17,16 @@ class HomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var themeMode = context.watch<AppTheme>().themeMode;
+    var themeMode = context.read<AppTheme>().themeMode;
     var user = context.watch<User>();
 
     void toggleThemeMode() {
-      print('test ${themeMode.name}');
-      if (themeMode == ThemeMode.dark) {
-        themeMode = ThemeMode.light;
+      // read는 변경사항을 수신하진 않지만 값을 반환한고 (set 가능)
+      // watch는 변경값을 수신만 한다 ? -> 한번 더 확인 필요
+      if (context.read<AppTheme>().themeMode == ThemeMode.dark) {
+        context.read<AppTheme>().themeMode = ThemeMode.light;
       } else {
-        themeMode = ThemeMode.dark;
+        context.read<AppTheme>().themeMode = ThemeMode.dark;
       }
     }
 
@@ -37,9 +40,23 @@ class HomeScreen extends StatelessWidget {
       ).toString());
     }
 
-    void onPressLogin() => user.login('11');
+    void onPressLogin() => user.login(uid: '11', accessToken: '222');
 
     void onPressLogout() => user.logout();
+
+    void apiTest() async {
+      // final SharedPreferences prefs = await SharedPreferences.getInstance();
+      // await prefs.setString(ConstKey.token, '테스트 문구입니다.');
+
+      var dio = DioIn().dio;
+
+      try {
+        var result = await dio.get('/today-test');
+        print('결과 확인! ${result.toString()}');
+      } catch (err) {
+        print('ERROR: ${err.toString()}');
+      }
+    }
 
     return Scaffold(
       appBar: AppBar(
@@ -54,9 +71,8 @@ class HomeScreen extends StatelessWidget {
           children: [
             Text(
               'HOME SCREEN',
-              style: context.textStyle.h1.copyWith(
-                fontSize: 40,
-              ),
+              style: context.textStyle.h1
+                  .copyWith(fontSize: 40, color: context.colors.primary),
             ),
             Column(
               children: [
@@ -84,6 +100,15 @@ class HomeScreen extends StatelessWidget {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
+                    GestureDetector(
+                      onTap: apiTest,
+                      child: Text(
+                        'API 호출 테스트     ',
+                        style: context.textStyle.body1.copyWith(
+                          decoration: TextDecoration.underline,
+                        ),
+                      ),
+                    ),
                     GestureDetector(
                       onTap: onPressLogin,
                       child: Text(
