@@ -1,7 +1,12 @@
 // const 처럼 사용되는 파일
 // 추후 관리 방법에 대해서는 좀 더 고민이 필요할 듯.
 
-enum ROUTE { home, detail, error, myPage }
+enum ROUTE {
+  home,
+  detail,
+  error,
+  myPage,
+}
 
 extension AppRouteExtension on ROUTE {
   String get path {

@@ -1,5 +1,5 @@
 import 'package:flutter_init/providers/user.dart';
-import 'package:flutter_init/config/app_route_extension.dart';
+import 'package:flutter_init/screens/app_route_extension.dart';
 import 'package:flutter_init/screens/error_screen/error_screen.dart';
 import 'package:flutter_init/screens/home_screen/home_screen.dart';
 import 'package:flutter_init/screens/detail_screen/detail_screen.dart';

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_init/config/build_context_extention.dart';
 import 'package:flutter_init/providers/user.dart';
-import 'package:flutter_init/config/app_route_extension.dart';
+import 'package:flutter_init/screens/app_route_extension.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 
