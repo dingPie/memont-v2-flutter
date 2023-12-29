@@ -2,10 +2,10 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_init/apis/dio.dart';
-import 'package:flutter_init/config/build_context_extention.dart';
+import 'package:flutter_init/config/build_context_extension.dart';
+import 'package:flutter_init/constants/routes.dart';
 
 import 'package:flutter_init/providers/user.dart';
-import 'package:flutter_init/config/app_route_extension.dart';
 import 'package:flutter_init/theme/app_theme.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
@@ -19,6 +19,7 @@ class HomeScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     var themeMode = context.read<AppTheme>().themeMode;
     var user = context.watch<User>();
+    var dio = DioIn().dio;
 
     void toggleThemeMode() {
       // read는 변경사항을 수신하진 않지만 값을 반환한고 (set 가능)
@@ -31,6 +32,7 @@ class HomeScreen extends StatelessWidget {
     }
 
     void onPressedRouteButton(String path) {
+      print('test $path');
       context.push(Uri(
         path: path,
         // P_MEMO: 두 값이 엄연히 다르다.
@@ -45,11 +47,6 @@ class HomeScreen extends StatelessWidget {
     void onPressLogout() => user.logout();
 
     void apiTest() async {
-      // final SharedPreferences prefs = await SharedPreferences.getInstance();
-      // await prefs.setString(ConstKey.token, '테스트 문구입니다.');
-
-      var dio = DioIn().dio;
-
       try {
         var result = await dio.get('/today-test');
         print('결과 확인! ${result.toString()}');
@@ -62,7 +59,7 @@ class HomeScreen extends StatelessWidget {
       appBar: AppBar(
         backgroundColor: context.colors.gray[200],
         title: Text(
-          ROUTE.home.title,
+          ROUTES.home.name,
         ),
       ),
       body: Center(
@@ -89,7 +86,7 @@ class HomeScreen extends StatelessWidget {
                       width: 12,
                     ),
                     ElevatedButton(
-                      onPressed: () => onPressedRouteButton(ROUTE.myPage.path),
+                      onPressed: () => onPressedRouteButton(ROUTES.my.path),
                       child: const Text('MYPAGE'),
                     ),
                   ],
