@@ -2,10 +2,10 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_init/apis/dio.dart';
-import 'package:flutter_init/config/build_context_extention.dart';
+import 'package:flutter_init/config/build_context_extension.dart';
+import 'package:flutter_init/constants/routes.dart';
 
 import 'package:flutter_init/providers/user.dart';
-import 'package:flutter_init/screens/app_route_extension.dart';
 import 'package:flutter_init/theme/app_theme.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
@@ -32,6 +32,7 @@ class HomeScreen extends StatelessWidget {
     }
 
     void onPressedRouteButton(String path) {
+      print('test $path');
       context.push(Uri(
         path: path,
         // P_MEMO: 두 값이 엄연히 다르다.
@@ -58,7 +59,7 @@ class HomeScreen extends StatelessWidget {
       appBar: AppBar(
         backgroundColor: context.colors.gray[200],
         title: Text(
-          ROUTE.home.title,
+          ROUTES.home.name,
         ),
       ),
       body: Center(
@@ -85,7 +86,7 @@ class HomeScreen extends StatelessWidget {
                       width: 12,
                     ),
                     ElevatedButton(
-                      onPressed: () => onPressedRouteButton(ROUTE.myPage.path),
+                      onPressed: () => onPressedRouteButton(ROUTES.my.path),
                       child: const Text('MYPAGE'),
                     ),
                   ],
