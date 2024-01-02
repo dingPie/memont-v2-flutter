@@ -5,6 +5,9 @@ import 'package:flutter_init/apis/dio.dart';
 import 'package:flutter_init/config/build_context_extension.dart';
 import 'package:flutter_init/constants/routes.dart';
 
+import 'package:flutter_init/models/person/person.dart';
+import 'package:flutter_init/models/none_freeze_person.dart';
+
 import 'package:flutter_init/providers/user.dart';
 import 'package:flutter_init/theme/app_theme.dart';
 import 'package:go_router/go_router.dart';
@@ -55,6 +58,23 @@ class HomeScreen extends StatelessWidget {
       }
     }
 
+    void freezeTest() {
+      Person person1 = Person(id: 1, name: 'Pie', age: 29);
+      Person person2 = Person.fromJson({'id': 1, 'name': 'Pie', 'age': 29});
+      NoneFreezePerson nfPerson1 =
+          NoneFreezePerson(id: 1, name: 'Pie', age: 29);
+      NoneFreezePerson nfPerson2 =
+          NoneFreezePerson.fromJson({'id': 1, 'name': 'Pie', 'age': 29});
+
+      print('person1: $person1');
+      print('person2 string: ${person2.toString()}');
+      print('person1 == person2: ${person1 == person2}');
+
+      print('nfPerson1: $nfPerson1');
+      print('nfPerson2 string: ${nfPerson2.toString()}');
+      print('nfPerson1 == nfPerson2: ${nfPerson1 == nfPerson2}');
+    }
+
     return Scaffold(
       appBar: AppBar(
         backgroundColor: context.colors.gray[200],
@@ -87,46 +107,68 @@ class HomeScreen extends StatelessWidget {
                     ),
                     ElevatedButton(
                       onPressed: () => onPressedRouteButton(ROUTES.my.path),
-                      child: const Text('MYPAGE'),
+                      child: const Text('MY PAGE'),
                     ),
                   ],
                 ),
                 const SizedBox(
                   height: 12,
                 ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
+                Column(
+                  // P_MEMO: 하위 컨테이너들이 width 100%라 여기서 조정이 안먹음
                   children: [
-                    GestureDetector(
-                      onTap: apiTest,
-                      child: Text(
-                        'API 호출 테스트     ',
-                        style: context.textStyle.body1.copyWith(
-                          decoration: TextDecoration.underline,
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        GestureDetector(
+                          onTap: apiTest,
+                          child: Text(
+                            'API 호출 테스트',
+                            style: context.textStyle.body1.copyWith(
+                              decoration: TextDecoration.underline,
+                            ),
+                          ),
                         ),
-                      ),
-                    ),
-                    GestureDetector(
-                      onTap: onPressLogin,
-                      child: Text(
-                        '임시 로그인',
-                        style: context.textStyle.body1.copyWith(
-                          decoration: TextDecoration.underline,
+                        const SizedBox(
+                          width: 12,
                         ),
-                      ),
-                    ),
-                    const SizedBox(
-                      width: 8,
-                    ),
-                    GestureDetector(
-                      onTap: onPressLogout,
-                      child: Text(
-                        '로그아웃',
-                        style: context.textStyle.body1.copyWith(
-                          decoration: TextDecoration.underline,
+                        GestureDetector(
+                          onTap: freezeTest,
+                          child: Text(
+                            'Freeze 생성 테스트',
+                            style: context.textStyle.body1.copyWith(
+                              decoration: TextDecoration.underline,
+                            ),
+                          ),
                         ),
-                      ),
+                      ],
                     ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        GestureDetector(
+                          onTap: onPressLogin,
+                          child: Text(
+                            '임시 로그인',
+                            style: context.textStyle.body1.copyWith(
+                              decoration: TextDecoration.underline,
+                            ),
+                          ),
+                        ),
+                        const SizedBox(
+                          width: 12,
+                        ),
+                        GestureDetector(
+                          onTap: onPressLogout,
+                          child: Text(
+                            '로그아웃',
+                            style: context.textStyle.body1.copyWith(
+                              decoration: TextDecoration.underline,
+                            ),
+                          ),
+                        ),
+                      ],
+                    )
                   ],
                 ),
               ],
