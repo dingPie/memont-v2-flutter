@@ -1,15 +1,15 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_init/apis/dio.dart';
-import 'package:flutter_init/config/build_context_extension.dart';
-import 'package:flutter_init/constants/routes.dart';
+import 'package:memont/apis/dio.dart';
+import 'package:memont/config/build_context_extension.dart';
+import 'package:memont/constants/routes.dart';
 
-import 'package:flutter_init/models/person/person.dart';
-import 'package:flutter_init/models/none_freeze_person.dart';
+import 'package:memont/models/person/person.dart';
+import 'package:memont/models/none_freeze_person.dart';
 
-import 'package:flutter_init/providers/user.dart';
-import 'package:flutter_init/theme/app_theme.dart';
+import 'package:memont/providers/user.dart';
+import 'package:memont/theme/app_theme.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_init/providers/storage.dart';
+import 'package:memont/providers/storage.dart';
 
 class User extends ChangeNotifier {
   String _uid = '';

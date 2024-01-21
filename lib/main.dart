@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
-import 'package:flutter_init/providers/user.dart';
-import 'package:flutter_init/screens/router.dart';
-import 'package:flutter_init/theme/app_theme.dart';
+import 'package:memont/providers/user.dart';
+import 'package:memont/screens/router.dart';
+import 'package:memont/theme/app_theme.dart';
 import 'package:provider/provider.dart';
 
 Future main() async {
@@ -28,7 +28,7 @@ final class MyApp extends StatelessWidget {
         ),
       ],
       builder: (context, _) => MaterialApp.router(
-        title: 'Flutter Init',
+        title: "MEMO'NT",
         theme: AppTheme.light,
         darkTheme: AppTheme.dark,
         routerConfig: AppRouter(context.watch<User>()).router,

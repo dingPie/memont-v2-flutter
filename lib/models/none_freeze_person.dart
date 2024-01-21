@@ -8,6 +8,11 @@ class NoneFreezePerson {
     required this.name,
     required this.age,
   });
+  // NoneFreezePerson(
+  //   this.id,
+  //   this.name,
+  //   this.age,
+  // );
 
   NoneFreezePerson.fromJson(Map<String, dynamic> json)
       : id = json['id'] as int,
@@ -27,6 +32,7 @@ class NoneFreezePerson {
     String? name,
     int? age,
   }) {
+    // return NoneFreezePerson(id ?? this.id, name, age);
     return NoneFreezePerson(
       id: id ?? this.id,
       name: name ?? this.name,

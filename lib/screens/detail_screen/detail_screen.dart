@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_init/config/build_context_extension.dart';
-import 'package:flutter_init/constants/routes.dart';
+import 'package:memont/config/build_context_extension.dart';
+import 'package:memont/constants/routes.dart';
 import 'package:go_router/go_router.dart';
 
 class DetailScreen extends StatelessWidget {

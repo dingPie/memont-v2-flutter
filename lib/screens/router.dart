@@ -1,10 +1,10 @@
-import 'package:flutter_init/constants/routes.dart';
-import 'package:flutter_init/providers/user.dart';
+import 'package:memont/constants/routes.dart';
+import 'package:memont/providers/user.dart';
 
-import 'package:flutter_init/screens/error_screen/error_screen.dart';
-import 'package:flutter_init/screens/home_screen/home_screen.dart';
-import 'package:flutter_init/screens/detail_screen/detail_screen.dart';
-import 'package:flutter_init/screens/my_page_screen/my_page_screen.dart';
+import 'package:memont/screens/error_screen/error_screen.dart';
+import 'package:memont/screens/home_screen/home_screen.dart';
+import 'package:memont/screens/detail_screen/detail_screen.dart';
+import 'package:memont/screens/my_page_screen/my_page_screen.dart';
 import 'package:go_router/go_router.dart';
 
 class AppRouter {

@@ -1,7 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
-import 'package:flutter_init/apis/refresh.dart';
-import 'package:flutter_init/providers/storage.dart';
+import 'package:memont/apis/refresh.dart';
+import 'package:memont/providers/storage.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 // P_TODO: 앱이 아닌 웹 환경에선 CORS 에러가 발생함.

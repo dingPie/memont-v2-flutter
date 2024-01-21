@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_init/theme/color/app_colors_extension.dart';
-import 'package:flutter_init/theme/color/app_palette.dart';
+import 'package:memont/theme/color/app_colors_extension.dart';
+import 'package:memont/theme/color/app_palette.dart';
 
-import 'package:flutter_init/theme/textStyle/app_text_style_extension.dart';
-import 'package:flutter_init/theme/textStyle/app_typograyphy.dart';
+import 'package:memont/theme/textStyle/app_text_style_extension.dart';
+import 'package:memont/theme/textStyle/app_typograyphy.dart';
 
 class AppTheme with ChangeNotifier {
   ThemeMode _themeMode = ThemeMode.system;
