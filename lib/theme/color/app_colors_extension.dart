@@ -8,9 +8,9 @@ import 'package:flutter/material.dart';
 /// 추후 수정될 수 있음. ColorPalette와 사용을 완전히 분리시킬지 어떨지는 고민중.
 ///
 class AppColorsExtension extends ThemeExtension<AppColorsExtension> {
-  final Color primary;
+  final Map<int, Color> primary;
   final Color secondary;
-  final Color error;
+
   final Color success;
   final Color warning;
   final Color background;
@@ -19,7 +19,6 @@ class AppColorsExtension extends ThemeExtension<AppColorsExtension> {
   AppColorsExtension({
     required this.primary,
     required this.secondary,
-    required this.error,
     required this.success,
     required this.warning,
     required this.background,
@@ -28,9 +27,8 @@ class AppColorsExtension extends ThemeExtension<AppColorsExtension> {
 
   @override
   ThemeExtension<AppColorsExtension> copyWith({
-    Color? primary,
+    Map<int, Color>? primary,
     Color? secondary,
-    Color? error,
     Color? success,
     Color? warning,
     Color? background,
@@ -39,7 +37,6 @@ class AppColorsExtension extends ThemeExtension<AppColorsExtension> {
     return AppColorsExtension(
       primary: primary ?? this.primary,
       secondary: secondary ?? this.secondary,
-      error: error ?? this.error,
       success: success ?? this.success,
       warning: warning ?? this.warning,
       background: background ?? this.background,
@@ -57,16 +54,34 @@ class AppColorsExtension extends ThemeExtension<AppColorsExtension> {
     }
 
     return AppColorsExtension(
-      primary: Color.lerp(primary, other.primary, t)!,
-      secondary: Color.lerp(secondary, other.secondary, t)!,
-      error: Color.lerp(error, other.error, t)!,
-      success: Color.lerp(success, other.success, t)!,
-      warning: Color.lerp(warning, other.warning, t)!,
-      background: Color.lerp(background, other.background, t)!,
+      primary: {
+        50: Color.lerp(primary[50], other.primary[50], t)!,
+        100: Color.lerp(primary[100], other.primary[100], t)!,
+        200: Color.lerp(primary[200], other.primary[200], t)!,
+        300: Color.lerp(primary[300], other.primary[300], t)!,
+        400: Color.lerp(primary[400], other.primary[400], t)!,
+        500: Color.lerp(primary[500], other.primary[500], t)!,
+        600: Color.lerp(primary[600], other.primary[600], t)!,
+        700: Color.lerp(primary[700], other.primary[700], t)!,
+        800: Color.lerp(primary[800], other.primary[800], t)!,
+        900: Color.lerp(primary[900], other.primary[900], t)!,
+      },
       gray: {
         50: Color.lerp(gray[50], other.gray[50], t)!,
         100: Color.lerp(gray[100], other.gray[100], t)!,
+        200: Color.lerp(gray[200], other.gray[200], t)!,
+        300: Color.lerp(gray[300], other.gray[300], t)!,
+        400: Color.lerp(gray[400], other.gray[400], t)!,
+        500: Color.lerp(gray[500], other.gray[500], t)!,
+        600: Color.lerp(gray[600], other.gray[600], t)!,
+        700: Color.lerp(gray[700], other.gray[700], t)!,
+        800: Color.lerp(gray[800], other.gray[800], t)!,
+        900: Color.lerp(gray[900], other.gray[900], t)!,
       },
+      secondary: Color.lerp(secondary, other.secondary, t)!,
+      success: Color.lerp(success, other.success, t)!,
+      warning: Color.lerp(warning, other.warning, t)!,
+      background: Color.lerp(background, other.background, t)!,
     );
   }
 }

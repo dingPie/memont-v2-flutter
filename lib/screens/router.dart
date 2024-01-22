@@ -18,25 +18,23 @@ class AppRouter {
 
   late final _goRouter = GoRouter(
     routes: [
+      // talk page
       GoRoute(
-        path: ROUTES.home.path,
-        name: ROUTES.home.name,
+        path: ROUTES.talk.path,
+        name: ROUTES.talk.name,
         builder: (context, state) => const HomeScreen(),
-        routes: [
-          GoRoute(
-            path: ROUTES.detail.path,
-            name: ROUTES.detail.name,
-            builder: (context, state) {
-              return DetailScreen(
-                goRouterState: state,
-              );
-            },
-          ),
-        ],
+      ),
+      //  taq 별 detail page
+      GoRoute(
+        path: ROUTES.detail.path,
+        name: ROUTES.detail.name,
+        builder: (context, state) => DetailScreen(
+          goRouterState: state,
+        ),
       ),
       GoRoute(
-        path: ROUTES.my.path,
-        name: ROUTES.my.name,
+        path: ROUTES.setting.path,
+        name: ROUTES.setting.name,
         builder: (context, state) => const MyPageScreen(),
       ),
     ],
@@ -46,17 +44,16 @@ class AppRouter {
     redirect: (context, state) {
       String firstPath =
           state.uri.pathSegments.isNotEmpty ? "${state.uri}" : '';
+      bool isUnAuth = firstPath == ROUTES.login.path && !user!.isLogin;
 
-      // P_TODO: auth / unAuth 에 대한 규칙 세워야 함.
-      if (firstPath == ROUTES.my.path && !user!.isLogin) {
-        print('auth guard!');
-        return '/';
+      if (isUnAuth) {
+        return ROUTES.login.path;
       }
 
       return null;
     }, // P_TODO: redirect 설정할 수 있음.
     // P_MEMO Provider로 제공받는 user 전역 상태를 보고있음. 다른 appState 같은걸 활용할 수 있다.
     refreshListenable: user,
-    initialLocation: ROUTES.home.path,
+    initialLocation: ROUTES.talk.path,
   );
 }

@@ -1,20 +1,32 @@
 enum ROUTES {
-  home(
-    path: '/',
-    name: '홈페이지',
+  onboarding(
+    name: 'onboarding',
+    path: '/onboarding',
+  ),
+  login(
+    name: 'login',
+    path: '/login',
+  ),
+  talk(
+    name: 'talk',
+    path: '/talk',
+  ),
+  tag(
+    name: '태그 목록 페이지',
+    path: '/tag',
   ),
   detail(
     // P_MEMO: home의 하위페이지로 설계되어 있어 /detail 처럼 설정하면 버그가 발생한다.
-    path: 'detail/:id',
     name: '상세 페이지',
+    path: '/detail/:id',
   ),
-  my(
-    path: '/my',
-    name: '마이 페이지',
+  setting(
+    path: '/setting',
+    name: '설정 페이지',
   ),
   error(
     path: '/error',
-    name: '404 ERROR !',
+    name: 'NOT FOUND',
   );
 
   final String path; // route 경로

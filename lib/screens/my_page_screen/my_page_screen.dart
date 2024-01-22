@@ -20,7 +20,7 @@ class MyPageScreen extends StatelessWidget {
       appBar: AppBar(
         backgroundColor: context.colors.gray[200],
         title: Text(
-          ROUTES.my.name,
+          ROUTES.setting.name,
         ),
       ),
       body: Center(
@@ -30,7 +30,7 @@ class MyPageScreen extends StatelessWidget {
             Text(
               '마이페이지',
               style: context.textStyle.h1.copyWith(
-                color: context.colors.primary,
+                color: context.colors.primary[500],
                 fontSize: 24,
               ),
             ),

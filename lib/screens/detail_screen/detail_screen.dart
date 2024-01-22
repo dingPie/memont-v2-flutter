@@ -34,24 +34,10 @@ class DetailScreen extends StatelessWidget {
             Text(
               '동적 라우팅 디테일 페이지',
               style: context.textStyle.h1.copyWith(
-                color: context.colors.primary,
+                color: context.colors.primary[500],
                 fontSize: 24,
               ),
             ),
-            const SizedBox(
-              height: 4,
-            ),
-            Text(
-              '현재 페이지 아이디: $id',
-              style: context.textStyle.body1,
-            ),
-            const SizedBox(
-              height: 32,
-            ),
-            ElevatedButton(
-              onPressed: onPressedBackButton,
-              child: const Text('뒤로가기'),
-            )
           ],
         ),
       ),

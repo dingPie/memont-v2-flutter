@@ -27,12 +27,11 @@ class AppTheme with ChangeNotifier {
   // Light theme
   //
   static final _lightAppColors = AppColorsExtension(
-    primary: const Color(0xff6200ee),
+    primary: AppPalette.primary,
     secondary: const Color(0xff03dac6),
-    success: const Color(0xFF006DF7),
-    warning: const Color(0xFFE83030),
-    error: const Color(0xffb00020),
-    background: Colors.white,
+    success: AppPalette.success,
+    warning: AppPalette.warning,
+    background: AppPalette.gray[100]!,
     gray: AppPalette.gray,
   );
 
@@ -48,12 +47,11 @@ class AppTheme with ChangeNotifier {
   // 아직 제대로 설정하지 않음.
   //
   static final _darkAppColors = AppColorsExtension(
-    primary: const Color(0xff6200ee),
+    primary: AppPalette.primary,
     secondary: const Color(0xff03dac6),
-    success: const Color(0xFF006DF7),
-    warning: const Color(0xFFE83030),
-    error: const Color(0xffb00020),
-    background: Colors.white,
+    success: AppPalette.success,
+    warning: AppPalette.warning,
+    background: AppPalette.gray[100]!,
     gray: AppPalette.gray,
   );
 
