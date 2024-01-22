@@ -13,8 +13,8 @@ import 'package:memont/theme/app_theme.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 
-class HomeScreen extends StatelessWidget {
-  const HomeScreen({
+class OnboardingScreen extends StatelessWidget {
+  const OnboardingScreen({
     super.key,
   });
 
@@ -29,7 +29,7 @@ class HomeScreen extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Text(
-              'HOME SCREEN',
+              ROUTES.onboarding.name,
               style: context.textStyle.h1
                   .copyWith(fontSize: 40, color: context.colors.primary[500]),
             ),

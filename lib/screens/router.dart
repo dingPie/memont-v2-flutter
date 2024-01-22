@@ -2,9 +2,12 @@ import 'package:memont/constants/routes.dart';
 import 'package:memont/providers/user.dart';
 
 import 'package:memont/screens/error_screen/error_screen.dart';
-import 'package:memont/screens/home_screen/home_screen.dart';
+import 'package:memont/screens/login_screen/login_screen.dart';
+import 'package:memont/screens/onboarding_screen/onboarding_screen.dart';
+import 'package:memont/screens/tag_screen/tag_screen.dart';
+import 'package:memont/screens/talk_screen/talk_screen.dart';
 import 'package:memont/screens/detail_screen/detail_screen.dart';
-import 'package:memont/screens/my_page_screen/my_page_screen.dart';
+import 'package:memont/screens/setting_screen/setting_screen.dart';
 import 'package:go_router/go_router.dart';
 
 class AppRouter {
@@ -18,13 +21,16 @@ class AppRouter {
 
   late final _goRouter = GoRouter(
     routes: [
-      // talk page
       GoRoute(
         path: ROUTES.talk.path,
         name: ROUTES.talk.name,
-        builder: (context, state) => const HomeScreen(),
+        builder: (context, state) => const TalkScreen(),
       ),
-      //  taq 별 detail page
+      GoRoute(
+        path: ROUTES.tag.path,
+        name: ROUTES.tag.name,
+        builder: (context, state) => const TagScreen(),
+      ),
       GoRoute(
         path: ROUTES.detail.path,
         name: ROUTES.detail.name,
@@ -35,7 +41,17 @@ class AppRouter {
       GoRoute(
         path: ROUTES.setting.path,
         name: ROUTES.setting.name,
-        builder: (context, state) => const MyPageScreen(),
+        builder: (context, state) => const SettingScreen(),
+      ),
+      GoRoute(
+        path: ROUTES.onboarding.path,
+        name: ROUTES.onboarding.name,
+        builder: (context, state) => const OnboardingScreen(),
+      ),
+      GoRoute(
+        path: ROUTES.login.path,
+        name: ROUTES.login.name,
+        builder: (context, state) => const LoginScreen(),
       ),
     ],
     errorBuilder: (context, state) => ErrorScreen(

@@ -6,8 +6,8 @@ import 'package:memont/providers/user.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 
-class MyPageScreen extends StatelessWidget {
-  const MyPageScreen({
+class SettingScreen extends StatelessWidget {
+  const SettingScreen({
     super.key,
   });
 
