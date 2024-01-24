@@ -1,6 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 import 'package:memont/apis/refresh.dart';
+import 'package:memont/constants/api_code.dart';
 import 'package:memont/providers/storage.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 
@@ -54,7 +55,6 @@ final class DioIn {
           ResponseInterceptorHandler handler,
         ) {
           // P_TODO: API로그 찍는 등 소소한 로직들?
-          print('여길 타진 않을거아녀?');
           return handler.next(response);
         },
         onError: (
@@ -64,13 +64,11 @@ final class DioIn {
           // P_TODO: error log 잘 찍는법 확인
 
           int statusCode = error.response?.statusCode ?? 0;
-          bool isUnAuthorization = statusCode == 401;
-          bool isExpired =
-              statusCode.toString() == dotenv.env['API_EXPIRE_CODE'];
+          bool isUnAuthorization = statusCode == API_CODE.UN_AUTHORIZATION;
+          bool isExpired = statusCode == API_CODE.EXPIRED_TOKEN;
 
           // // P_TODO: 에러코드별 동작 정의
           if (isExpired) {
-            print('리프레시 실행?');
             Refresh().refresh(error.requestOptions);
           }
           if (isUnAuthorization) {

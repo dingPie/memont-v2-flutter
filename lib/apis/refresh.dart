@@ -36,7 +36,7 @@ final class Refresh {
         '$baseUrl/v1/refresh',
       );
       Storage.accessToken =
-          result.data?.access.toString() ?? 'TEST_TOKEN'; // P_MEMO: 반환받은 데이터 저장
+          result.data?.access.toString(); // P_MEMO: 반환받은 데이터 저장
 
       return result.data;
     } catch (err) {
