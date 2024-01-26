@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 import 'package:memont/apis/refresh.dart';
@@ -21,20 +23,25 @@ final class DioIn {
   void init() async {
     String? _baseUrl = kReleaseMode
         ? dotenv.env['PROD_API_BASE_URL']
-        : dotenv.env['DEV_API_BASE_URL'];
+        : Platform.isAndroid
+            ? dotenv.env['DEV_ANDROID_API_BASE_URL']
+            : dotenv.env['DEV_IOS_API_BASE_URL'];
 
     BaseOptions options = BaseOptions(
       baseUrl: _baseUrl ?? '',
-      connectTimeout: const Duration(seconds: 3),
+      connectTimeout: const Duration(seconds: 5),
       receiveTimeout: const Duration(seconds: 5),
       sendTimeout: const Duration(seconds: 5),
       contentType: Headers.jsonContentType,
-      // headers: {
-      //   HttpHeaders.accessControlAllowOriginHeader: '*',
-      // },
+      headers: {
+        //   HttpHeaders.accessControlAllowOriginHeader: '*',
+        HttpHeaders.contentTypeHeader: 'application/json'
+      },
     );
 
     _instance = Dio(options);
+
+    print('@@@@@@@@@@@@@@@@@@ ${options.baseUrl}');
 
     _instance.interceptors.add(
       InterceptorsWrapper(
@@ -55,6 +62,7 @@ final class DioIn {
           ResponseInterceptorHandler handler,
         ) {
           // P_TODO: API로그 찍는 등 소소한 로직들?
+
           return handler.next(response);
         },
         onError: (
@@ -62,6 +70,7 @@ final class DioIn {
           ErrorInterceptorHandler handler,
         ) {
           // P_TODO: error log 잘 찍는법 확인
+          print('kkkkkkkkkkkkkkkk ${error.message.toString()}');
 
           int statusCode = error.response?.statusCode ?? 0;
           bool isUnAuthorization = statusCode == API_CODE.UN_AUTHORIZATION;
