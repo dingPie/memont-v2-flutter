@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
-import 'package:memont/providers/user.dart';
+import 'package:memont/global_state/provider/user.dart';
 import 'package:memont/screens/router.dart';
 import 'package:memont/theme/app_theme.dart';
 import 'package:provider/provider.dart';

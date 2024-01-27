@@ -1,9 +1,11 @@
+import 'dart:io';
+
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:memont/apis/dio.dart';
 
-import 'package:memont/providers/storage.dart';
+import 'package:memont/global_state/singleton_storage.dart';
 
 // late final SharedPreferences _prefs; // P_MEMO: accessToken은 그냥 전역으로 사용할 static instance에 추가.
 
@@ -22,21 +24,25 @@ final class Refresh {
   Refresh() {
     init();
   }
+  SingletonStorage storage = SingletonStorage();
 
   Future<String?> refreshToken() async {
-    var token = Storage.accessToken;
+    var token = storage.accessToken;
     try {
       if (token == null) {
         throw Error(); //  not found refresh token
       }
+
       String? baseUrl = kReleaseMode
           ? dotenv.env['PROD_API_BASE_URL']
-          : dotenv.env['DEV_API_BASE_URL'];
+          : Platform.isAndroid
+              ? dotenv.env['DEV_ANDROID_API_BASE_URL']
+              : dotenv.env['DEV_IOS_API_BASE_URL'];
       var result = await Dio().get(
-        '$baseUrl/v1/refresh',
+        '$baseUrl/refresh',
       );
-      Storage.accessToken =
-          result.data?.access.toString() ?? 'TEST_TOKEN'; // P_MEMO: 반환받은 데이터 저장
+      storage.accessToken =
+          result.data?.access.toString(); // P_MEMO: 반환받은 데이터 저장
 
       return result.data;
     } catch (err) {
@@ -64,7 +70,7 @@ final class Refresh {
         retryApiList = [];
       }
     } catch (err) {
-      print('refresh 중 에러222 ${err.toString()}');
+      print('refresh ERROR: ${err.toString()}');
       rethrow;
     } finally {
       isRefreshing = false;
