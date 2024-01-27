@@ -7,7 +7,7 @@ import 'package:memont/constants/routes.dart';
 
 import 'package:memont/models/person/person.dart';
 
-import 'package:memont/providers/user.dart';
+import 'package:memont/global_state/provider/user.dart';
 import 'package:memont/theme/app_theme.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';

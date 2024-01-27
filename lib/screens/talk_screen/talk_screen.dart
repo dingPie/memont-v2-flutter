@@ -5,11 +5,12 @@ import 'package:memont/apis/common/palette_api.dart';
 import 'package:memont/apis/dio.dart';
 import 'package:memont/config/build_context_extension.dart';
 import 'package:memont/constants/routes.dart';
+import 'package:memont/global_state/singleton_storage.dart';
 import 'package:memont/models/palette.dart';
 
 import 'package:memont/models/person/person.dart';
 
-import 'package:memont/providers/user.dart';
+import 'package:memont/global_state/provider/user.dart';
 import 'package:memont/theme/app_theme.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
@@ -22,13 +23,14 @@ class TalkScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var user = context.watch<User>();
-    var dio = DioIn().dio;
     var paletteApi = PaletteApi();
+    SingletonStorage storage = SingletonStorage();
 
     void onPressApiTestButton() async {
       try {
-        List<Palette>? paletteList = await paletteApi.getPalette();
-        print('여기서 결과 확인! ${paletteList.toString()}');
+        storage.paletteList = await paletteApi.getPalette();
+
+        print('여기서 결과 확인! ${storage.paletteList}');
       } catch (err) {
         print('여기서 해야됨? ${err.toString()}');
       }

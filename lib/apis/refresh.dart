@@ -5,7 +5,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:memont/apis/dio.dart';
 
-import 'package:memont/providers/storage.dart';
+import 'package:memont/global_state/singleton_storage.dart';
 
 // late final SharedPreferences _prefs; // P_MEMO: accessToken은 그냥 전역으로 사용할 static instance에 추가.
 
@@ -24,7 +24,7 @@ final class Refresh {
   Refresh() {
     init();
   }
-  Storage storage = Storage();
+  SingletonStorage storage = SingletonStorage();
 
   Future<String?> refreshToken() async {
     var token = storage.accessToken;

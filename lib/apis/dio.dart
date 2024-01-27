@@ -5,11 +5,11 @@ import 'package:flutter/foundation.dart';
 import 'package:memont/apis/refresh.dart';
 import 'package:memont/constants/api_code.dart';
 
-import 'package:memont/providers/storage.dart';
+import 'package:memont/global_state/singleton_storage.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 final class DioIn {
-  Storage storage = Storage();
+  SingletonStorage storage = SingletonStorage();
   late Dio dio;
 
   DioIn._() {

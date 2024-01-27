@@ -1,5 +1,5 @@
 import 'package:memont/constants/routes.dart';
-import 'package:memont/providers/user.dart';
+import 'package:memont/global_state/provider/user.dart';
 
 import 'package:memont/screens/error_screen/error_screen.dart';
 import 'package:memont/screens/login_screen/login_screen.dart';

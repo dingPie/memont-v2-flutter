@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:memont/providers/storage.dart';
+import 'package:memont/global_state/singleton_storage.dart';
 
 class User extends ChangeNotifier {
   String _uid = '';
@@ -11,7 +11,7 @@ class User extends ChangeNotifier {
   void login({String? uid, String? accessToken}) {
     if (uid == null || accessToken == null) return;
     _uid = uid;
-    var storage = Storage();
+    var storage = SingletonStorage();
     storage.accessToken = accessToken;
     notifyListeners();
   }
