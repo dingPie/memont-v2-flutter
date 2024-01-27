@@ -1,60 +1,57 @@
-class NoneFreezePerson {
+import 'dart:ui';
+
+class Palette {
   int id;
   String name;
-  int age;
+  Color color;
 
-  NoneFreezePerson({
+  Palette({
     required this.id,
     required this.name,
-    required this.age,
+    required this.color,
   });
-  // NoneFreezePerson(
-  //   this.id,
-  //   this.name,
-  //   this.age,
-  // );
 
-  NoneFreezePerson.fromJson(Map<String, dynamic> json)
+  Palette.fromJson(Map<String, dynamic> json)
       : id = json['id'] as int,
         name = json['name'] as String,
-        age = json['age'] as int;
+        color =
+            Color(int.parse('0xFF${(json['color'] as String).split('#')[1]}'));
 
   Map<String, Object?> toJson() {
     return {
       'id': id,
       'name': name,
-      'age': age,
+      'color': color,
     };
   }
 
-  NoneFreezePerson copyWith({
+  Palette copyWith({
     int? id,
     String? name,
-    int? age,
+    Color? color,
   }) {
-    // return NoneFreezePerson(id ?? this.id, name, age);
-    return NoneFreezePerson(
+    return Palette(
       id: id ?? this.id,
       name: name ?? this.name,
-      age: age ?? this.age,
+      color: color ?? this.color,
     );
   }
 
   @override
   String toString() {
-    return 'NoneFreezePerson('
+    return 'Palette('
         'id: $id, '
         'name: $name, '
-        'age: $age'
+        'color: ${color.toString()}'
         ')';
   }
 
   @override
   bool operator ==(Object other) {
-    return other is NoneFreezePerson &&
+    return other is Palette &&
         id == other.id &&
         name == other.name &&
-        age == other.age;
+        color == other.color;
   }
 
   @override
@@ -63,7 +60,7 @@ class NoneFreezePerson {
       runtimeType,
       id,
       name,
-      age,
+      color,
     );
   }
 

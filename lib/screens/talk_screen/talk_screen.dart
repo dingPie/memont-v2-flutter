@@ -5,9 +5,9 @@ import 'package:memont/apis/common/palette_api.dart';
 import 'package:memont/apis/dio.dart';
 import 'package:memont/config/build_context_extension.dart';
 import 'package:memont/constants/routes.dart';
+import 'package:memont/models/palette.dart';
 
 import 'package:memont/models/person/person.dart';
-import 'package:memont/models/none_freeze_person.dart';
 
 import 'package:memont/providers/user.dart';
 import 'package:memont/theme/app_theme.dart';
@@ -27,7 +27,8 @@ class TalkScreen extends StatelessWidget {
 
     void onPressApiTestButton() async {
       try {
-        await paletteApi.getPalette();
+        List<Palette>? paletteList = await paletteApi.getPalette();
+        print('여기서 결과 확인! ${paletteList.toString()}');
       } catch (err) {
         print('여기서 해야됨? ${err.toString()}');
       }
@@ -40,8 +41,10 @@ class TalkScreen extends StatelessWidget {
           children: [
             Text(
               ROUTES.talk.name,
-              style: context.textStyle.h1
-                  .copyWith(fontSize: 40, color: context.colors.primary[500]),
+              style: context.textStyle.h1.copyWith(
+                fontSize: 40,
+                color: context.colors.primary[500],
+              ),
             ),
             ElevatedButton(
               onPressed: onPressApiTestButton,
