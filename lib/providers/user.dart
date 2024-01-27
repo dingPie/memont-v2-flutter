@@ -11,7 +11,8 @@ class User extends ChangeNotifier {
   void login({String? uid, String? accessToken}) {
     if (uid == null || accessToken == null) return;
     _uid = uid;
-    Storage.accessToken = accessToken;
+    var storage = Storage();
+    storage.accessToken = accessToken;
     notifyListeners();
   }
 

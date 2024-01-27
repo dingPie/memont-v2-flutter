@@ -24,9 +24,10 @@ final class Refresh {
   Refresh() {
     init();
   }
+  Storage storage = Storage();
 
   Future<String?> refreshToken() async {
-    var token = Storage.accessToken;
+    var token = storage.accessToken;
     try {
       if (token == null) {
         throw Error(); //  not found refresh token
@@ -40,7 +41,7 @@ final class Refresh {
       var result = await Dio().get(
         '$baseUrl/refresh',
       );
-      Storage.accessToken =
+      storage.accessToken =
           result.data?.access.toString(); // P_MEMO: 반환받은 데이터 저장
 
       return result.data;

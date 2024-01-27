@@ -26,7 +26,7 @@ class DioResponse {
   DioResponse copyWith({
     int? code,
     String? message,
-    dynamic? data,
+    dynamic data,
   }) {
     // return DioResponse(code ?? this.code, message, data);
     return DioResponse(

@@ -8,13 +8,20 @@ import 'package:memont/constants/api_code.dart';
 import 'package:memont/providers/storage.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 
+// P_MEMO: singletone 패턴이 적용되지 않은 dio. 나중에 한번 따져보자.
+
 final class DioIn {
   Storage storage = Storage();
-  late Dio dio;
+  DioIn() {
+    init();
+  }
 
-  DioIn._() {
-    print('DIO INIT');
+  late Dio _instance;
 
+  Dio get dio => _instance;
+
+  void init() async {
+    print('DIO LEGACY INIT');
     String? _baseUrl = kReleaseMode
         ? dotenv.env['PROD_API_BASE_URL']
         : Platform.isAndroid
@@ -33,15 +40,15 @@ final class DioIn {
       },
     );
 
-    dio = Dio(options);
+    _instance = Dio(options);
 
-    dio.interceptors.add(
+    _instance.interceptors.add(
       InterceptorsWrapper(
         onRequest: (
           RequestOptions options,
           RequestInterceptorHandler handler,
         ) async {
-          final String? token = storage.accessToken;
+          final String? token = storage.accessToken; // P_MEMO: 일반 static 토큰 사용
           if (token != null) {
             options.headers['Authorization'] = 'Bearer $token';
           }
@@ -59,6 +66,8 @@ final class DioIn {
           DioException error,
           ErrorInterceptorHandler handler,
         ) {
+          // P_TODO: error log 잘 찍는법 확인
+
           int statusCode = error.response?.statusCode ?? 0;
           bool isUnAuthorization = statusCode == API_CODE.UN_AUTHORIZATION;
           bool isExpired = statusCode == API_CODE.EXPIRED_TOKEN;
@@ -75,10 +84,5 @@ final class DioIn {
         },
       ),
     );
-  }
-
-  static final DioIn _instance = DioIn._();
-  factory DioIn() {
-    return _instance;
   }
 }

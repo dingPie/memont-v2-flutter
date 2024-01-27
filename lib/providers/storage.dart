@@ -2,5 +2,14 @@
 // 해당 구조는 변경될 수 있음
 // /
 final class Storage {
-  static String? accessToken;
+  String? accessToken;
+
+  Storage._();
+  // private 생성자로 정의한 생성자를 static 영역에 할당해버린다.
+  static final Storage _instance = Storage._();
+
+  // 실제로 instance 생성시, instance를 반환하는 factory 패턴에 따라 static 영역에 할당된 instance가 그대로 반환된다. (생성되지 않는다.)
+  factory Storage() {
+    return _instance;
+  }
 }
