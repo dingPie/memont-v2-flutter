@@ -20,17 +20,19 @@ class LoginScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var user = context.watch<User>();
-    var dio = DioIn().dio;
+    var colors = context.colors;
 
     return Scaffold(
+      backgroundColor: colors.primary[500],
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Text(
-              ROUTES.login.name,
-              style: context.textStyle.h1
-                  .copyWith(fontSize: 40, color: context.colors.primary[500]),
+              "MEMO'NT",
+              style: context.textStyle.title['lg']?.copyWith(
+                color: colors.white,
+              ),
             ),
           ],
         ),

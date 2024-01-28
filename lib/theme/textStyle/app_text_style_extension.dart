@@ -10,10 +10,20 @@ class AppTextStyleExtension extends ThemeExtension<AppTextStyleExtension> {
   const AppTextStyleExtension({
     required this.h1,
     required this.body1,
+    required this.display,
+    required this.title,
+    required this.heading,
+    required this.body,
+    required this.detail,
   });
 
   final TextStyle h1;
   final TextStyle body1;
+  final Map<String, TextStyle> display;
+  final Map<String, TextStyle> title;
+  final Map<String, TextStyle> heading;
+  final Map<String, TextStyle> body;
+  final Map<String, TextStyle> detail;
 
   @override
   ThemeExtension<AppTextStyleExtension> copyWith({
@@ -23,6 +33,11 @@ class AppTextStyleExtension extends ThemeExtension<AppTextStyleExtension> {
     return AppTextStyleExtension(
       h1: h1 ?? this.h1,
       body1: body1 ?? this.body1,
+      display: display ?? this.display,
+      title: title ?? this.title,
+      heading: heading ?? this.heading,
+      body: body ?? this.body,
+      detail: detail ?? this.detail,
     );
   }
 
@@ -38,6 +53,31 @@ class AppTextStyleExtension extends ThemeExtension<AppTextStyleExtension> {
     return AppTextStyleExtension(
       h1: TextStyle.lerp(h1, other.h1, t)!,
       body1: TextStyle.lerp(body1, other.body1, t)!,
+      display: {
+        'lg': TextStyle.lerp(display['lg'], other.display['lg'], t)!,
+        'md': TextStyle.lerp(display['md'], other.display['md'], t)!,
+        'sm': TextStyle.lerp(display['sm'], other.display['sm'], t)!,
+      },
+      title: {
+        'lg': TextStyle.lerp(title['lg'], other.title['lg'], t)!,
+        'md': TextStyle.lerp(title['md'], other.title['md'], t)!,
+        'sm': TextStyle.lerp(title['sm'], other.title['sm'], t)!,
+      },
+      heading: {
+        'lg': TextStyle.lerp(heading['lg'], other.heading['lg'], t)!,
+        'md': TextStyle.lerp(heading['md'], other.heading['md'], t)!,
+        'sm': TextStyle.lerp(heading['sm'], other.heading['sm'], t)!,
+      },
+      body: {
+        'lg': TextStyle.lerp(body['lg'], other.body['lg'], t)!,
+        'md': TextStyle.lerp(body['md'], other.body['md'], t)!,
+        'sm': TextStyle.lerp(body['sm'], other.body['sm'], t)!,
+      },
+      detail: {
+        'lg': TextStyle.lerp(detail['lg'], other.detail['lg'], t)!,
+        'md': TextStyle.lerp(detail['md'], other.detail['md'], t)!,
+        'sm': TextStyle.lerp(detail['sm'], other.detail['sm'], t)!,
+      },
     );
   }
 }

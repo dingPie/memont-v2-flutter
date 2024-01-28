@@ -9,12 +9,13 @@ import 'package:flutter/material.dart';
 ///
 class AppColorsExtension extends ThemeExtension<AppColorsExtension> {
   final Map<int, Color> primary;
+  final Map<int, Color> gray;
   final Color secondary;
-
   final Color success;
   final Color warning;
   final Color background;
-  final Map<int, Color> gray;
+  final Color white;
+  final Color black;
 
   AppColorsExtension({
     required this.primary,
@@ -23,6 +24,8 @@ class AppColorsExtension extends ThemeExtension<AppColorsExtension> {
     required this.warning,
     required this.background,
     required this.gray,
+    required this.white,
+    required this.black,
   });
 
   @override
@@ -41,6 +44,8 @@ class AppColorsExtension extends ThemeExtension<AppColorsExtension> {
       warning: warning ?? this.warning,
       background: background ?? this.background,
       gray: gray ?? this.gray,
+      white: white ?? this.white,
+      black: black ?? this.black,
     );
   }
 
@@ -82,6 +87,8 @@ class AppColorsExtension extends ThemeExtension<AppColorsExtension> {
       success: Color.lerp(success, other.success, t)!,
       warning: Color.lerp(warning, other.warning, t)!,
       background: Color.lerp(background, other.background, t)!,
+      white: Color.lerp(white, other.white, t)!,
+      black: Color.lerp(black, other.black, t)!,
     );
   }
 }

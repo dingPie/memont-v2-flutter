@@ -60,7 +60,9 @@ class AppRouter {
     redirect: (context, state) {
       String firstPath =
           state.uri.pathSegments.isNotEmpty ? "${state.uri}" : '';
-      bool isUnAuth = firstPath == ROUTES.login.path && !user!.isLogin;
+      bool isUnAuth = (firstPath != ROUTES.login.path ||
+              firstPath != ROUTES.onboarding.path) &&
+          !user!.isLogin;
 
       if (isUnAuth) {
         return ROUTES.login.path;

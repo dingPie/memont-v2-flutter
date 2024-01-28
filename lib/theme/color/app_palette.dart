@@ -31,4 +31,6 @@ class AppPalette {
 
   static const Color success = Color(0xFF4850FF);
   static const Color warning = Color(0xFFFF6060);
+  static const Color white = Colors.white;
+  static const Color black = Colors.black;
 }
