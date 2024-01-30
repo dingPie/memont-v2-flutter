@@ -70,6 +70,8 @@ dependencies:
 
   json_annotation: ^4.8.0 # freezed 설치에 필요
 
+  font_awesome_flutter: ^10.7.0
+
 dev_dependencies:
   # Date Class 등 기본적인 Class 생성시 반복적으로 사용되는 코드를 줄이게 해줌
   build_runner: ^2.3.3
