@@ -9,8 +9,12 @@ import 'package:memont/constants/routes.dart';
 import 'package:memont/models/person/person.dart';
 
 import 'package:memont/global_state/provider/user.dart';
+import 'package:memont/screens/login_screen/widgets/social_login_button.dart';
 import 'package:memont/theme/app_theme.dart';
 import 'package:go_router/go_router.dart';
+import 'package:memont/theme/color/app_colors_extension.dart';
+import 'package:memont/theme/textStyle/app_text_style_extension.dart';
+import 'package:memont/widgets/presaable.dart';
 import 'package:provider/provider.dart';
 
 class LoginScreen extends StatelessWidget {
@@ -28,8 +32,13 @@ class LoginScreen extends StatelessWidget {
       if (snsType == 'google') {
         // P_TODO: 구글 로그인
       } else if (snsType == 'github') {
-        // 깃허브 로그인
+        // P_TODO: 깃허브 로그인
       }
+      print('$snsType');
+    }
+
+    void onPressPrivacyPolicyButton() {
+      print('개인정보 처리방침 오픈');
     }
 
     return Scaffold(
@@ -52,51 +61,26 @@ class LoginScreen extends StatelessWidget {
                 height: 120,
               ),
               // 소셜로그인 버튼
-              ElevatedButton.icon(
-                // P_TODO: 이게 null 이면 자동으로 disabled 상태가 됨
-                onPressed: () => onPressSocialLoginButton('google'),
-                icon: FaIcon(
-                  FontAwesomeIcons.google,
-                  color: colors.gray[600],
-                ),
-                label: Text(
-                  'Google 로 시작하기',
-                  style: textStyle.body['md']!.copyWith(
-                    color: colors.gray[900],
-                  ),
-                ),
-                style: ElevatedButton.styleFrom(
-                  minimumSize: const Size.fromHeight(50),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(8),
-                  ),
-                  backgroundColor: colors.gray[100],
-                ),
+              SocialLoginButton(
+                snsType: 'google',
+                text: 'Google로 시작하기',
+                onPressSocialLoginButton: onPressSocialLoginButton,
+                iconData: FontAwesomeIcons.google,
+                bgColor: colors.gray[200]!,
+                contentColor: colors.gray[800]!,
               ),
               const SizedBox(
                 height: 12,
               ),
-              ElevatedButton.icon(
-                // P_TODO: 이게 null 이면 자동으로 disabled 상태가 됨
-                onPressed: () => onPressSocialLoginButton('google'),
-                icon: FaIcon(
-                  FontAwesomeIcons.google,
-                  color: colors.gray[100],
-                ),
-                label: Text(
-                  'Github 로 시작하기',
-                  style: textStyle.body['md']!.copyWith(
-                    color: colors.gray[100],
-                  ),
-                ),
-                style: ElevatedButton.styleFrom(
-                  minimumSize: const Size.fromHeight(50),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(8),
-                  ),
-                  backgroundColor: colors.gray[800],
-                ),
+              SocialLoginButton(
+                snsType: 'github',
+                text: 'Github로 시작하기',
+                onPressSocialLoginButton: onPressSocialLoginButton,
+                iconData: FontAwesomeIcons.github,
+                bgColor: colors.gray[800]!,
+                contentColor: colors.gray[200]!,
               ),
+
               const SizedBox(
                 height: 40,
               ),
@@ -104,22 +88,25 @@ class LoginScreen extends StatelessWidget {
               Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
-                  Text(
-                    '1번 문구',
-                    style: textStyle.body['sm']!.copyWith(
-                      color: colors.gray[100],
+                  Pressable(
+                    onPressed: onPressPrivacyPolicyButton,
+                    child: Text(
+                      '개인정보 처리방침',
+                      style: textStyle.body['md']!.copyWith(
+                        color: colors.white,
+                      ),
                     ),
                   ),
                   Text(
                     '2번 문구',
-                    style: textStyle.body['sm']!.copyWith(
-                      color: colors.gray[100],
+                    style: textStyle.body['md']!.copyWith(
+                      color: colors.white,
                     ),
                   ),
                   Text(
                     '3번 문구',
-                    style: textStyle.body['sm']!.copyWith(
-                      color: colors.gray[100],
+                    style: textStyle.body['md']!.copyWith(
+                      color: colors.white,
                     ),
                   ),
                 ],
