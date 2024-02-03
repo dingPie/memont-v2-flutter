@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>123539295838-55mqm0uqt6crf4kjil0rgo6vlbvhg6eh.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.123539295838-55mqm0uqt6crf4kjil0rgo6vlbvhg6eh</string>
+	<key>ANDROID_CLIENT_ID</key>
+	<string>123539295838-5ru11gibq85b5tb0pg5gs3l2rb9islem.apps.googleusercontent.com</string>
+	<key>API_KEY</key>
+	<string>AIzaSyAtqYkYb-YUyl6-zjcwddXHB8uW98UTAWs</string>
+	<key>GCM_SENDER_ID</key>
+	<string>123539295838</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.dingpie.memont</string>
+	<key>PROJECT_ID</key>
+	<string>memont-v2</string>
+	<key>STORAGE_BUCKET</key>
+	<string>memont-v2.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:123539295838:ios:13843f92e95ecf10382ecf</string>
+</dict>
+</plist>

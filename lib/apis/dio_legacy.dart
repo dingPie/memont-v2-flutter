@@ -2,10 +2,10 @@ import 'dart:io';
 
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
-import 'package:memont/apis/refresh.dart';
-import 'package:memont/constants/api_code.dart';
+import 'package:memont_v2/apis/refresh.dart';
+import 'package:memont_v2/constants/api_code.dart';
 
-import 'package:memont/global_state/singleton_storage.dart';
+import 'package:memont_v2/global_state/singleton_storage.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 // P_MEMO: singletone 패턴이 적용되지 않은 dio. 나중에 한번 따져보자.

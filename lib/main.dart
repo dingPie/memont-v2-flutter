@@ -1,12 +1,18 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
-import 'package:memont/global_state/provider/user.dart';
-import 'package:memont/screens/router.dart';
-import 'package:memont/theme/app_theme.dart';
+import 'package:memont_v2/config/firebase_options.dart';
+import 'package:memont_v2/global_state/provider/user.dart';
+import 'package:memont_v2/screens/router.dart';
+import 'package:memont_v2/theme/app_theme.dart';
 import 'package:provider/provider.dart';
 
 Future main() async {
   await dotenv.load(fileName: ".env");
+
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
   runApp(const MyApp());
 }
 

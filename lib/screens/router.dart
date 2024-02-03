@@ -1,13 +1,13 @@
-import 'package:memont/constants/routes.dart';
-import 'package:memont/global_state/provider/user.dart';
+import 'package:memont_v2/constants/routes.dart';
+import 'package:memont_v2/global_state/provider/user.dart';
 
-import 'package:memont/screens/error_screen/error_screen.dart';
-import 'package:memont/screens/login_screen/login_screen.dart';
-import 'package:memont/screens/onboarding_screen/onboarding_screen.dart';
-import 'package:memont/screens/tag_screen/tag_screen.dart';
-import 'package:memont/screens/talk_screen/talk_screen.dart';
-import 'package:memont/screens/detail_screen/detail_screen.dart';
-import 'package:memont/screens/setting_screen/setting_screen.dart';
+import 'package:memont_v2/screens/error_screen/error_screen.dart';
+import 'package:memont_v2/screens/login_screen/login_screen.dart';
+import 'package:memont_v2/screens/onboarding_screen/onboarding_screen.dart';
+import 'package:memont_v2/screens/tag_screen/tag_screen.dart';
+import 'package:memont_v2/screens/talk_screen/talk_screen.dart';
+import 'package:memont_v2/screens/detail_screen/detail_screen.dart';
+import 'package:memont_v2/screens/setting_screen/setting_screen.dart';
 import 'package:go_router/go_router.dart';
 
 class AppRouter {

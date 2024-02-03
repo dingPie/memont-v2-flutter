@@ -1,17 +1,17 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
-import 'package:memont/apis/common/palette_api.dart';
-import 'package:memont/apis/dio.dart';
-import 'package:memont/config/build_context_extension.dart';
-import 'package:memont/constants/routes.dart';
-import 'package:memont/global_state/singleton_storage.dart';
-import 'package:memont/models/palette.dart';
+import 'package:memont_v2/apis/common/palette_api.dart';
+import 'package:memont_v2/apis/dio.dart';
+import 'package:memont_v2/config/build_context_extension.dart';
+import 'package:memont_v2/constants/routes.dart';
+import 'package:memont_v2/global_state/singleton_storage.dart';
+import 'package:memont_v2/models/palette.dart';
 
-import 'package:memont/models/person/person.dart';
+import 'package:memont_v2/models/person/person.dart';
 
-import 'package:memont/global_state/provider/user.dart';
-import 'package:memont/theme/app_theme.dart';
+import 'package:memont_v2/global_state/provider/user.dart';
+import 'package:memont_v2/theme/app_theme.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:memont/config/build_context_extension.dart';
-import 'package:memont/constants/routes.dart';
-import 'package:memont/global_state/provider/user.dart';
+import 'package:memont_v2/config/build_context_extension.dart';
+import 'package:memont_v2/constants/routes.dart';
+import 'package:memont_v2/global_state/provider/user.dart';
 
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';

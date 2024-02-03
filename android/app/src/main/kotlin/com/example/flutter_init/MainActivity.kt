@@ -1,4 +1,4 @@
-package com.example.memont
+package com.dingpie.memont
 
 import io.flutter.embedding.android.FlutterActivity
 

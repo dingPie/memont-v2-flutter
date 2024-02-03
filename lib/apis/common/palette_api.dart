@@ -1,5 +1,5 @@
-import 'package:memont/apis/dio.dart';
-import 'package:memont/models/palette.dart';
+import 'package:memont_v2/apis/dio.dart';
+import 'package:memont_v2/models/palette.dart';
 
 class PaletteApi {
   var dio = DioIn().dio;

@@ -3,9 +3,9 @@ import 'dart:io';
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
-import 'package:memont/apis/dio.dart';
+import 'package:memont_v2/apis/dio.dart';
 
-import 'package:memont/global_state/singleton_storage.dart';
+import 'package:memont_v2/global_state/singleton_storage.dart';
 
 // late final SharedPreferences _prefs; // P_MEMO: accessToken은 그냥 전역으로 사용할 static instance에 추가.
 

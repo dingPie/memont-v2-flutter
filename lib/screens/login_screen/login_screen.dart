@@ -2,20 +2,21 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:memont/apis/dio.dart';
-import 'package:memont/config/build_context_extension.dart';
-import 'package:memont/constants/routes.dart';
+import 'package:memont_v2/apis/dio.dart';
+import 'package:memont_v2/config/build_context_extension.dart';
+import 'package:memont_v2/constants/routes.dart';
 
-import 'package:memont/models/person/person.dart';
+import 'package:memont_v2/models/person/person.dart';
 
-import 'package:memont/global_state/provider/user.dart';
-import 'package:memont/screens/login_screen/widgets/social_login_button.dart';
-import 'package:memont/theme/app_theme.dart';
+import 'package:memont_v2/global_state/provider/user.dart';
+import 'package:memont_v2/screens/login_screen/widgets/social_login_button.dart';
+import 'package:memont_v2/theme/app_theme.dart';
 import 'package:go_router/go_router.dart';
-import 'package:memont/theme/color/app_colors_extension.dart';
-import 'package:memont/theme/textStyle/app_text_style_extension.dart';
-import 'package:memont/widgets/presaable.dart';
+import 'package:memont_v2/theme/color/app_colors_extension.dart';
+import 'package:memont_v2/theme/textStyle/app_text_style_extension.dart';
+import 'package:memont_v2/widgets/presaable.dart';
 import 'package:provider/provider.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 
 class LoginScreen extends StatelessWidget {
   const LoginScreen({
@@ -28,9 +29,14 @@ class LoginScreen extends StatelessWidget {
     var colors = context.colors;
     var textStyle = context.textStyle;
 
-    void onPressSocialLoginButton(String snsType) {
+    void onPressSocialLoginButton(String snsType) async {
       if (snsType == 'google') {
         // P_TODO: 구글 로그인
+        final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
+        print('GOOGLE AUTH: ${googleUser?.email} ${googleUser?.displayName}');
+
+        // final GoogleSignInAuthentication? googleAuth =
+        //     await googleUser?.authentication;
       } else if (snsType == 'github') {
         // P_TODO: 깃허브 로그인
       }
