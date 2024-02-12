@@ -10,7 +10,7 @@ import 'package:memont_v2/models/palette.dart';
 
 import 'package:memont_v2/models/person/person.dart';
 
-import 'package:memont_v2/global_state/provider/user.dart';
+import 'package:memont_v2/global_state/provider/user_state.dart';
 import 'package:memont_v2/theme/app_theme.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
@@ -22,7 +22,7 @@ class TalkScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var user = context.watch<User>();
+    var user = context.watch<UserState>();
     var paletteApi = PaletteApi();
     SingletonStorage storage = SingletonStorage();
 

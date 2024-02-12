@@ -1,22 +1,21 @@
-import 'dart:math';
-
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:memont_v2/apis/dio.dart';
+import 'package:memont_v2/apis/auth/auth_api.dart';
+
 import 'package:memont_v2/config/build_context_extension.dart';
-import 'package:memont_v2/constants/routes.dart';
+import 'package:memont_v2/constants/key.dart';
 
-import 'package:memont_v2/models/person/person.dart';
+import 'package:memont_v2/global_state/provider/user_state.dart';
+import 'package:memont_v2/global_state/singleton_storage.dart';
+import 'package:memont_v2/models/login_dto/login_dto.dart';
 
-import 'package:memont_v2/global_state/provider/user.dart';
 import 'package:memont_v2/screens/login_screen/widgets/social_login_button.dart';
-import 'package:memont_v2/theme/app_theme.dart';
-import 'package:go_router/go_router.dart';
-import 'package:memont_v2/theme/color/app_colors_extension.dart';
-import 'package:memont_v2/theme/textStyle/app_text_style_extension.dart';
+
 import 'package:memont_v2/widgets/presaable.dart';
 import 'package:provider/provider.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class LoginScreen extends StatelessWidget {
   const LoginScreen({
@@ -25,22 +24,39 @@ class LoginScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var user = context.watch<User>();
+    SingletonStorage storage = SingletonStorage();
+
+    var user = context.watch<UserState>();
     var colors = context.colors;
     var textStyle = context.textStyle;
+    var authApi = AuthApi();
 
     void onPressSocialLoginButton(String snsType) async {
+      final SharedPreferences prefs = await SharedPreferences.getInstance();
+
       if (snsType == 'google') {
         // P_TODO: 구글 로그인
         final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
-        print('GOOGLE AUTH: ${googleUser?.email} ${googleUser?.displayName}');
+        print('GOOGLE AUTH: ${googleUser?.toString()}');
 
-        // final GoogleSignInAuthentication? googleAuth =
-        //     await googleUser?.authentication;
+        var body = LoginDto(
+          loginId: googleUser?.email ?? "",
+          providerUid: googleUser?.id ?? "",
+          fcmToken: 'fcmToken', // P_TODO: 이건 따로 가져오기 .
+          userName: googleUser?.displayName ?? "",
+          provider: 'google.com',
+        );
+        var res = await authApi.login(body);
+
+        storage.accessToken = res?.accessToken;
+        await prefs.setString(KEY.REFRESH_TOKEN, res?.refreshToken ?? '');
       } else if (snsType == 'github') {
-        // P_TODO: 깃허브 로그인
+        // P_TODO: 깃허브 로그인, 얘는 좀 나중에
+        GithubAuthProvider githubProvider = GithubAuthProvider();
+
+        var test =
+            await FirebaseAuth.instance.signInWithProvider(githubProvider);
       }
-      print('$snsType');
     }
 
     void onPressPrivacyPolicyButton() {

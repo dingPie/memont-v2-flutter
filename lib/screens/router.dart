@@ -1,5 +1,5 @@
 import 'package:memont_v2/constants/routes.dart';
-import 'package:memont_v2/global_state/provider/user.dart';
+import 'package:memont_v2/global_state/provider/user_state.dart';
 
 import 'package:memont_v2/screens/error_screen/error_screen.dart';
 import 'package:memont_v2/screens/login_screen/login_screen.dart';
@@ -12,9 +12,9 @@ import 'package:go_router/go_router.dart';
 
 class AppRouter {
   // auth guard 임시  처리를 위한 user 상태
-  late User? user;
+  late UserState? userState;
   AppRouter(
-    this.user,
+    this.userState,
   );
 
   GoRouter get router => _goRouter;
@@ -62,7 +62,7 @@ class AppRouter {
           state.uri.pathSegments.isNotEmpty ? "${state.uri}" : '';
       bool isUnAuth = (firstPath != ROUTES.login.path ||
               firstPath != ROUTES.onboarding.path) &&
-          !user!.isLogin;
+          !userState!.isLogin;
 
       if (isUnAuth) {
         return ROUTES.login.path;
@@ -70,8 +70,8 @@ class AppRouter {
 
       return null;
     }, // P_TODO: redirect 설정할 수 있음.
-    // P_MEMO Provider로 제공받는 user 전역 상태를 보고있음. 다른 appState 같은걸 활용할 수 있다.
-    refreshListenable: user,
+    // P_MEMO Provider로 제공받는 userState 전역 상태를 보고있음. 다른 appState 같은걸 활용할 수 있다.
+    refreshListenable: userState,
     initialLocation: ROUTES.talk.path,
   );
 }

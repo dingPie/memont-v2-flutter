@@ -2,7 +2,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:memont_v2/config/firebase_options.dart';
-import 'package:memont_v2/global_state/provider/user.dart';
+import 'package:memont_v2/global_state/provider/user_state.dart';
 import 'package:memont_v2/screens/router.dart';
 import 'package:memont_v2/theme/app_theme.dart';
 import 'package:provider/provider.dart';
@@ -30,14 +30,14 @@ final class MyApp extends StatelessWidget {
           create: (context) => AppTheme(),
         ),
         ChangeNotifierProvider(
-          create: (context) => User(),
+          create: (context) => UserState(),
         ),
       ],
       builder: (context, _) => MaterialApp.router(
         title: "MEMO'NT",
         theme: AppTheme.light,
         darkTheme: AppTheme.dark,
-        routerConfig: AppRouter(context.watch<User>()).router,
+        routerConfig: AppRouter(context.watch<UserState>()).router,
         themeMode: context.watch<AppTheme>().themeMode,
         debugShowCheckedModeBanner: false,
       ),

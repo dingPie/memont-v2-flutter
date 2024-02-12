@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:memont_v2/config/build_context_extension.dart';
 import 'package:memont_v2/constants/routes.dart';
-import 'package:memont_v2/global_state/provider/user.dart';
+import 'package:memont_v2/global_state/provider/user_state.dart';
 
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
@@ -13,7 +13,7 @@ class SettingScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var user = context.watch<User>();
+    var user = context.watch<UserState>();
     void onPressedBackButton() => context.pop();
 
     return Scaffold(

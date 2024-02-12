@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:memont_v2/global_state/singleton_storage.dart';
 
-class User extends ChangeNotifier {
+class UserState extends ChangeNotifier {
   String _uid = '';
 
   String get uid => _uid;
