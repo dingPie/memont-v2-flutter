@@ -1,11 +1,15 @@
+import 'package:dio/dio.dart';
 import 'package:firebase_core/firebase_core.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:memont_v2/config/firebase_options.dart';
 import 'package:memont_v2/constants/key.dart';
 import 'package:memont_v2/global_state/provider/app_state.dart';
+import 'package:memont_v2/global_state/singleton_storage.dart';
 import 'package:memont_v2/screens/router.dart';
 import 'package:memont_v2/theme/app_theme.dart';
+import 'package:memont_v2/utils/util_method.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -16,14 +20,27 @@ Future main() async {
     options: DefaultFirebaseOptions.currentPlatform,
   );
   final SharedPreferences prefs = await SharedPreferences.getInstance();
-  var test = await prefs.getString(KEY.REFRESH_TOKEN);
-  print('test ${test}');
+  var refreshToken = prefs.getString(KEY.REFRESH_TOKEN);
+  String baseUrl = UtilMethod.getBaseUrl();
 
-  // P_TODO: 가능. splash 단에서 하거나, context 받아와서 하거나, 아무튼 방법 찾자.
+  try {
+    var result = await Dio().post('$baseUrl/auth/refresh', data: {
+      'refreshToken': refreshToken,
+    });
 
-  runApp(MyApp(
-    isLogin: test != null,
-  ));
+    SingletonStorage storage = SingletonStorage();
+    String accessToken = result.data['result']['data']['accessToken'];
+    storage.accessToken = accessToken;
+
+    runApp(MyApp(
+      isLogin: true,
+    ));
+  } on DioException catch (error) {
+    print('refresh ERROR: ${error.response}');
+    runApp(MyApp(
+      isLogin: false,
+    ));
+  }
 }
 
 // P_CHECK: final 써도 무방하지 않음?
