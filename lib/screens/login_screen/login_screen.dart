@@ -13,7 +13,7 @@ import 'package:memont_v2/models/login_dto/login_dto.dart';
 import 'package:memont_v2/screens/login_screen/widgets/social_login_button.dart';
 import 'package:memont_v2/widgets/common_layout.dart';
 
-import 'package:memont_v2/widgets/presaable.dart';
+import 'package:memont_v2/widgets/pressable.dart';
 import 'package:provider/provider.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:shared_preferences/shared_preferences.dart';
