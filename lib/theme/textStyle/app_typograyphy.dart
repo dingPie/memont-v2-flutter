@@ -42,15 +42,15 @@ class AppTypography {
   static const heading = {
     'lg': TextStyle(
       fontSize: 28,
-      fontWeight: FontWeight.w600,
+      fontWeight: FontWeight.w700,
     ),
     'md': TextStyle(
       fontSize: 24,
-      fontWeight: FontWeight.w600,
+      fontWeight: FontWeight.w700,
     ),
     'sm': TextStyle(
       fontSize: 20,
-      fontWeight: FontWeight.w600,
+      fontWeight: FontWeight.w700,
     )
   };
   static const body = {
