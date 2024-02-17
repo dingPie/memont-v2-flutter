@@ -12,10 +12,9 @@ class Palette {
   });
 
   Palette.fromJson(Map<String, dynamic> json)
-      : id = json['id'] as int,
-        name = json['name'] as String,
-        color =
-            Color(int.parse('0xFF${(json['color'] as String).split('#')[1]}'));
+      : id = json['id'],
+        name = json['name'],
+        color = Color(int.parse('0xFF${(json['color']).split('#')[1]}'));
 
   Map<String, Object?> toJson() {
     return {

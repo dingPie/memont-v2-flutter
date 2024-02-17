@@ -11,9 +11,9 @@ class DioResponse {
   });
 
   DioResponse.fromJson(Map<String, dynamic> json)
-      : code = json['code'] as int,
-        message = json['message'] as String,
-        data = json['data'] as dynamic;
+      : code = json['code'],
+        message = json['message'],
+        data = json['data'];
 
   Map<String, Object?> toJson() {
     return {

@@ -1,23 +1,21 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 
-part 'person.freezed.dart';
-part 'person.g.dart';
+part 'tag_dto.freezed.dart';
+part 'tag_dto.g.dart';
 
 // P_TODO: 샘플 코드입니다.
 @freezed
-class Person with _$Person {
+class TagDto with _$TagDto {
   // constructor 및 본인을 반환하는 factory를 만들어주는 기본 문법
-  factory Person({
+  factory TagDto({
     required int id,
     required String name,
-    required int age,
-  }) = _Person;
+    required String colorString,
+  }) = _TagDto;
 
   // json 확장
-  factory Person.fromJson(Map<String, dynamic> json) => _$PersonFromJson(json);
+  factory TagDto.fromJson(Map<String, dynamic> json) => _$TagDtoFromJson(json);
 
   // 메소드나 custom getter 작성시 필수로 추가, 새로 build 해야 함.
-  Person._();
-
-  get nameLength => name.length;
+  TagDto._();
 }
