@@ -8,7 +8,7 @@ part 'tag_dto.g.dart';
 class TagDto with _$TagDto {
   // constructor 및 본인을 반환하는 factory를 만들어주는 기본 문법
   factory TagDto({
-    required int id,
+    int? id,
     required String name,
     required String colorString,
   }) = _TagDto;

@@ -20,7 +20,7 @@ TagDto _$TagDtoFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$TagDto {
-  int get id => throw _privateConstructorUsedError;
+  int? get id => throw _privateConstructorUsedError;
   String get name => throw _privateConstructorUsedError;
   String get colorString => throw _privateConstructorUsedError;
 
@@ -34,7 +34,7 @@ abstract class $TagDtoCopyWith<$Res> {
   factory $TagDtoCopyWith(TagDto value, $Res Function(TagDto) then) =
       _$TagDtoCopyWithImpl<$Res, TagDto>;
   @useResult
-  $Res call({int id, String name, String colorString});
+  $Res call({int? id, String name, String colorString});
 }
 
 /// @nodoc
@@ -50,15 +50,15 @@ class _$TagDtoCopyWithImpl<$Res, $Val extends TagDto>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? id = null,
+    Object? id = freezed,
     Object? name = null,
     Object? colorString = null,
   }) {
     return _then(_value.copyWith(
-      id: null == id
+      id: freezed == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
-              as int,
+              as int?,
       name: null == name
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
@@ -78,7 +78,7 @@ abstract class _$$TagDtoImplCopyWith<$Res> implements $TagDtoCopyWith<$Res> {
       __$$TagDtoImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({int id, String name, String colorString});
+  $Res call({int? id, String name, String colorString});
 }
 
 /// @nodoc
@@ -92,15 +92,15 @@ class __$$TagDtoImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? id = null,
+    Object? id = freezed,
     Object? name = null,
     Object? colorString = null,
   }) {
     return _then(_$TagDtoImpl(
-      id: null == id
+      id: freezed == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
-              as int,
+              as int?,
       name: null == name
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
@@ -116,15 +116,14 @@ class __$$TagDtoImplCopyWithImpl<$Res>
 /// @nodoc
 @JsonSerializable()
 class _$TagDtoImpl extends _TagDto {
-  _$TagDtoImpl(
-      {required this.id, required this.name, required this.colorString})
+  _$TagDtoImpl({this.id, required this.name, required this.colorString})
       : super._();
 
   factory _$TagDtoImpl.fromJson(Map<String, dynamic> json) =>
       _$$TagDtoImplFromJson(json);
 
   @override
-  final int id;
+  final int? id;
   @override
   final String name;
   @override
@@ -166,7 +165,7 @@ class _$TagDtoImpl extends _TagDto {
 
 abstract class _TagDto extends TagDto {
   factory _TagDto(
-      {required final int id,
+      {final int? id,
       required final String name,
       required final String colorString}) = _$TagDtoImpl;
   _TagDto._() : super._();
@@ -174,7 +173,7 @@ abstract class _TagDto extends TagDto {
   factory _TagDto.fromJson(Map<String, dynamic> json) = _$TagDtoImpl.fromJson;
 
   @override
-  int get id;
+  int? get id;
   @override
   String get name;
   @override
