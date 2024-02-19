@@ -28,7 +28,6 @@ class DioResponse {
     String? message,
     dynamic data,
   }) {
-    // return DioResponse(code ?? this.code, message, data);
     return DioResponse(
       code: code ?? this.code,
       message: message ?? this.message,
