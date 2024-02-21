@@ -4,10 +4,12 @@ import 'package:dio/dio.dart';
 
 import 'package:memont_v2/apis/refresh.dart';
 import 'package:memont_v2/constants/api_code.dart';
+import 'package:memont_v2/constants/key.dart';
 
 import 'package:memont_v2/global_state/singleton_storage.dart';
 
 import 'package:memont_v2/utils/util_method.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 final class DioIn {
   SingletonStorage storage = SingletonStorage();
@@ -39,8 +41,13 @@ final class DioIn {
           RequestInterceptorHandler handler,
         ) async {
           final String? token = storage.accessToken;
+          // P_TODO: 현재 임시로 provider_uid client에서 보내주는 로직 적용중. 추후 변경될 수 있음.
+          final SharedPreferences prefs = await SharedPreferences.getInstance();
+          String? providerUid = prefs.getString(KEY.PROVIDER_UID);
+
           if (token != null) {
             options.headers['Authorization'] = 'Bearer $token';
+            options.headers['provider_uid'] = '$providerUid';
           }
 
           return handler.next(options);

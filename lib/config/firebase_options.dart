@@ -55,7 +55,7 @@ class DefaultFirebaseOptions {
 
   static const FirebaseOptions android = FirebaseOptions(
     apiKey: 'AIzaSyAX5P9_syVoZjHZGRSzbzx59FzIyTLQ6Dc',
-    appId: '1:123539295838:android:ca92437bc8364582382ecf',
+    appId: '1:123539295838:android:98a26bbf960d1855382ecf',
     messagingSenderId: '123539295838',
     projectId: 'memont-v2',
     storageBucket: 'memont-v2.appspot.com',
@@ -63,19 +63,27 @@ class DefaultFirebaseOptions {
 
   static const FirebaseOptions ios = FirebaseOptions(
     apiKey: 'AIzaSyAtqYkYb-YUyl6-zjcwddXHB8uW98UTAWs',
-    appId: '1:123539295838:ios:d50be525e55c4a19382ecf',
+    appId: '1:123539295838:ios:13843f92e95ecf10382ecf',
     messagingSenderId: '123539295838',
     projectId: 'memont-v2',
     storageBucket: 'memont-v2.appspot.com',
+    androidClientId:
+        '123539295838-elbmird8cvhr4uhn803vdf021rl35v8o.apps.googleusercontent.com',
+    iosClientId:
+        '123539295838-55mqm0uqt6crf4kjil0rgo6vlbvhg6eh.apps.googleusercontent.com',
     iosBundleId: 'com.dingpie.memont',
   );
 
   static const FirebaseOptions macos = FirebaseOptions(
     apiKey: 'AIzaSyAtqYkYb-YUyl6-zjcwddXHB8uW98UTAWs',
-    appId: '1:123539295838:ios:e76f6f7bd7302339382ecf',
+    appId: '1:123539295838:ios:b051eb5b26e4aff7382ecf',
     messagingSenderId: '123539295838',
     projectId: 'memont-v2',
     storageBucket: 'memont-v2.appspot.com',
+    androidClientId:
+        '123539295838-elbmird8cvhr4uhn803vdf021rl35v8o.apps.googleusercontent.com',
+    iosClientId:
+        '123539295838-v59kl5serkj1c0kjiicmesqa8abm91en.apps.googleusercontent.com',
     iosBundleId: 'com.dingpie.memont.RunnerTests',
   );
 }

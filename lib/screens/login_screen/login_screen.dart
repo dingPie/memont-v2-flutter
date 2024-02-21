@@ -65,7 +65,8 @@ class LoginScreen extends StatelessWidget {
         final SharedPreferences prefs = await SharedPreferences.getInstance();
         var res = await authApi.login(body!);
         storage.accessToken = res?.accessToken;
-        await prefs.setString(KEY.REFRESH_TOKEN, res?.refreshToken ?? '');
+        prefs.setString(KEY.REFRESH_TOKEN, res?.refreshToken ?? '');
+        prefs.setString(KEY.PROVIDER_UID, body.providerUid);
         appState.isLogin = true;
       } catch (err) {
         print("로그인 이후 로직 에러 ${err.toString()}");
