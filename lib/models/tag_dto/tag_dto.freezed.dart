@@ -21,8 +21,9 @@ TagDto _$TagDtoFromJson(Map<String, dynamic> json) {
 /// @nodoc
 mixin _$TagDto {
   int? get id => throw _privateConstructorUsedError;
-  String get name => throw _privateConstructorUsedError;
-  String get colorString => throw _privateConstructorUsedError;
+  String get name =>
+      throw _privateConstructorUsedError; // P_TODO: required 제거. 이유는 모름...
+  String? get colorString => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -34,7 +35,7 @@ abstract class $TagDtoCopyWith<$Res> {
   factory $TagDtoCopyWith(TagDto value, $Res Function(TagDto) then) =
       _$TagDtoCopyWithImpl<$Res, TagDto>;
   @useResult
-  $Res call({int? id, String name, String colorString});
+  $Res call({int? id, String name, String? colorString});
 }
 
 /// @nodoc
@@ -52,7 +53,7 @@ class _$TagDtoCopyWithImpl<$Res, $Val extends TagDto>
   $Res call({
     Object? id = freezed,
     Object? name = null,
-    Object? colorString = null,
+    Object? colorString = freezed,
   }) {
     return _then(_value.copyWith(
       id: freezed == id
@@ -63,10 +64,10 @@ class _$TagDtoCopyWithImpl<$Res, $Val extends TagDto>
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
               as String,
-      colorString: null == colorString
+      colorString: freezed == colorString
           ? _value.colorString
           : colorString // ignore: cast_nullable_to_non_nullable
-              as String,
+              as String?,
     ) as $Val);
   }
 }
@@ -78,7 +79,7 @@ abstract class _$$TagDtoImplCopyWith<$Res> implements $TagDtoCopyWith<$Res> {
       __$$TagDtoImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({int? id, String name, String colorString});
+  $Res call({int? id, String name, String? colorString});
 }
 
 /// @nodoc
@@ -94,7 +95,7 @@ class __$$TagDtoImplCopyWithImpl<$Res>
   $Res call({
     Object? id = freezed,
     Object? name = null,
-    Object? colorString = null,
+    Object? colorString = freezed,
   }) {
     return _then(_$TagDtoImpl(
       id: freezed == id
@@ -105,10 +106,10 @@ class __$$TagDtoImplCopyWithImpl<$Res>
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
               as String,
-      colorString: null == colorString
+      colorString: freezed == colorString
           ? _value.colorString
           : colorString // ignore: cast_nullable_to_non_nullable
-              as String,
+              as String?,
     ));
   }
 }
@@ -116,8 +117,7 @@ class __$$TagDtoImplCopyWithImpl<$Res>
 /// @nodoc
 @JsonSerializable()
 class _$TagDtoImpl extends _TagDto {
-  _$TagDtoImpl({this.id, required this.name, required this.colorString})
-      : super._();
+  _$TagDtoImpl({this.id, required this.name, this.colorString}) : super._();
 
   factory _$TagDtoImpl.fromJson(Map<String, dynamic> json) =>
       _$$TagDtoImplFromJson(json);
@@ -126,8 +126,9 @@ class _$TagDtoImpl extends _TagDto {
   final int? id;
   @override
   final String name;
+// P_TODO: required 제거. 이유는 모름...
   @override
-  final String colorString;
+  final String? colorString;
 
   @override
   String toString() {
@@ -167,7 +168,7 @@ abstract class _TagDto extends TagDto {
   factory _TagDto(
       {final int? id,
       required final String name,
-      required final String colorString}) = _$TagDtoImpl;
+      final String? colorString}) = _$TagDtoImpl;
   _TagDto._() : super._();
 
   factory _TagDto.fromJson(Map<String, dynamic> json) = _$TagDtoImpl.fromJson;
@@ -176,8 +177,8 @@ abstract class _TagDto extends TagDto {
   int? get id;
   @override
   String get name;
-  @override
-  String get colorString;
+  @override // P_TODO: required 제거. 이유는 모름...
+  String? get colorString;
   @override
   @JsonKey(ignore: true)
   _$$TagDtoImplCopyWith<_$TagDtoImpl> get copyWith =>

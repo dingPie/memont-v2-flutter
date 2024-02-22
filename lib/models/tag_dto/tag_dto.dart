@@ -3,14 +3,13 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 part 'tag_dto.freezed.dart';
 part 'tag_dto.g.dart';
 
-// P_TODO: 샘플 코드입니다.
 @freezed
 class TagDto with _$TagDto {
   // constructor 및 본인을 반환하는 factory를 만들어주는 기본 문법
   factory TagDto({
     int? id,
     required String name,
-    required String colorString,
+    String? colorString,
   }) = _TagDto;
 
   // json 확장
