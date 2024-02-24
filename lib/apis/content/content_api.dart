@@ -3,9 +3,9 @@ import 'package:memont_v2/models/content_dto/content_dto.dart';
 import 'package:memont_v2/models/cursor_response.dart';
 
 class ContentApi {
-  var dio = DioIn().dio;
+  static final dio = DioIn().dio;
 
-  Future<CursorResponse<ContentDto>?> getListByCursor() async {
+  static Future<CursorResponse<ContentDto>?> getListByCursor() async {
     try {
       final res = await dio.get('/content/by-cursor');
       final List<dynamic> responseData = res.data['result']['data'];
@@ -22,7 +22,7 @@ class ContentApi {
     }
   }
 
-  void createMemo(ContentDto body) async {
+  static void createMemo(ContentDto body) async {
     try {
       final res = await dio.post(
         '/content/memo',
@@ -35,7 +35,7 @@ class ContentApi {
     }
   }
 
-  void update(ContentDto body) async {
+  static void update(ContentDto body) async {
     try {
       final res = await dio.patch(
         '/content/update/${body.id ?? 0}',
@@ -48,7 +48,7 @@ class ContentApi {
     }
   }
 
-  void toggleToBeDeleted(List<int> body) async {
+  static void toggleToBeDeleted(List<int> body) async {
     try {
       final res = await dio.patch(
         '/content/toggle-to-be-deleted',
@@ -63,7 +63,7 @@ class ContentApi {
     }
   }
 
-  void delete(int id) async {
+  static void delete(int id) async {
     try {
       final res = await dio.delete(
         '/content/delete/$id',

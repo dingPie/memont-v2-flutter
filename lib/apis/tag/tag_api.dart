@@ -4,9 +4,9 @@ import 'package:memont_v2/models/delete_tag_dto/delete_tag_dto.dart';
 import 'package:memont_v2/models/tag_dto/tag_dto.dart';
 
 class TagApi {
-  var dio = DioIn().dio;
+  static final dio = DioIn().dio;
 
-  Future<List<TagDto>?> getList() async {
+  static Future<List<TagDto>?> getList() async {
     try {
       final res = await dio.get('/tag');
       final List<dynamic> responseData = res.data['result']['data'];
@@ -19,7 +19,7 @@ class TagApi {
     }
   }
 
-  void create(TagDto body) async {
+  static void create(TagDto body) async {
     try {
       final res = await dio.post(
         '/tag/create',
@@ -32,7 +32,7 @@ class TagApi {
     }
   }
 
-  void update(TagDto body) async {
+  static void update(TagDto body) async {
     try {
       final res = await dio.patch(
         '/tag/update/${body.id ?? 0}',
@@ -45,7 +45,7 @@ class TagApi {
     }
   }
 
-  void delete(DeleteTagDto body) async {
+  static void delete(DeleteTagDto body) async {
     try {
       final res = await dio.delete(
         '/tag/delete/${body.id}',

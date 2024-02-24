@@ -4,9 +4,9 @@ import 'package:memont_v2/models/login_dto/login_dto.dart';
 import 'package:memont_v2/models/token/token.dart';
 
 class AuthApi {
-  var dio = DioIn().dio;
+  static final dio = DioIn().dio;
 
-  Future<Token?> login(LoginDto body) async {
+  static Future<Token?> login(LoginDto body) async {
     try {
       final res = await dio.post(
         '/auth/login',

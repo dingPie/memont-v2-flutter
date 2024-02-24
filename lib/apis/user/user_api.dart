@@ -5,9 +5,9 @@ import 'package:memont_v2/models/user_dto/user_dto.dart';
 import 'package:memont_v2/models/user_setting_dto/user_setting_dto.dart';
 
 class TagApi {
-  var dio = DioIn().dio;
+  static final dio = DioIn().dio;
 
-  Future<UserDto?> getMe() async {
+  static Future<UserDto?> getMe() async {
     try {
       final res = await dio.get('/user/me');
       final UserDto responseData = res.data['result']['data'];
@@ -18,7 +18,7 @@ class TagApi {
     }
   }
 
-  void updateSetting(UserSettingDto body) async {
+  static void updateSetting(UserSettingDto body) async {
     try {
       final res = await dio.patch(
         '/user/update-setting',
@@ -31,7 +31,7 @@ class TagApi {
     }
   }
 
-  void withdrawal() async {
+  static void withdrawal() async {
     try {
       final res = await dio.delete(
         '/user/withdrawal',

@@ -3,9 +3,11 @@ import 'package:firebase_core/firebase_core.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:memont_v2/apis/common/palette_api.dart';
 import 'package:memont_v2/config/firebase_options.dart';
 import 'package:memont_v2/constants/key.dart';
 import 'package:memont_v2/global_state/provider/app_state.dart';
+import 'package:memont_v2/global_state/provider/tag_provider.dart';
 import 'package:memont_v2/global_state/singleton_storage.dart';
 import 'package:memont_v2/screens/router.dart';
 import 'package:memont_v2/theme/app_theme.dart';
@@ -31,6 +33,8 @@ Future main() async {
     SingletonStorage storage = SingletonStorage();
     String accessToken = result.data['result']['data']['accessToken'];
     storage.accessToken = accessToken;
+
+    storage.paletteList = await PaletteApi.getPalette();
 
     runApp(MyApp(
       isLogin: true,
@@ -62,6 +66,9 @@ final class MyApp extends StatelessWidget {
         ),
         ChangeNotifierProvider(
           create: (context) => AppState(isLogin: isLogin),
+        ),
+        ChangeNotifierProvider(
+          create: (context) => TagProvider(),
         ),
       ],
       builder: (context, _) => MaterialApp.router(
