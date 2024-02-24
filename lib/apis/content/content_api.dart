@@ -1,19 +1,27 @@
 import 'package:memont_v2/apis/dio.dart';
 import 'package:memont_v2/models/content_dto/content_dto.dart';
 import 'package:memont_v2/models/cursor_response.dart';
+import 'package:memont_v2/models/get_content_dto/get_content_dto.dart';
 
 class ContentApi {
   static final dio = DioIn().dio;
 
-  static Future<CursorResponse<ContentDto>?> getListByCursor() async {
+  static Future<CursorResponse<ContentDto>?> getListByCursor(
+      GetContentDto getContentDto) async {
     try {
-      final res = await dio.get('/content/by-cursor');
+      final res = await dio.get(
+        '/content/by-cursor',
+        queryParameters: getContentDto.toJson(),
+      );
       final List<dynamic> responseData = res.data['result']['data'];
       int? cursor = res.data['result']['cursor'];
+
       final contentList =
           responseData.map((v) => ContentDto.fromJson(v)).toList();
-      var result =
-          CursorResponse<ContentDto>(data: contentList, cursor: cursor);
+      var result = CursorResponse<ContentDto>(
+        data: List.from(contentList.reversed),
+        cursor: cursor,
+      );
 
       return result;
     } catch (err) {
@@ -25,7 +33,7 @@ class ContentApi {
   static void createMemo(ContentDto body) async {
     try {
       final res = await dio.post(
-        '/content/memo',
+        '/content/create/memo',
         data: body.toJson(),
       );
       print('res: ${res.toString()}');

@@ -28,6 +28,7 @@ mixin _$ContentDto {
   String? get tagName => throw _privateConstructorUsedError;
   int? get userId => throw _privateConstructorUsedError;
   int? get tagId => throw _privateConstructorUsedError;
+  TagDto? get tag => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -49,7 +50,10 @@ abstract class $ContentDtoCopyWith<$Res> {
       bool? pinned,
       String? tagName,
       int? userId,
-      int? tagId});
+      int? tagId,
+      TagDto? tag});
+
+  $TagDtoCopyWith<$Res>? get tag;
 }
 
 /// @nodoc
@@ -73,6 +77,7 @@ class _$ContentDtoCopyWithImpl<$Res, $Val extends ContentDto>
     Object? tagName = freezed,
     Object? userId = freezed,
     Object? tagId = freezed,
+    Object? tag = freezed,
   }) {
     return _then(_value.copyWith(
       id: freezed == id
@@ -107,7 +112,23 @@ class _$ContentDtoCopyWithImpl<$Res, $Val extends ContentDto>
           ? _value.tagId
           : tagId // ignore: cast_nullable_to_non_nullable
               as int?,
+      tag: freezed == tag
+          ? _value.tag
+          : tag // ignore: cast_nullable_to_non_nullable
+              as TagDto?,
     ) as $Val);
+  }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $TagDtoCopyWith<$Res>? get tag {
+    if (_value.tag == null) {
+      return null;
+    }
+
+    return $TagDtoCopyWith<$Res>(_value.tag!, (value) {
+      return _then(_value.copyWith(tag: value) as $Val);
+    });
   }
 }
 
@@ -127,7 +148,11 @@ abstract class _$$ContentDtoImplCopyWith<$Res>
       bool? pinned,
       String? tagName,
       int? userId,
-      int? tagId});
+      int? tagId,
+      TagDto? tag});
+
+  @override
+  $TagDtoCopyWith<$Res>? get tag;
 }
 
 /// @nodoc
@@ -149,6 +174,7 @@ class __$$ContentDtoImplCopyWithImpl<$Res>
     Object? tagName = freezed,
     Object? userId = freezed,
     Object? tagId = freezed,
+    Object? tag = freezed,
   }) {
     return _then(_$ContentDtoImpl(
       id: freezed == id
@@ -183,6 +209,10 @@ class __$$ContentDtoImplCopyWithImpl<$Res>
           ? _value.tagId
           : tagId // ignore: cast_nullable_to_non_nullable
               as int?,
+      tag: freezed == tag
+          ? _value.tag
+          : tag // ignore: cast_nullable_to_non_nullable
+              as TagDto?,
     ));
   }
 }
@@ -198,7 +228,8 @@ class _$ContentDtoImpl extends _ContentDto {
       this.pinned,
       this.tagName,
       this.userId,
-      this.tagId})
+      this.tagId,
+      this.tag})
       : super._();
 
   factory _$ContentDtoImpl.fromJson(Map<String, dynamic> json) =>
@@ -220,10 +251,12 @@ class _$ContentDtoImpl extends _ContentDto {
   final int? userId;
   @override
   final int? tagId;
+  @override
+  final TagDto? tag;
 
   @override
   String toString() {
-    return 'ContentDto(id: $id, contentType: $contentType, content: $content, isToBeDeleted: $isToBeDeleted, pinned: $pinned, tagName: $tagName, userId: $userId, tagId: $tagId)';
+    return 'ContentDto(id: $id, contentType: $contentType, content: $content, isToBeDeleted: $isToBeDeleted, pinned: $pinned, tagName: $tagName, userId: $userId, tagId: $tagId, tag: $tag)';
   }
 
   @override
@@ -240,13 +273,14 @@ class _$ContentDtoImpl extends _ContentDto {
             (identical(other.pinned, pinned) || other.pinned == pinned) &&
             (identical(other.tagName, tagName) || other.tagName == tagName) &&
             (identical(other.userId, userId) || other.userId == userId) &&
-            (identical(other.tagId, tagId) || other.tagId == tagId));
+            (identical(other.tagId, tagId) || other.tagId == tagId) &&
+            (identical(other.tag, tag) || other.tag == tag));
   }
 
   @JsonKey(ignore: true)
   @override
   int get hashCode => Object.hash(runtimeType, id, contentType, content,
-      isToBeDeleted, pinned, tagName, userId, tagId);
+      isToBeDeleted, pinned, tagName, userId, tagId, tag);
 
   @JsonKey(ignore: true)
   @override
@@ -271,7 +305,8 @@ abstract class _ContentDto extends ContentDto {
       final bool? pinned,
       final String? tagName,
       final int? userId,
-      final int? tagId}) = _$ContentDtoImpl;
+      final int? tagId,
+      final TagDto? tag}) = _$ContentDtoImpl;
   _ContentDto._() : super._();
 
   factory _ContentDto.fromJson(Map<String, dynamic> json) =
@@ -293,6 +328,8 @@ abstract class _ContentDto extends ContentDto {
   int? get userId;
   @override
   int? get tagId;
+  @override
+  TagDto? get tag;
   @override
   @JsonKey(ignore: true)
   _$$ContentDtoImplCopyWith<_$ContentDtoImpl> get copyWith =>

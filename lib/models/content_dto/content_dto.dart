@@ -1,9 +1,9 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:memont_v2/models/tag_dto/tag_dto.dart';
 
 part 'content_dto.freezed.dart';
 part 'content_dto.g.dart';
 
-// P_TODO: 샘플 코드입니다.
 @freezed
 class ContentDto with _$ContentDto {
   // constructor 및 본인을 반환하는 factory를 만들어주는 기본 문법
@@ -16,6 +16,7 @@ class ContentDto with _$ContentDto {
     String? tagName,
     int? userId,
     int? tagId,
+    TagDto? tag,
   }) = _ContentDto;
 
   // json 확장
