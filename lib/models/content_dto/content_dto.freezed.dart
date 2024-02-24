@@ -23,8 +23,8 @@ mixin _$ContentDto {
   int? get id => throw _privateConstructorUsedError;
   String? get contentType => throw _privateConstructorUsedError;
   String get content => throw _privateConstructorUsedError;
-  bool get isToBeDeleted => throw _privateConstructorUsedError;
-  bool get pinned => throw _privateConstructorUsedError;
+  bool? get isToBeDeleted => throw _privateConstructorUsedError;
+  bool? get pinned => throw _privateConstructorUsedError;
   String? get tagName => throw _privateConstructorUsedError;
   int? get userId => throw _privateConstructorUsedError;
   int? get tagId => throw _privateConstructorUsedError;
@@ -45,8 +45,8 @@ abstract class $ContentDtoCopyWith<$Res> {
       {int? id,
       String? contentType,
       String content,
-      bool isToBeDeleted,
-      bool pinned,
+      bool? isToBeDeleted,
+      bool? pinned,
       String? tagName,
       int? userId,
       int? tagId});
@@ -68,8 +68,8 @@ class _$ContentDtoCopyWithImpl<$Res, $Val extends ContentDto>
     Object? id = freezed,
     Object? contentType = freezed,
     Object? content = null,
-    Object? isToBeDeleted = null,
-    Object? pinned = null,
+    Object? isToBeDeleted = freezed,
+    Object? pinned = freezed,
     Object? tagName = freezed,
     Object? userId = freezed,
     Object? tagId = freezed,
@@ -87,14 +87,14 @@ class _$ContentDtoCopyWithImpl<$Res, $Val extends ContentDto>
           ? _value.content
           : content // ignore: cast_nullable_to_non_nullable
               as String,
-      isToBeDeleted: null == isToBeDeleted
+      isToBeDeleted: freezed == isToBeDeleted
           ? _value.isToBeDeleted
           : isToBeDeleted // ignore: cast_nullable_to_non_nullable
-              as bool,
-      pinned: null == pinned
+              as bool?,
+      pinned: freezed == pinned
           ? _value.pinned
           : pinned // ignore: cast_nullable_to_non_nullable
-              as bool,
+              as bool?,
       tagName: freezed == tagName
           ? _value.tagName
           : tagName // ignore: cast_nullable_to_non_nullable
@@ -123,8 +123,8 @@ abstract class _$$ContentDtoImplCopyWith<$Res>
       {int? id,
       String? contentType,
       String content,
-      bool isToBeDeleted,
-      bool pinned,
+      bool? isToBeDeleted,
+      bool? pinned,
       String? tagName,
       int? userId,
       int? tagId});
@@ -144,8 +144,8 @@ class __$$ContentDtoImplCopyWithImpl<$Res>
     Object? id = freezed,
     Object? contentType = freezed,
     Object? content = null,
-    Object? isToBeDeleted = null,
-    Object? pinned = null,
+    Object? isToBeDeleted = freezed,
+    Object? pinned = freezed,
     Object? tagName = freezed,
     Object? userId = freezed,
     Object? tagId = freezed,
@@ -163,14 +163,14 @@ class __$$ContentDtoImplCopyWithImpl<$Res>
           ? _value.content
           : content // ignore: cast_nullable_to_non_nullable
               as String,
-      isToBeDeleted: null == isToBeDeleted
+      isToBeDeleted: freezed == isToBeDeleted
           ? _value.isToBeDeleted
           : isToBeDeleted // ignore: cast_nullable_to_non_nullable
-              as bool,
-      pinned: null == pinned
+              as bool?,
+      pinned: freezed == pinned
           ? _value.pinned
           : pinned // ignore: cast_nullable_to_non_nullable
-              as bool,
+              as bool?,
       tagName: freezed == tagName
           ? _value.tagName
           : tagName // ignore: cast_nullable_to_non_nullable
@@ -194,8 +194,8 @@ class _$ContentDtoImpl extends _ContentDto {
       {this.id,
       this.contentType,
       required this.content,
-      required this.isToBeDeleted,
-      required this.pinned,
+      this.isToBeDeleted,
+      this.pinned,
       this.tagName,
       this.userId,
       this.tagId})
@@ -211,9 +211,9 @@ class _$ContentDtoImpl extends _ContentDto {
   @override
   final String content;
   @override
-  final bool isToBeDeleted;
+  final bool? isToBeDeleted;
   @override
-  final bool pinned;
+  final bool? pinned;
   @override
   final String? tagName;
   @override
@@ -267,8 +267,8 @@ abstract class _ContentDto extends ContentDto {
       {final int? id,
       final String? contentType,
       required final String content,
-      required final bool isToBeDeleted,
-      required final bool pinned,
+      final bool? isToBeDeleted,
+      final bool? pinned,
       final String? tagName,
       final int? userId,
       final int? tagId}) = _$ContentDtoImpl;
@@ -284,9 +284,9 @@ abstract class _ContentDto extends ContentDto {
   @override
   String get content;
   @override
-  bool get isToBeDeleted;
+  bool? get isToBeDeleted;
   @override
-  bool get pinned;
+  bool? get pinned;
   @override
   String? get tagName;
   @override

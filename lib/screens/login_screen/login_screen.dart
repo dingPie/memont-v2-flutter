@@ -30,22 +30,34 @@ class LoginScreen extends StatelessWidget {
     var appState = context.watch<AppState>();
     var colors = context.colors;
     var textStyle = context.textStyle;
-    var authApi = AuthApi();
 
     void onPressSocialLoginButton(String snsType) async {
       LoginDto? body;
 
       try {
         if (snsType == 'google') {
-          final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
+          GoogleAuthProvider googleProvider = GoogleAuthProvider();
+          var googleAuth =
+              await FirebaseAuth.instance.signInWithProvider(googleProvider);
 
           body = LoginDto(
-            loginId: googleUser?.email ?? "",
-            providerUid: googleUser?.id ?? "",
+            loginId: googleAuth.user?.email ?? "",
+            providerUid: googleAuth.user?.uid ?? "",
             fcmToken: 'fcmToken', // P_TODO: 이건 따로 가져오기 .
-            userName: googleUser?.displayName ?? "",
-            provider: 'google.com',
+            userName:
+                googleAuth.user?.displayName ?? "", // P_TODO: 이름 없는 케이스가 있네..?
+            provider: googleAuth.user?.providerData[0].providerId ?? "",
           );
+
+          // final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
+
+          // body = LoginDto(
+          //   loginId: googleUser?.email ?? "",
+          //   providerUid: googleUser?.id ?? "",
+          //   fcmToken: 'fcmToken', // P_TODO: 이건 따로 가져오기 .
+          //   userName: googleUser?.displayName ?? "",
+          //   provider: 'google.com',
+          // );
         } else if (snsType == 'github') {
           GithubAuthProvider githubProvider = GithubAuthProvider();
           var githubAuth =
@@ -63,7 +75,7 @@ class LoginScreen extends StatelessWidget {
         appState.isLoading = true;
 
         final SharedPreferences prefs = await SharedPreferences.getInstance();
-        var res = await authApi.login(body!);
+        var res = await AuthApi.login(body!);
         storage.accessToken = res?.accessToken;
         prefs.setString(KEY.REFRESH_TOKEN, res?.refreshToken ?? '');
         prefs.setString(KEY.PROVIDER_UID, body.providerUid);

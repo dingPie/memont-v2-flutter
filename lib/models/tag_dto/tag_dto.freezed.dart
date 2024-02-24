@@ -21,8 +21,7 @@ TagDto _$TagDtoFromJson(Map<String, dynamic> json) {
 /// @nodoc
 mixin _$TagDto {
   int? get id => throw _privateConstructorUsedError;
-  String get name =>
-      throw _privateConstructorUsedError; // P_TODO: required 제거. 이유는 모름...
+  String get name => throw _privateConstructorUsedError;
   String? get colorString => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -126,7 +125,6 @@ class _$TagDtoImpl extends _TagDto {
   final int? id;
   @override
   final String name;
-// P_TODO: required 제거. 이유는 모름...
   @override
   final String? colorString;
 
@@ -177,7 +175,7 @@ abstract class _TagDto extends TagDto {
   int? get id;
   @override
   String get name;
-  @override // P_TODO: required 제거. 이유는 모름...
+  @override
   String? get colorString;
   @override
   @JsonKey(ignore: true)

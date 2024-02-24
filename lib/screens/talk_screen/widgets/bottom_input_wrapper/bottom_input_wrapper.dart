@@ -6,9 +6,11 @@ class BottomInputWrapper extends StatefulWidget {
   const BottomInputWrapper({
     super.key,
     required this.onPressSaveMemoButton,
+    required this.onChangeTextInput,
   });
 
   final void Function() onPressSaveMemoButton;
+  final void Function(String text) onChangeTextInput;
 
   @override
   State<BottomInputWrapper> createState() => _BottomInputWrapperState();
@@ -18,15 +20,11 @@ class _BottomInputWrapperState extends State<BottomInputWrapper> {
   bool isToggleTagMenu = false;
 
   void onOpenTagMenu() {
-    setState(() {
-      isToggleTagMenu = true;
-    });
+    setState(() => isToggleTagMenu = true);
   }
 
   void onCloseTagMenu() {
-    setState(() {
-      isToggleTagMenu = false;
-    });
+    setState(() => isToggleTagMenu = false);
   }
 
   @override
@@ -61,6 +59,9 @@ class _BottomInputWrapperState extends State<BottomInputWrapper> {
               children: [
                 Expanded(
                   child: TextField(
+                    onChanged: widget.onChangeTextInput,
+                    onTap: onOpenTagMenu,
+                    onTapOutside: (PointerDownEvent event) => onCloseTagMenu(),
                     decoration: InputDecoration(
                       hintText: '내용과 #으로 태그를 붙여주세요',
                       contentPadding: const EdgeInsets.all(12),
@@ -76,8 +77,6 @@ class _BottomInputWrapperState extends State<BottomInputWrapper> {
                         ),
                       ),
                     ),
-                    onTap: onOpenTagMenu,
-                    onTapOutside: (PointerDownEvent event) => onCloseTagMenu(),
                   ),
                 ),
                 const SizedBox(
