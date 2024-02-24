@@ -7,10 +7,12 @@ class BottomInputWrapper extends StatefulWidget {
     super.key,
     required this.onPressSaveMemoButton,
     required this.onChangeTextInput,
+    required this.bottomInputController,
   });
 
   final void Function() onPressSaveMemoButton;
   final void Function(String text) onChangeTextInput;
+  final TextEditingController bottomInputController;
 
   @override
   State<BottomInputWrapper> createState() => _BottomInputWrapperState();
@@ -59,6 +61,7 @@ class _BottomInputWrapperState extends State<BottomInputWrapper> {
               children: [
                 Expanded(
                   child: TextField(
+                    controller: widget.bottomInputController,
                     onChanged: widget.onChangeTextInput,
                     onTap: onOpenTagMenu,
                     onTapOutside: (PointerDownEvent event) => onCloseTagMenu(),

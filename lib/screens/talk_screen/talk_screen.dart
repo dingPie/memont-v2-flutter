@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:memont_v2/apis/content/content_api.dart';
 
 import 'package:memont_v2/apis/tag/tag_api.dart';
 
@@ -10,6 +11,8 @@ import 'package:memont_v2/global_state/provider/tag_provider.dart';
 import 'package:memont_v2/global_state/singleton_storage.dart';
 
 import 'package:memont_v2/global_state/provider/app_state.dart';
+import 'package:memont_v2/models/content_dto/content_dto.dart';
+import 'package:memont_v2/models/get_content_dto/get_content_dto.dart';
 
 import 'package:memont_v2/screens/login_screen/widgets/common_app_bar/app_bar_icon_button.dart';
 import 'package:memont_v2/screens/login_screen/widgets/common_app_bar/common_app_bar.dart';
@@ -30,9 +33,10 @@ class TalkScreen extends StatefulWidget {
 }
 
 class _TalkScreenState extends State<TalkScreen> {
+  TextEditingController bottomInputController = TextEditingController();
   String textInput = '';
 
-  final PagingController<int, int> _pagingController = // ContentDto
+  final PagingController<int, ContentDto> _pagingController = // ContentDto
       PagingController(firstPageKey: 0);
 
   void onChangeTextInput(String text) => setState(() => textInput = text);
@@ -52,16 +56,19 @@ class _TalkScreenState extends State<TalkScreen> {
     }
   }
 
+  // 무한스크롤 형식으로 데이터 받이오기
   Future<void> getContentInfinityScroll(int pageKey) async {
     try {
       await Future.delayed(const Duration(seconds: 1));
-      // P_TODO: 목록 불러오기 임시값. content api 써야함.
-      final nextPageKey = pageKey + 1; // 1페이지 더하기
-      if (nextPageKey < 5) {
-        _pagingController
-            .appendPage([1, 2, 3, 4, 5, 6, 7, 8, 9, 10], nextPageKey);
+      GetContentDto getContentDto = GetContentDto(cursor: pageKey);
+      var contentList = await ContentApi.getListByCursor(getContentDto);
+      if (contentList == null) throw '';
+
+      bool isLast = contentList.cursor == null;
+      if (isLast) {
+        _pagingController.appendLastPage(contentList.data);
       } else {
-        _pagingController.appendLastPage([1, 2, 3]);
+        _pagingController.appendPage(contentList.data, contentList.cursor);
       }
     } catch (e) {
       print("memo content 불러오기 에러: $e");
@@ -93,15 +100,24 @@ class _TalkScreenState extends State<TalkScreen> {
     var textStyle = context.textStyle;
     SingletonStorage storage = SingletonStorage();
 
-    void onPressSaveMemoButton() {
-      // P_TODO: + 눌러서 저장.
-      var arr = textInput.split('#');
+    // P_TODO: + 눌러서 저장.
+    void onPressSaveMemoButton() async {
+      var arr = bottomInputController.text.split('#');
       String content = arr[0].trim();
-      bool hasTag = arr.asMap().containsKey(1);
       if (content == '') return;
-      // String? content = arr[0];
-      // String #dfdf? tag = arr?[1];
-      print('저장 OR 수정 $arr');
+
+      bool hasTag = arr.asMap().containsKey(1);
+      String? tagName = hasTag ? arr[1] : null;
+      onChangeTextInput('');
+      var contentDto = ContentDto(content: content, tagName: tagName);
+      ContentApi.createMemo(contentDto);
+
+      setState(() {
+        bottomInputController.clear();
+      });
+      // P_TODO: 항목에 넣어주는거 필요함.
+      // P_TODO: 아래가 최신 값이어야 함. (api 단에서 하자..)
+      // P_TODO: 값 추가후 추가된 값을 반환하도록 서버로직도 바꿔야겠네 ...;
     }
 
 // P_MEMO: 눌렀을 때 input을 닫기 위함.
@@ -133,16 +149,17 @@ class _TalkScreenState extends State<TalkScreen> {
 
               // P_MEMO: 아이템 영역
               Expanded(
-                child: PagedListView<int, int>(
-                  reverse: true,
+                child: PagedListView<int, ContentDto>(
                   pagingController: _pagingController, //저장했던 정보들
-                  builderDelegate: PagedChildBuilderDelegate<int>(
+                  reverse: true,
+
+                  builderDelegate: PagedChildBuilderDelegate<ContentDto>(
                     itemBuilder: (context, item, index) => Padding(
                       padding: const EdgeInsets.all(15.0),
                       child: Text(
-                        // P_TODO: 아이템 UI.
-                        'TEST $index',
-                        style: textStyle.display['sm']?.copyWith(
+                        // P_TODO: 아이템 UI. 그려야함.
+                        '${item.content} ${item.id}',
+                        style: textStyle.heading['lg']?.copyWith(
                           color: colors.primary[500],
                         ),
                       ),
@@ -155,7 +172,8 @@ class _TalkScreenState extends State<TalkScreen> {
               BottomInputWrapper(
                 onPressSaveMemoButton: onPressSaveMemoButton,
                 onChangeTextInput: onChangeTextInput,
-              )
+                bottomInputController: bottomInputController,
+              ),
             ],
           ),
         ),
