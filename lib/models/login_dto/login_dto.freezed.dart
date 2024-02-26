@@ -204,11 +204,21 @@ class _$LoginDtoImpl extends _LoginDto {
   _$$LoginDtoImplCopyWith<_$LoginDtoImpl> get copyWith =>
       __$$LoginDtoImplCopyWithImpl<_$LoginDtoImpl>(this, _$identity);
 
+  // @override
+  // Map<String, dynamic> toJson() {
+  //   return _$$LoginDtoImplToJson(
+  //     this,
+  //   );
+  // }
+
+  // P_MEMO null 삭제 로직 추가, 테스트 전이라 이전로직 삭제하지 않음.
   @override
   Map<String, dynamic> toJson() {
-    return _$$LoginDtoImplToJson(
+    var result = _$$LoginDtoImplToJson(
       this,
     );
+    result.removeWhere((key, value) => value == null);
+    return result;
   }
 }
 

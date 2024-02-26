@@ -143,11 +143,14 @@ class _$DeleteTagDtoImpl extends _DeleteTagDto {
   _$$DeleteTagDtoImplCopyWith<_$DeleteTagDtoImpl> get copyWith =>
       __$$DeleteTagDtoImplCopyWithImpl<_$DeleteTagDtoImpl>(this, _$identity);
 
+  // P_MEMO null 삭제 로직 추가
   @override
   Map<String, dynamic> toJson() {
-    return _$$DeleteTagDtoImplToJson(
+    var result = _$$DeleteTagDtoImplToJson(
       this,
     );
+    result.removeWhere((key, value) => value == null);
+    return result;
   }
 }
 

@@ -156,11 +156,21 @@ class _$GetContentDtoImpl extends _GetContentDto {
   _$$GetContentDtoImplCopyWith<_$GetContentDtoImpl> get copyWith =>
       __$$GetContentDtoImplCopyWithImpl<_$GetContentDtoImpl>(this, _$identity);
 
+  // @override
+  // Map<String, dynamic> toJson() {
+  //   return _$$GetContentDtoImplToJson(
+  //     this,
+  //   );
+  // }
+
+  // P_MEMO null 삭제 로직 추가, 테스트 전이라 이전로직 삭제하지 않음.
   @override
   Map<String, dynamic> toJson() {
-    return _$$GetContentDtoImplToJson(
+    var result = _$$GetContentDtoImplToJson(
       this,
     );
+    result.removeWhere((key, value) => value == null);
+    return result;
   }
 }
 

@@ -306,11 +306,14 @@ class _$ContentDtoImpl extends _ContentDto {
   _$$ContentDtoImplCopyWith<_$ContentDtoImpl> get copyWith =>
       __$$ContentDtoImplCopyWithImpl<_$ContentDtoImpl>(this, _$identity);
 
+  // P_MEMO null 삭제 로직 추가
   @override
   Map<String, dynamic> toJson() {
-    return _$$ContentDtoImplToJson(
+    var result = _$$ContentDtoImplToJson(
       this,
     );
+    result.removeWhere((key, value) => value == null);
+    return result;
   }
 }
 

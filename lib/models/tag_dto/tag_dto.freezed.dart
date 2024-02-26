@@ -153,11 +153,21 @@ class _$TagDtoImpl extends _TagDto {
   _$$TagDtoImplCopyWith<_$TagDtoImpl> get copyWith =>
       __$$TagDtoImplCopyWithImpl<_$TagDtoImpl>(this, _$identity);
 
+  // @override
+  // Map<String, dynamic> toJson() {
+  //   return _$$TagDtoImplToJson(
+  //     this,
+  //   );
+  // }
+
+  // P_MEMO null 삭제 로직 추가, 테스트 전이라 이전로직 삭제하지 않음.
   @override
   Map<String, dynamic> toJson() {
-    return _$$TagDtoImplToJson(
+    var result = _$$TagDtoImplToJson(
       this,
     );
+    result.removeWhere((key, value) => value == null);
+    return result;
   }
 }
 

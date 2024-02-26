@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 import 'package:memont_v2/config/build_context_extension.dart';
 
 import 'package:memont_v2/screens/talk_screen/widgets/memo_item.dart/memo_item.dart';
@@ -87,22 +86,22 @@ class BaseMemoItem extends MemoItem {
             ),
           ],
         ),
-        // 하단 날짜. 선택시에만 보여줄까?
         const SizedBox(height: 2),
-        Align(
-          alignment: Alignment.centerRight,
-          child: Text(
-            DateFormat("yy.MM.dd a hh:mm").format(
-              DateTime.parse(
-                content.updatedAt ?? '',
-              ),
-            ),
-            style: textStyle.detail['md']?.copyWith(
-              color: colors.black,
-            ),
-            textAlign: TextAlign.right,
-          ),
-        ),
+        // P_TODO: 하단 날짜. 선택시에만 보여줄까?
+        // Align(
+        //   alignment: Alignment.centerRight,
+        //   child: Text(
+        //     DateFormat("yy.MM.dd a hh:mm").format(
+        //       DateTime.parse(
+        //         content.updatedAt ?? '',
+        //       ),
+        //     ),
+        //     style: textStyle.detail['md']?.copyWith(
+        //       color: colors.black,
+        //     ),
+        //     textAlign: TextAlign.right,
+        //   ),
+        // ),
       ],
     );
   }

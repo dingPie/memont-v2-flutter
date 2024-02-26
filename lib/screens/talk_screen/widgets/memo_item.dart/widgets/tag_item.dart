@@ -24,7 +24,7 @@ class TagItem extends StatelessWidget {
       clipBehavior: Clip.hardEdge,
       padding: const EdgeInsets.symmetric(
         horizontal: 6,
-        vertical: 4,
+        vertical: 2,
       ),
       decoration: BoxDecoration(
         color: content.tag != null

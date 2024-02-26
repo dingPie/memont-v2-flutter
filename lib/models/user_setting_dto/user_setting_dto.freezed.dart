@@ -162,11 +162,21 @@ class _$UserSettingDtoImpl extends _UserSettingDto {
       __$$UserSettingDtoImplCopyWithImpl<_$UserSettingDtoImpl>(
           this, _$identity);
 
+  // @override
+  // Map<String, dynamic> toJson() {
+  //   return _$$UserSettingDtoImplToJson(
+  //     this,
+  //   );
+  // }
+
+  // P_MEMO null 삭제 로직 추가, 테스트 전이라 이전로직 삭제하지 않음.
   @override
   Map<String, dynamic> toJson() {
-    return _$$UserSettingDtoImplToJson(
+    var result = _$$UserSettingDtoImplToJson(
       this,
     );
+    result.removeWhere((key, value) => value == null);
+    return result;
   }
 }
 

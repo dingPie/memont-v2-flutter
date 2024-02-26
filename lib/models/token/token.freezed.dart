@@ -142,11 +142,21 @@ class _$TokenImpl extends _Token {
   _$$TokenImplCopyWith<_$TokenImpl> get copyWith =>
       __$$TokenImplCopyWithImpl<_$TokenImpl>(this, _$identity);
 
+  // @override
+  // Map<String, dynamic> toJson() {
+  //   return _$$TokenImplToJson(
+  //     this,
+  //   );
+  // }
+
+  // P_MEMO null 삭제 로직 추가, 테스트 전이라 이전로직 삭제하지 않음.
   @override
   Map<String, dynamic> toJson() {
-    return _$$TokenImplToJson(
+    var result = _$$TokenImplToJson(
       this,
     );
+    result.removeWhere((key, value) => value == null);
+    return result;
   }
 }
 
