@@ -17,11 +17,16 @@ import 'package:memont_v2/models/get_content_dto/get_content_dto.dart';
 import 'package:memont_v2/screens/login_screen/widgets/common_app_bar/app_bar_icon_button.dart';
 import 'package:memont_v2/screens/login_screen/widgets/common_app_bar/common_app_bar.dart';
 import 'package:memont_v2/screens/talk_screen/widgets/bottom_input_wrapper/bottom_input_wrapper.dart';
+import 'package:memont_v2/screens/talk_screen/widgets/memo_item.dart/memo_item.dart';
+import 'package:memont_v2/utils/util_method.dart';
 
 import 'package:memont_v2/widgets/common_layout.dart';
+import 'package:memont_v2/widgets/pressable.dart';
 import 'package:provider/provider.dart';
 
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
+
+import 'package:intl/intl.dart';
 
 class TalkScreen extends StatefulWidget {
   const TalkScreen({
@@ -35,8 +40,9 @@ class TalkScreen extends StatefulWidget {
 class _TalkScreenState extends State<TalkScreen> {
   TextEditingController bottomInputController = TextEditingController();
   String textInput = '';
+  ContentDto? selectedContent;
 
-  final PagingController<int, ContentDto> _pagingController = // ContentDto
+  final PagingController<int, ContentDto> pagingController = // ContentDto
       PagingController(firstPageKey: 0);
 
   void onChangeTextInput(String text) => setState(() => textInput = text);
@@ -64,22 +70,37 @@ class _TalkScreenState extends State<TalkScreen> {
       var contentList = await ContentApi.getListByCursor(getContentDto);
       if (contentList == null) throw '';
 
+      print("TEST ${contentList.data}");
+
       bool isLast = contentList.cursor == null;
       if (isLast) {
-        _pagingController.appendLastPage(contentList.data);
+        pagingController.appendLastPage(contentList.data);
       } else {
-        _pagingController.appendPage(contentList.data, contentList.cursor);
+        pagingController.appendPage(contentList.data, contentList.cursor);
       }
     } catch (e) {
       print("memo content 불러오기 에러: $e");
-      _pagingController.error = e;
+      pagingController.error = e;
     }
+  }
+
+  // 아이템 더보기 버튼 클릭
+  void onPressItemMoreButton(ContentDto content) {
+    // P_TODO: 선택한 메뉴 띄워주는거 구현해야 함.
+    print('${content.id}');
+    setState(() {
+      if (selectedContent?.id == content.id) {
+        selectedContent = null;
+      } else {
+        selectedContent = content;
+      }
+    });
   }
 
   @override
   void initState() {
     super.initState();
-    _pagingController.addPageRequestListener((pageKey) {
+    pagingController.addPageRequestListener((pageKey) {
       getContentInfinityScroll(pageKey);
     });
     // P_MEMO: 빌드가 끝나는 시점에 실행함.
@@ -98,6 +119,7 @@ class _TalkScreenState extends State<TalkScreen> {
     var tagProvider = context.watch<TagProvider>();
     var colors = context.colors;
     var textStyle = context.textStyle;
+
     SingletonStorage storage = SingletonStorage();
 
     // P_TODO: + 눌러서 저장.
@@ -112,6 +134,8 @@ class _TalkScreenState extends State<TalkScreen> {
       var contentDto = ContentDto(content: content, tagName: tagName);
       ContentApi.createMemo(contentDto);
 
+      // pagingController.
+
       setState(() {
         bottomInputController.clear();
       });
@@ -120,11 +144,17 @@ class _TalkScreenState extends State<TalkScreen> {
       // P_TODO: 값 추가후 추가된 값을 반환하도록 서버로직도 바꿔야겠네 ...;
     }
 
+    void onPressItemUnTagButton(ContentDto content) {
+      // P_TODO: 사용할지 말지 모름. 태그 변환.
+      print('${content.id}');
+    }
+
 // P_MEMO: 눌렀을 때 input을 닫기 위함.
     return GestureDetector(
       onTap: () => FocusScope.of(context).unfocus(),
       child: CommonLayout(
         child: Scaffold(
+          backgroundColor: colors.gray[100],
           // P_TODO: 이거 웹에서는 어떻게 나오는지 확인해야 함
           appBar: const PreferredSize(
             preferredSize: Size.fromHeight(60.0),
@@ -150,18 +180,18 @@ class _TalkScreenState extends State<TalkScreen> {
               // P_MEMO: 아이템 영역
               Expanded(
                 child: PagedListView<int, ContentDto>(
-                  pagingController: _pagingController, //저장했던 정보들
+                  pagingController: pagingController, //저장했던 정보들
                   reverse: true,
-
+                  padding: const EdgeInsets.symmetric(horizontal: 16),
                   builderDelegate: PagedChildBuilderDelegate<ContentDto>(
                     itemBuilder: (context, item, index) => Padding(
-                      padding: const EdgeInsets.all(15.0),
-                      child: Text(
-                        // P_TODO: 아이템 UI. 그려야함.
-                        '${item.content} ${item.id}',
-                        style: textStyle.heading['lg']?.copyWith(
-                          color: colors.primary[500],
-                        ),
+                      padding: const EdgeInsets.only(bottom: 4),
+                      // P_TODO: 확장되면 태그가 여기로 나와야 함.
+                      child: MemoItem(
+                        content: item,
+                        isSelected: item.id == selectedContent?.id,
+                        onPressItemMoreButton: onPressItemMoreButton,
+                        onPressItemUnTagButton: onPressItemUnTagButton,
                       ),
                     ),
                   ),

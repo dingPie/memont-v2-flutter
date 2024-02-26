@@ -73,11 +73,11 @@ class AppTypography {
       fontWeight: FontWeight.w400,
     ),
     'md': TextStyle(
-      fontSize: 10,
+      fontSize: 11,
       fontWeight: FontWeight.w400,
     ),
     'sm': TextStyle(
-      fontSize: 8,
+      fontSize: 10,
       fontWeight: FontWeight.w400,
     )
   };
