@@ -19,6 +19,7 @@ _$ContentDtoImpl _$$ContentDtoImplFromJson(Map<String, dynamic> json) =>
       tag: json['tag'] == null
           ? null
           : TagDto.fromJson(json['tag'] as Map<String, dynamic>),
+      updatedAt: json['updatedAt'] as String?,
     );
 
 Map<String, dynamic> _$$ContentDtoImplToJson(_$ContentDtoImpl instance) =>
@@ -32,4 +33,5 @@ Map<String, dynamic> _$$ContentDtoImplToJson(_$ContentDtoImpl instance) =>
       'userId': instance.userId,
       'tagId': instance.tagId,
       'tag': instance.tag?.toJson(),
+      'updatedAt': instance.updatedAt,
     };

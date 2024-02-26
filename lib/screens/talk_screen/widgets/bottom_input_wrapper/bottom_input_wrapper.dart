@@ -61,6 +61,7 @@ class _BottomInputWrapperState extends State<BottomInputWrapper> {
               children: [
                 Expanded(
                   child: TextField(
+                    maxLines: null,
                     controller: widget.bottomInputController,
                     onChanged: widget.onChangeTextInput,
                     onTap: onOpenTagMenu,

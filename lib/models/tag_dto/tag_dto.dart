@@ -9,7 +9,7 @@ class TagDto with _$TagDto {
   factory TagDto({
     int? id,
     required String name,
-    String? colorString,
+    String? color,
   }) = _TagDto;
 
   // json 확장

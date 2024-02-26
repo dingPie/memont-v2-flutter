@@ -17,6 +17,7 @@ class ContentDto with _$ContentDto {
     int? userId,
     int? tagId,
     TagDto? tag,
+    String? updatedAt,
   }) = _ContentDto;
 
   // json 확장

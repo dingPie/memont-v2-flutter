@@ -29,6 +29,7 @@ mixin _$ContentDto {
   int? get userId => throw _privateConstructorUsedError;
   int? get tagId => throw _privateConstructorUsedError;
   TagDto? get tag => throw _privateConstructorUsedError;
+  String? get updatedAt => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -51,7 +52,8 @@ abstract class $ContentDtoCopyWith<$Res> {
       String? tagName,
       int? userId,
       int? tagId,
-      TagDto? tag});
+      TagDto? tag,
+      String? updatedAt});
 
   $TagDtoCopyWith<$Res>? get tag;
 }
@@ -78,6 +80,7 @@ class _$ContentDtoCopyWithImpl<$Res, $Val extends ContentDto>
     Object? userId = freezed,
     Object? tagId = freezed,
     Object? tag = freezed,
+    Object? updatedAt = freezed,
   }) {
     return _then(_value.copyWith(
       id: freezed == id
@@ -116,6 +119,10 @@ class _$ContentDtoCopyWithImpl<$Res, $Val extends ContentDto>
           ? _value.tag
           : tag // ignore: cast_nullable_to_non_nullable
               as TagDto?,
+      updatedAt: freezed == updatedAt
+          ? _value.updatedAt
+          : updatedAt // ignore: cast_nullable_to_non_nullable
+              as String?,
     ) as $Val);
   }
 
@@ -149,7 +156,8 @@ abstract class _$$ContentDtoImplCopyWith<$Res>
       String? tagName,
       int? userId,
       int? tagId,
-      TagDto? tag});
+      TagDto? tag,
+      String? updatedAt});
 
   @override
   $TagDtoCopyWith<$Res>? get tag;
@@ -175,6 +183,7 @@ class __$$ContentDtoImplCopyWithImpl<$Res>
     Object? userId = freezed,
     Object? tagId = freezed,
     Object? tag = freezed,
+    Object? updatedAt = freezed,
   }) {
     return _then(_$ContentDtoImpl(
       id: freezed == id
@@ -213,6 +222,10 @@ class __$$ContentDtoImplCopyWithImpl<$Res>
           ? _value.tag
           : tag // ignore: cast_nullable_to_non_nullable
               as TagDto?,
+      updatedAt: freezed == updatedAt
+          ? _value.updatedAt
+          : updatedAt // ignore: cast_nullable_to_non_nullable
+              as String?,
     ));
   }
 }
@@ -229,7 +242,8 @@ class _$ContentDtoImpl extends _ContentDto {
       this.tagName,
       this.userId,
       this.tagId,
-      this.tag})
+      this.tag,
+      this.updatedAt})
       : super._();
 
   factory _$ContentDtoImpl.fromJson(Map<String, dynamic> json) =>
@@ -253,10 +267,12 @@ class _$ContentDtoImpl extends _ContentDto {
   final int? tagId;
   @override
   final TagDto? tag;
+  @override
+  final String? updatedAt;
 
   @override
   String toString() {
-    return 'ContentDto(id: $id, contentType: $contentType, content: $content, isToBeDeleted: $isToBeDeleted, pinned: $pinned, tagName: $tagName, userId: $userId, tagId: $tagId, tag: $tag)';
+    return 'ContentDto(id: $id, contentType: $contentType, content: $content, isToBeDeleted: $isToBeDeleted, pinned: $pinned, tagName: $tagName, userId: $userId, tagId: $tagId, tag: $tag, updatedAt: $updatedAt)';
   }
 
   @override
@@ -274,13 +290,15 @@ class _$ContentDtoImpl extends _ContentDto {
             (identical(other.tagName, tagName) || other.tagName == tagName) &&
             (identical(other.userId, userId) || other.userId == userId) &&
             (identical(other.tagId, tagId) || other.tagId == tagId) &&
-            (identical(other.tag, tag) || other.tag == tag));
+            (identical(other.tag, tag) || other.tag == tag) &&
+            (identical(other.updatedAt, updatedAt) ||
+                other.updatedAt == updatedAt));
   }
 
   @JsonKey(ignore: true)
   @override
   int get hashCode => Object.hash(runtimeType, id, contentType, content,
-      isToBeDeleted, pinned, tagName, userId, tagId, tag);
+      isToBeDeleted, pinned, tagName, userId, tagId, tag, updatedAt);
 
   @JsonKey(ignore: true)
   @override
@@ -306,7 +324,8 @@ abstract class _ContentDto extends ContentDto {
       final String? tagName,
       final int? userId,
       final int? tagId,
-      final TagDto? tag}) = _$ContentDtoImpl;
+      final TagDto? tag,
+      final String? updatedAt}) = _$ContentDtoImpl;
   _ContentDto._() : super._();
 
   factory _ContentDto.fromJson(Map<String, dynamic> json) =
@@ -330,6 +349,8 @@ abstract class _ContentDto extends ContentDto {
   int? get tagId;
   @override
   TagDto? get tag;
+  @override
+  String? get updatedAt;
   @override
   @JsonKey(ignore: true)
   _$$ContentDtoImplCopyWith<_$ContentDtoImpl> get copyWith =>
