@@ -67,7 +67,7 @@ class _BottomInputWrapperState extends State<BottomInputWrapper> {
                     onTap: onOpenTagMenu,
                     onTapOutside: (PointerDownEvent event) => onCloseTagMenu(),
                     decoration: InputDecoration(
-                      hintText: '내용과 #으로 태그를 붙여주세요',
+                      hintText: '내용과 #으로 태그를 붙여주세요.', // P_TODO: 첫번째 태그만 반영됨
                       contentPadding: const EdgeInsets.all(12),
                       focusedBorder: OutlineInputBorder(
                         borderSide: BorderSide(

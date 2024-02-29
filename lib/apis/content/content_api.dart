@@ -19,7 +19,7 @@ class ContentApi {
       final contentList =
           responseData.map((v) => ContentDto.fromJson(v)).toList();
       var result = CursorResponse<ContentDto>(
-        data: List.from(contentList.reversed),
+        data: contentList,
         cursor: cursor,
       );
 
@@ -30,13 +30,15 @@ class ContentApi {
     }
   }
 
-  static void createMemo(ContentDto body) async {
+  static Future<ContentDto?> createMemo(ContentDto body) async {
     try {
       final res = await dio.post(
         '/content/create/memo',
         data: body.toJson(),
       );
-      print('res: ${res.toString()}');
+      final dynamic responseData = res.data['result']['data'];
+      print('RES: ${ContentDto.fromJson(responseData)}');
+      return ContentDto.fromJson(responseData);
     } catch (err) {
       print('content 생성 에러: ${err.toString()}');
       return null;

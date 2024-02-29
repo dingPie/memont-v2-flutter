@@ -70,8 +70,6 @@ class _TalkScreenState extends State<TalkScreen> {
       var contentList = await ContentApi.getListByCursor(getContentDto);
       if (contentList == null) throw '';
 
-      print("TEST ${contentList.data}");
-
       bool isLast = contentList.cursor == null;
       if (isLast) {
         pagingController.appendLastPage(contentList.data);
@@ -124,24 +122,32 @@ class _TalkScreenState extends State<TalkScreen> {
 
     // P_TODO: + 눌러서 저장.
     void onPressSaveMemoButton() async {
-      var arr = bottomInputController.text.split('#');
-      String content = arr[0].trim();
-      if (content == '') return;
+      try {
+        // P_TODO: global로 하면 뒤 배경까지 안보이는 이슈.  따로 처리해야 함.
+        // appState.isLoading = true;
 
-      bool hasTag = arr.asMap().containsKey(1);
-      String? tagName = hasTag ? arr[1] : null;
-      onChangeTextInput('');
-      var contentDto = ContentDto(content: content, tagName: tagName);
-      ContentApi.createMemo(contentDto);
+        var arr = bottomInputController.text.split('#');
+        String content = arr[0].trim();
+        if (content == '') return;
 
-      // pagingController.
+        bool hasTag = arr.asMap().containsKey(1);
+        String? tagName = hasTag ? arr[1] : null;
+        onChangeTextInput('');
 
-      setState(() {
-        bottomInputController.clear();
-      });
-      // P_TODO: 항목에 넣어주는거 필요함.
-      // P_TODO: 아래가 최신 값이어야 함. (api 단에서 하자..)
-      // P_TODO: 값 추가후 추가된 값을 반환하도록 서버로직도 바꿔야겠네 ...;
+        var contentDto = ContentDto(content: content, tagName: tagName);
+        var newContent = await ContentApi.createMemo(contentDto);
+
+        if (newContent != null) {
+          pagingController.itemList?.insert(0, newContent);
+        }
+
+        setState(() {
+          bottomInputController.clear();
+        });
+        // P_TODO: toast 등 처리해야 함.
+      } catch (err) {
+        // P_TODO: 에러처리
+      } finally {}
     }
 
     void onPressItemUnTagButton(ContentDto content) {
@@ -175,7 +181,7 @@ class _TalkScreenState extends State<TalkScreen> {
           body: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              // P_TODO: 헤더가 들어갈 영역.
+              // P_TODO: pinn 항목이 들어갈 영역. 따로 API를 파야 하나?
 
               // P_MEMO: 아이템 영역
               Expanded(
