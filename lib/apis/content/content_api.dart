@@ -45,15 +45,17 @@ class ContentApi {
     }
   }
 
-  static void update(ContentDto body) async {
+  static Future<ContentDto?> update(ContentDto body) async {
     try {
       final res = await dio.patch(
         '/content/update/${body.id ?? 0}',
         data: body.toJson(),
       );
-      print('res: ${res.toString()}');
+      final dynamic responseData = res.data['result']['data'];
+      print('RES: ${ContentDto.fromJson(responseData)}');
+      return ContentDto.fromJson(responseData);
     } catch (err) {
-      print('content 수정 에러: ${err.toString()}');
+      print('content 수정 에러: ${err}');
       return null;
     }
   }
