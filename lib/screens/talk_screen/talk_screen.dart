@@ -18,6 +18,9 @@ import 'package:memont_v2/screens/login_screen/widgets/common_app_bar/app_bar_ic
 import 'package:memont_v2/screens/login_screen/widgets/common_app_bar/common_app_bar.dart';
 import 'package:memont_v2/screens/talk_screen/widgets/bottom_input_wrapper/bottom_input_wrapper.dart';
 import 'package:memont_v2/screens/talk_screen/widgets/memo_item.dart/memo_item.dart';
+import 'package:memont_v2/theme/color/app_colors_extension.dart';
+import 'package:memont_v2/theme/textStyle/app_text_style_extension.dart';
+import 'package:memont_v2/utils/util_hooks.dart';
 import 'package:memont_v2/utils/util_method.dart';
 
 import 'package:memont_v2/widgets/common_layout.dart';
@@ -82,17 +85,51 @@ class _TalkScreenState extends State<TalkScreen> {
     }
   }
 
-  // 아이템 더보기 버튼 클릭
-  void onPressItemMoreButton(ContentDto content) {
-    // P_TODO: 선택한 메뉴 띄워주는거 구현해야 함.
-    print('${content.id}');
+  // P_TODO: 함수 이름 바꾸자. moreButton 은 따로 구현해야할듯.
+  void onPressItemExpendButton(ContentDto? content) {
     setState(() {
-      if (selectedContent?.id == content.id) {
+      if (content == null) {
         selectedContent = null;
       } else {
         selectedContent = content;
       }
     });
+  }
+
+  // P_TODO: 수정버튼 눌렀을 떄 구현해야 함.
+  void onPressMoreEditButton(ContentDto? content) {
+    selectedContent = content;
+    String string = '${content?.content}';
+    if (content?.tag?.name != null) string += ' #${content?.tag?.name}';
+    bottomInputController.text = string;
+    print("수정버튼 클릭 $string");
+  }
+
+  // 삭제버튼 눌렀을 떄
+  void onPressMoreDeleteButton(ContentDto? content) {
+    UtilHooks.useShowCustomDialog(
+      context: context,
+      title: '메모 삭제',
+      content: '이 메모를 삭제할까요?',
+      successButtonText: '확인',
+      successButtonAction: () {
+        if (content == null) return;
+        ContentApi.delete(content.id!);
+        pagingController.itemList = pagingController.itemList!
+            .where((ele) => ele.id != content.id)
+            .toList();
+      },
+    );
+  }
+
+  // P_TODO: 태그보기버튼 눌렀을 떄 구현해야 함.
+  void onPressMoreTagViewButton(ContentDto? content) {
+    print("태그보기버튼 클릭");
+  }
+
+  // P_TODO: 상단고정버튼 눌렀을 떄 구현해야 함.
+  void onPressMorePinButton(ContentDto? content) {
+    print("상단고정버튼 클릭");
   }
 
   @override
@@ -132,13 +169,27 @@ class _TalkScreenState extends State<TalkScreen> {
 
         bool hasTag = arr.asMap().containsKey(1);
         String? tagName = hasTag ? arr[1] : null;
-        onChangeTextInput('');
 
-        var contentDto = ContentDto(content: content, tagName: tagName);
-        var newContent = await ContentApi.createMemo(contentDto);
+        if (selectedContent == null) {
+          var contentDto = ContentDto(content: content, tagName: tagName);
+          var newContent = await ContentApi.createMemo(contentDto);
 
-        if (newContent != null) {
-          pagingController.itemList?.insert(0, newContent);
+          if (newContent != null) {
+            pagingController.itemList?.insert(0, newContent);
+          }
+        } else {
+          // P_TODO: 수정로직 수정해야함.
+          var contentDto = ContentDto(
+              content: content, tagName: tagName, id: selectedContent?.id);
+          var updatedContent = await ContentApi.update(contentDto);
+
+          if (updatedContent != null) {
+            pagingController.itemList = pagingController.itemList
+                ?.map((ele) =>
+                    ele.id != selectedContent?.id ? ele : updatedContent)
+                .toList();
+          }
+          selectedContent = null;
         }
 
         setState(() {
@@ -189,15 +240,18 @@ class _TalkScreenState extends State<TalkScreen> {
                   pagingController: pagingController, //저장했던 정보들
                   reverse: true,
                   padding: const EdgeInsets.symmetric(horizontal: 16),
+
                   builderDelegate: PagedChildBuilderDelegate<ContentDto>(
                     itemBuilder: (context, item, index) => Padding(
                       padding: const EdgeInsets.only(bottom: 4),
                       // P_TODO: 확장되면 태그가 여기로 나와야 함.
                       child: MemoItem(
                         content: item,
-                        isSelected: item.id == selectedContent?.id,
-                        onPressItemMoreButton: onPressItemMoreButton,
                         onPressItemUnTagButton: onPressItemUnTagButton,
+                        onPressMoreEditButton: onPressMoreEditButton,
+                        onPressMoreDeleteButton: onPressMoreDeleteButton,
+                        onPressMoreTagViewButton: onPressMoreTagViewButton,
+                        onPressMorePinButton: onPressMorePinButton,
                       ),
                     ),
                   ),
