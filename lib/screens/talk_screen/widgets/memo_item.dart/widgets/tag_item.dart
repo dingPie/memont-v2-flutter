@@ -7,11 +7,11 @@ class TagItem extends StatelessWidget {
   const TagItem({
     super.key,
     required this.content,
-    required this.isSelected,
+    required this.isExpended,
   });
 
   final ContentDto content;
-  final bool isSelected;
+  final bool isExpended;
 
   @override
   Widget build(BuildContext context) {
@@ -19,8 +19,8 @@ class TagItem extends StatelessWidget {
     var textStyle = context.textStyle;
 
     return Container(
-      width: !isSelected ? 28 : null,
-      height: !isSelected ? 28 : null,
+      width: !isExpended ? 28 : null,
+      height: !isExpended ? 28 : null,
       clipBehavior: Clip.hardEdge,
       padding: const EdgeInsets.symmetric(
         horizontal: 6,
