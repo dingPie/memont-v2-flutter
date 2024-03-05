@@ -13,6 +13,7 @@ import 'package:memont_v2/global_state/singleton_storage.dart';
 import 'package:memont_v2/global_state/provider/app_state.dart';
 import 'package:memont_v2/models/content_dto/content_dto.dart';
 import 'package:memont_v2/models/get_content_dto/get_content_dto.dart';
+import 'package:memont_v2/models/tag_dto/tag_dto.dart';
 
 import 'package:memont_v2/screens/login_screen/widgets/common_app_bar/app_bar_icon_button.dart';
 import 'package:memont_v2/screens/login_screen/widgets/common_app_bar/common_app_bar.dart';
@@ -22,6 +23,8 @@ import 'package:memont_v2/theme/color/app_colors_extension.dart';
 import 'package:memont_v2/theme/textStyle/app_text_style_extension.dart';
 import 'package:memont_v2/utils/util_hooks.dart';
 import 'package:memont_v2/utils/util_method.dart';
+
+import 'package:collection/collection.dart';
 
 import 'package:memont_v2/widgets/common_layout.dart';
 import 'package:memont_v2/widgets/pressable.dart';
@@ -44,11 +47,11 @@ class _TalkScreenState extends State<TalkScreen> {
   TextEditingController bottomInputController = TextEditingController();
   String textInput = '';
   ContentDto? selectedContent;
+  bool isOpenTagMenu = false;
+  TagDto? searchedTag;
 
   final PagingController<int, ContentDto> pagingController = // ContentDto
       PagingController(firstPageKey: 0);
-
-  void onChangeTextInput(String text) => setState(() => textInput = text);
 
   // 태그 목록 불러와서 tag provider에 세팅해줌
   void setTagList() async {
@@ -157,6 +160,24 @@ class _TalkScreenState extends State<TalkScreen> {
 
     SingletonStorage storage = SingletonStorage();
 
+    // tag Munu open, 추천태그 표시
+    void onChangeTextInput(String text) => setState(() {
+          isOpenTagMenu = text.isNotEmpty;
+
+          // P_TODO: 태그 뽑는거 utils로 빼자.
+          var arr = text.split('#');
+          bool hasTag = arr.asMap().containsKey(1);
+          String? tagName = hasTag ? arr[1] : null;
+          if (tagName == null) return;
+
+          TagDto? target = tagProvider.tagList
+              .firstWhereOrNull((ele) => ele.name.contains(tagName));
+
+          setState(() {
+            searchedTag = target;
+          });
+        });
+
     // P_TODO: + 눌러서 저장.
     void onPressSaveMemoButton() async {
       try {
@@ -201,6 +222,14 @@ class _TalkScreenState extends State<TalkScreen> {
       } finally {}
     }
 
+    // tag button 클릭
+    void onPressInputBoxTagItemButton(TagDto? tag) {
+      var arr = bottomInputController.text.split('#');
+      String newString = '${arr[0].trim()} #${tag?.name ?? ''}';
+      bottomInputController.text = newString;
+    }
+
+    // untag / 삭제예정 변환 버튼
     void onPressItemUnTagButton(ContentDto content) {
       // P_TODO: 사용할지 말지 모름. 태그 변환.
       print('${content.id}');
@@ -260,9 +289,12 @@ class _TalkScreenState extends State<TalkScreen> {
 
               // Bottom Input 등등
               BottomInputWrapper(
+                isOpenTagMenu: isOpenTagMenu,
+                searchedTag: searchedTag,
+                bottomInputController: bottomInputController,
                 onPressSaveMemoButton: onPressSaveMemoButton,
                 onChangeTextInput: onChangeTextInput,
-                bottomInputController: bottomInputController,
+                onPressInputBoxTagItemButton: onPressInputBoxTagItemButton,
               ),
             ],
           ),
