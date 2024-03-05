@@ -1,16 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:memont_v2/config/build_context_extension.dart';
 import 'package:memont_v2/models/content_dto/content_dto.dart';
+import 'package:memont_v2/models/tag_dto/tag_dto.dart';
 import 'package:memont_v2/utils/util_method.dart';
 
 class TagItem extends StatelessWidget {
   const TagItem({
     super.key,
-    required this.content,
+    required this.tag,
     required this.isExpended,
   });
 
-  final ContentDto content;
+  final TagDto tag;
   final bool isExpended;
 
   @override
@@ -19,17 +20,17 @@ class TagItem extends StatelessWidget {
     var textStyle = context.textStyle;
 
     return Container(
-      width: !isExpended ? 28 : null,
-      height: !isExpended ? 28 : null,
+      width: !isExpended ? 32 : null,
+      height: !isExpended ? 32 : null,
       clipBehavior: Clip.hardEdge,
       padding: const EdgeInsets.symmetric(
-        horizontal: 6,
-        vertical: 2,
+        horizontal: 8,
+        vertical: 4,
       ),
       decoration: BoxDecoration(
-        color: content.tag != null
+        color: tag != null
             ? UtilMethod.hexToColor(
-                content.tag?.color,
+                tag.color,
               )
             : colors.white,
         shape: BoxShape.rectangle,
@@ -44,9 +45,9 @@ class TagItem extends StatelessWidget {
         ],
       ),
       child: Text(
-        content.tag?.name ?? '',
+        tag.name,
         style: textStyle.body['md']?.copyWith(
-          fontWeight: FontWeight.w700,
+          fontWeight: FontWeight.w600,
         ),
         textAlign: TextAlign.center,
       ),

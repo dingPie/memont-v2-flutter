@@ -40,7 +40,7 @@ class SelectedMemoItem extends StatelessWidget {
           alignment: Alignment.centerLeft,
           child: content.tag != null
               ? TagItem(
-                  content: content,
+                  tag: content.tag!,
                   isExpended: isExpended,
                 )
               : UnTagButton(
