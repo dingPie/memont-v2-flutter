@@ -10,7 +10,7 @@ class UnTagButton extends StatelessWidget {
     required this.onPressItemUnTagButton,
   });
 
-  final void Function(ContentDto content) onPressItemUnTagButton;
+  final void Function(List<int> idList) onPressItemUnTagButton;
   final ContentDto content;
 
   @override
@@ -29,7 +29,8 @@ class UnTagButton extends StatelessWidget {
         ],
       ),
       child: IconButton(
-        onPressed: () => onPressItemUnTagButton(content),
+        // P_TODO: 현재는 한개씩 적용. 추후에는 api 호출 횟수 조절을 위해 debounce로 한번에 처리.
+        onPressed: () => onPressItemUnTagButton([content.id!]),
         padding: const EdgeInsets.all(8), // 패딩 설정
         constraints: const BoxConstraints(),
         style: ElevatedButton.styleFrom(

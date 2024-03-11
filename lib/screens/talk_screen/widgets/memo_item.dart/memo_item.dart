@@ -4,11 +4,12 @@ import 'package:memont_v2/models/content_dto/content_dto.dart';
 import 'package:memont_v2/screens/talk_screen/widgets/memo_item.dart/base_memo_item.dart';
 import 'package:memont_v2/screens/talk_screen/widgets/memo_item.dart/selected_memo_item.dart';
 
+// P_TODO: 하위 위젯에서 사용할 샘플 클래스. 이걸 implement해서 쓰고싶은데... 전부 @override 해서 쓰는게 맞나...? 상속의 방법을 좀 더 공부하자.
 class MemoItemCommon {
   final ContentDto content;
   final bool isExpended;
   final void Function() onToggleExpended;
-  final void Function(ContentDto content) onPressItemUnTagButton;
+  final void Function(List<int> idList) onPressItemUnTagButton;
   final void Function(ContentDto content) onPressMoreEditButton;
   final void Function(ContentDto content) onPressMoreDeleteButton;
   final void Function(ContentDto content) onPressMoreTagViewButton;
@@ -39,7 +40,7 @@ class MemoItem extends StatefulWidget {
   });
 
   final ContentDto content;
-  final void Function(ContentDto content) onPressItemUnTagButton;
+  final void Function(List<int> idList) onPressItemUnTagButton;
   final void Function(ContentDto content) onPressMoreEditButton;
   final void Function(ContentDto content) onPressMoreDeleteButton;
   final void Function(ContentDto content) onPressMoreTagViewButton;
@@ -81,7 +82,6 @@ class _MemoItemState extends State<MemoItem> {
           );
   }
 }
-
 
 // import 'package:flutter/material.dart';
 

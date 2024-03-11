@@ -230,9 +230,19 @@ class _TalkScreenState extends State<TalkScreen> {
     }
 
     // untag / 삭제예정 변환 버튼
-    void onPressItemUnTagButton(ContentDto content) {
-      // P_TODO: 사용할지 말지 모름. 태그 변환.
-      print('${content.id}');
+    void onPressItemUnTagButton(List<int> idList) async {
+      // P_TODO: 현재는 한개씩 적용. 추후에는 api 호출 횟수 조절을 위해 debounce로 한번에 처리.
+
+      try {
+        ContentApi.toggleToBeDeleted(idList);
+        pagingController.itemList = pagingController.itemList
+            ?.map((ele) => !idList.contains(ele.id)
+                ? ele
+                : ele.copyWith(isToBeDeleted: !ele.isToBeDeleted!))
+            .toList();
+      } catch (err) {
+        // P_TODO: 에러처리.
+      }
     }
 
 // P_MEMO: 눌렀을 때 input을 닫기 위함.

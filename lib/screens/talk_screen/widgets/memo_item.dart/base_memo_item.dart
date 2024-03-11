@@ -23,7 +23,7 @@ class BaseMemoItem extends StatelessWidget {
   final ContentDto content;
   final bool isExpended;
   final void Function() onToggleExpended;
-  final void Function(ContentDto content) onPressItemUnTagButton;
+  final void Function(List<int> idList) onPressItemUnTagButton;
   final void Function(ContentDto content) onPressMoreEditButton;
   final void Function(ContentDto content) onPressMoreDeleteButton;
   final void Function(ContentDto content) onPressMoreTagViewButton;
