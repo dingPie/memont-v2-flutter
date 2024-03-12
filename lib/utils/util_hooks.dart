@@ -1,9 +1,68 @@
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:memont_v2/config/build_context_extension.dart';
 
 import 'package:memont_v2/theme/color/app_colors_extension.dart';
 import 'package:memont_v2/theme/textStyle/app_text_style_extension.dart';
 
+enum ToastType { error, success }
+
 class UtilHooks {
+  static useCustomToast({
+    required BuildContext context,
+    required String content,
+    ToastType toastType = ToastType.error,
+  }) {
+    FToast fToast = FToast();
+    fToast.init(context);
+    var colors = context.colors;
+    var textStyle = context.textStyle;
+
+    Color bgColor =
+        toastType == ToastType.success ? colors.success : colors.warning;
+    IconData icon = toastType == ToastType.success
+        ? Icons.check_box_outlined
+        : Icons.error_outline;
+
+    Widget toast = Container(
+      margin: const EdgeInsets.only(top: 40),
+      padding: const EdgeInsets.symmetric(
+        horizontal: 20,
+        vertical: 8,
+      ),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(25),
+        color: bgColor,
+      ),
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          Icon(
+            icon,
+            color: Colors.white,
+          ),
+          const SizedBox(
+            width: 8,
+          ),
+          Text(
+            content,
+            style: textStyle.body['lg']!.copyWith(
+              color: colors.white,
+              fontWeight: FontWeight.w600,
+            ),
+          ),
+        ],
+      ),
+    );
+
+    fToast.showToast(
+      child: toast,
+      gravity: ToastGravity.TOP,
+      toastDuration: const Duration(seconds: 3),
+    );
+  }
+
   static useShowCustomDialog({
     required BuildContext context,
     required String title,
