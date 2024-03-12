@@ -3,6 +3,7 @@ import 'package:firebase_core/firebase_core.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:memont_v2/apis/common/palette_api.dart';
 import 'package:memont_v2/config/firebase_options.dart';
 import 'package:memont_v2/constants/key.dart';
@@ -57,6 +58,9 @@ final class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var fToast = FToast();
+    fToast.init(context);
+
     return MultiProvider(
       // P_TODO: 이거 자리잡으면 Global Provider로 뺴도 될듯
       providers: [
@@ -78,6 +82,7 @@ final class MyApp extends StatelessWidget {
         routerConfig: AppRouter(context.watch<AppState>()).router,
         themeMode: context.watch<AppTheme>().themeMode,
         debugShowCheckedModeBanner: false,
+        builder: FToastBuilder(),
       ),
     );
   }

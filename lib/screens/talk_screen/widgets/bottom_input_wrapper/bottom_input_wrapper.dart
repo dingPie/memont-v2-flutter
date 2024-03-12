@@ -28,6 +28,7 @@ class BottomInputWrapper extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var colors = context.colors;
+    var textStyle = context.textStyle;
     var tagProvider = context.watch<TagProvider>();
 
     double deviceWidth = MediaQuery.of(context).size.width;
@@ -106,7 +107,7 @@ class BottomInputWrapper extends StatelessWidget {
                 ],
               ),
             const SizedBox(
-              height: 12,
+              height: 8,
             ),
             Row(
               children: [
@@ -115,8 +116,10 @@ class BottomInputWrapper extends StatelessWidget {
                     maxLines: null,
                     controller: bottomInputController,
                     onChanged: onChangeTextInput,
+                    style: textStyle.body['md'],
                     decoration: InputDecoration(
                       hintText: '내용과 #으로 태그를 붙여주세요.', // P_TODO: 첫번째 태그만 반영됨
+
                       contentPadding: const EdgeInsets.all(12),
                       focusedBorder: OutlineInputBorder(
                         borderSide: BorderSide(
@@ -135,6 +138,7 @@ class BottomInputWrapper extends StatelessWidget {
                 const SizedBox(
                   width: 12,
                 ),
+                // 추가버튼
                 Container(
                   width: 40,
                   height: 40,

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:memont_v2/apis/content/content_api.dart';
 
@@ -8,7 +9,6 @@ import 'package:memont_v2/config/build_context_extension.dart';
 
 import 'package:memont_v2/constants/routes.dart';
 import 'package:memont_v2/global_state/provider/tag_provider.dart';
-import 'package:memont_v2/global_state/singleton_storage.dart';
 
 import 'package:memont_v2/global_state/provider/app_state.dart';
 import 'package:memont_v2/models/content_dto/content_dto.dart';
@@ -19,20 +19,16 @@ import 'package:memont_v2/screens/login_screen/widgets/common_app_bar/app_bar_ic
 import 'package:memont_v2/screens/login_screen/widgets/common_app_bar/common_app_bar.dart';
 import 'package:memont_v2/screens/talk_screen/widgets/bottom_input_wrapper/bottom_input_wrapper.dart';
 import 'package:memont_v2/screens/talk_screen/widgets/memo_item.dart/memo_item.dart';
-import 'package:memont_v2/theme/color/app_colors_extension.dart';
-import 'package:memont_v2/theme/textStyle/app_text_style_extension.dart';
+
 import 'package:memont_v2/utils/util_hooks.dart';
-import 'package:memont_v2/utils/util_method.dart';
 
 import 'package:collection/collection.dart';
 
 import 'package:memont_v2/widgets/common_layout.dart';
-import 'package:memont_v2/widgets/pressable.dart';
+
 import 'package:provider/provider.dart';
 
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
-
-import 'package:intl/intl.dart';
 
 class TalkScreen extends StatefulWidget {
   const TalkScreen({
@@ -62,9 +58,12 @@ class _TalkScreenState extends State<TalkScreen> {
       if (tagList != null) {
         tagProvider.tagList = tagList;
       }
-      print('저장된 tag provider ? ${tagProvider.tagList}');
     } catch (err) {
-      print('tag list 핸들링 에러 ${err}');
+      if (!mounted) return;
+      UtilHooks.useCustomToast(
+        context: context,
+        content: '태그 목록을 불러오는데에 실패했습니다.', // P_TODO: 에러처리. 메세지보고 하자.
+      );
     }
   }
 
@@ -83,7 +82,11 @@ class _TalkScreenState extends State<TalkScreen> {
         pagingController.appendPage(contentList.data, contentList.cursor);
       }
     } catch (e) {
-      print("memo content 불러오기 에러: $e");
+      if (!mounted) return;
+      UtilHooks.useCustomToast(
+        context: context,
+        content: '메모를 불러오는데에 실패했습니다.', // P_TODO: 에러처리. 메세지보고 하자.
+      );
       pagingController.error = e;
     }
   }
@@ -156,9 +159,6 @@ class _TalkScreenState extends State<TalkScreen> {
     var appState = context.watch<AppState>();
     var tagProvider = context.watch<TagProvider>();
     var colors = context.colors;
-    var textStyle = context.textStyle;
-
-    SingletonStorage storage = SingletonStorage();
 
     // tag Munu open, 추천태그 표시
     void onChangeTextInput(String text) => setState(() {
@@ -183,7 +183,6 @@ class _TalkScreenState extends State<TalkScreen> {
       try {
         // P_TODO: global로 하면 뒤 배경까지 안보이는 이슈.  따로 처리해야 함.
         // appState.isLoading = true;
-
         var arr = bottomInputController.text.split('#');
         String content = arr[0].trim();
         if (content == '') return;
@@ -216,9 +215,12 @@ class _TalkScreenState extends State<TalkScreen> {
         setState(() {
           bottomInputController.clear();
         });
-        // P_TODO: toast 등 처리해야 함.
       } catch (err) {
-        // P_TODO: 에러처리
+        if (!mounted) return;
+        UtilHooks.useCustomToast(
+          context: context,
+          content: '메모 저장에 실패했습니다.', // P_TODO: 에러처리. 메세지보고 하자.
+        );
       } finally {}
     }
 
@@ -241,7 +243,11 @@ class _TalkScreenState extends State<TalkScreen> {
                 : ele.copyWith(isToBeDeleted: !ele.isToBeDeleted!))
             .toList();
       } catch (err) {
-        // P_TODO: 에러처리.
+        if (!mounted) return;
+        UtilHooks.useCustomToast(
+          context: context,
+          content: '토글 항목 변경에 실패했습니다.', // P_TODO: 에러처리. 메세지보고 하자.
+        );
       }
     }
 
@@ -282,8 +288,7 @@ class _TalkScreenState extends State<TalkScreen> {
 
                   builderDelegate: PagedChildBuilderDelegate<ContentDto>(
                     itemBuilder: (context, item, index) => Padding(
-                      padding: const EdgeInsets.only(bottom: 4),
-                      // P_TODO: 확장되면 태그가 여기로 나와야 함.
+                      padding: const EdgeInsets.only(bottom: 3, top: 3),
                       child: MemoItem(
                         content: item,
                         onPressItemUnTagButton: onPressItemUnTagButton,
