@@ -1,33 +1,26 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:memont_v2/config/build_context_extension.dart';
-import 'package:memont_v2/models/content_dto/content_dto.dart';
+
+import 'package:memont_v2/screens/talk_screen/widgets/memo_item.dart/base_memo_item.dart';
 
 import 'package:memont_v2/screens/talk_screen/widgets/memo_item.dart/widgets/more_button.dart';
 import 'package:memont_v2/screens/talk_screen/widgets/memo_item.dart/widgets/tag_item.dart';
 import 'package:memont_v2/screens/talk_screen/widgets/memo_item.dart/widgets/un_tag_button.dart';
 
-class SelectedMemoItem extends StatelessWidget {
-  const SelectedMemoItem({
+// P_MEMO: baseItem과 같은 인터페이스를 공유함.
+class ExpendedMemoItem extends BaseMemoItem {
+  const ExpendedMemoItem({
     super.key,
-    required this.content,
-    required this.isExpended,
-    required this.onToggleExpended,
-    required this.onPressItemUnTagButton,
-    required this.onPressMoreEditButton,
-    required this.onPressMoreDeleteButton,
-    required this.onPressMoreTagViewButton,
-    required this.onPressMorePinButton,
+    required super.content,
+    required super.isExpended,
+    required super.onToggleExpended,
+    required super.onPressItemUnTagButton,
+    required super.onPressMoreEditButton,
+    required super.onPressMoreDeleteButton,
+    required super.onPressMoreTagViewButton,
+    required super.onPressMorePinButton,
   });
-
-  final ContentDto content;
-  final bool isExpended;
-  final void Function() onToggleExpended;
-  final void Function(List<int> idList) onPressItemUnTagButton;
-  final void Function(ContentDto content) onPressMoreEditButton;
-  final void Function(ContentDto content) onPressMoreDeleteButton;
-  final void Function(ContentDto content) onPressMoreTagViewButton;
-  final void Function(ContentDto content) onPressMorePinButton;
 
   @override
   Widget build(BuildContext context) {
@@ -127,20 +120,3 @@ class SelectedMemoItem extends StatelessWidget {
     );
   }
 }
-
-
-// P_TODO: 레거시
-// SelectedMemoItem({
-  //   super.key,
-  //   // required this.onToggleExpended,
-  //   required super.content,
-  //   required super.isSelected,
-  //   // required super.onPressItemMoreButton,
-  //   required super.onPressItemUnTagButton,
-  //   required super.onPressMoreEditButton,
-  //   required super.onPressMoreDeleteButton,
-  //   required super.onPressMoreTagViewButton,
-  //   required super.onPressMorePinButton,
-  // });
-
-  // final void Function() onToggleExpended;

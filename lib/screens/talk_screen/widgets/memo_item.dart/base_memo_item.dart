@@ -107,7 +107,7 @@ class BaseMemoItem extends StatelessWidget {
           ],
         ),
         const SizedBox(height: 2),
-        // P_TODO: 하단 날짜. 선택시에만 보여줄까?
+        // P_TODO: 하단 날짜. selected에서만 표출
         // Align(
         //   alignment: Alignment.centerRight,
         //   child: Text(
