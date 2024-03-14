@@ -13,6 +13,7 @@ import 'package:memont_v2/global_state/provider/tag_provider.dart';
 import 'package:memont_v2/global_state/provider/app_state.dart';
 import 'package:memont_v2/models/content_dto/content_dto.dart';
 import 'package:memont_v2/models/get_content_dto/get_content_dto.dart';
+import 'package:memont_v2/models/get_tag_dto/get_tag_dto.dart';
 import 'package:memont_v2/models/tag_dto/tag_dto.dart';
 
 import 'package:memont_v2/screens/login_screen/widgets/common_app_bar/app_bar_icon_button.dart';
@@ -53,10 +54,11 @@ class _TalkScreenState extends State<TalkScreen> {
   void setTagList() async {
     var tagProvider = Provider.of<TagProvider>(context, listen: false);
 
+    GetTagDto getTagDto = GetTagDto(cursor: tagProvider.cursor);
     try {
-      var tagList = await TagApi.getList();
-      if (tagList != null) {
-        tagProvider.tagList = tagList;
+      var tagResult = await TagApi.getList(getTagDto);
+      if (tagResult != null) {
+        tagProvider.tag = tagResult;
       }
     } catch (err) {
       if (!mounted) return;
@@ -72,6 +74,7 @@ class _TalkScreenState extends State<TalkScreen> {
     try {
       await Future.delayed(const Duration(seconds: 1));
       GetContentDto getContentDto = GetContentDto(cursor: pageKey);
+      print('아니 이건???? $getContentDto');
       var contentList = await ContentApi.getListByCursor(getContentDto);
       if (contentList == null) throw '';
 

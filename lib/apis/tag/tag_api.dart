@@ -1,16 +1,27 @@
 import 'package:memont_v2/apis/dio.dart';
+import 'package:memont_v2/models/cursor_response.dart';
 import 'package:memont_v2/models/delete_tag_dto/delete_tag_dto.dart';
+import 'package:memont_v2/models/get_tag_dto/get_tag_dto.dart';
 
 import 'package:memont_v2/models/tag_dto/tag_dto.dart';
 
 class TagApi {
   static final dio = DioIn().dio;
 
-  static Future<List<TagDto>?> getList() async {
+  static Future<CursorResponse<TagDto>?> getList(GetTagDto getTagDto) async {
     try {
-      final res = await dio.get('/tag');
+      final res = await dio.get(
+        '/tag/by-cursor',
+        queryParameters: getTagDto.toJson(),
+      );
       final List<dynamic> responseData = res.data['result']['data'];
-      final result = responseData.map((v) => TagDto.fromJson(v)).toList();
+      int? cursor = res.data['result']['cursor'];
+      final tagList = responseData.map((v) => TagDto.fromJson(v)).toList();
+
+      var result = CursorResponse<TagDto>(
+        data: tagList,
+        cursor: cursor,
+      );
 
       return result;
     } catch (err) {
