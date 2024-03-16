@@ -1,11 +1,9 @@
-import 'dart:io';
-
 import 'package:dio/dio.dart';
-import 'package:flutter/foundation.dart';
-import 'package:flutter_dotenv/flutter_dotenv.dart';
-import 'package:memont/apis/dio.dart';
 
-import 'package:memont/global_state/singleton_storage.dart';
+import 'package:memont_v2/apis/dio.dart';
+
+import 'package:memont_v2/global_state/singleton_storage.dart';
+import 'package:memont_v2/utils/util_method.dart';
 
 // late final SharedPreferences _prefs; // P_MEMO: accessToken은 그냥 전역으로 사용할 static instance에 추가.
 
@@ -33,11 +31,7 @@ final class Refresh {
         throw Error(); //  not found refresh token
       }
 
-      String? baseUrl = kReleaseMode
-          ? dotenv.env['PROD_API_BASE_URL']
-          : Platform.isAndroid
-              ? dotenv.env['DEV_ANDROID_API_BASE_URL']
-              : dotenv.env['DEV_IOS_API_BASE_URL'];
+      String baseUrl = UtilMethod.getBaseUrl();
       var result = await Dio().get(
         '$baseUrl/refresh',
       );

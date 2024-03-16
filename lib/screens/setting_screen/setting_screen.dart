@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:memont/config/build_context_extension.dart';
-import 'package:memont/constants/routes.dart';
-import 'package:memont/global_state/provider/user.dart';
+import 'package:memont_v2/config/build_context_extension.dart';
+import 'package:memont_v2/constants/routes.dart';
+import 'package:memont_v2/global_state/provider/app_state.dart';
 
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
@@ -13,7 +13,6 @@ class SettingScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var user = context.watch<User>();
     void onPressedBackButton() => context.pop();
 
     return Scaffold(
@@ -33,9 +32,6 @@ class SettingScreen extends StatelessWidget {
                 color: context.colors.primary[500],
                 fontSize: 24,
               ),
-            ),
-            Text(
-              '임시 UID: ${user.uid}',
             ),
             const SizedBox(
               height: 4,

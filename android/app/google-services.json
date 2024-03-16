@@ -1,0 +1,114 @@
+{
+  "project_info": {
+    "project_number": "123539295838",
+    "project_id": "memont-v2",
+    "storage_bucket": "memont-v2.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:123539295838:android:98a26bbf960d1855382ecf",
+        "android_client_info": {
+          "package_name": "com.dingpie.memont"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "123539295838-5ru11gibq85b5tb0pg5gs3l2rb9islem.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.dingpie.memont",
+            "certificate_hash": "f8f5dda3a720b26fcb5f2a4d0a335ae79101eec2"
+          }
+        },
+        {
+          "client_id": "123539295838-sruqohjm636ad7qk1u5gm6nmsunerdsg.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.dingpie.memont",
+            "certificate_hash": "0ff2874d779df0b4f344228707e277213ce26554"
+          }
+        },
+        {
+          "client_id": "123539295838-h9g5b1vpcr14pnu3tucesj9s1724si89.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAX5P9_syVoZjHZGRSzbzx59FzIyTLQ6Dc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "123539295838-h9g5b1vpcr14pnu3tucesj9s1724si89.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "123539295838-55mqm0uqt6crf4kjil0rgo6vlbvhg6eh.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.dingpie.memont"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:123539295838:android:ca92437bc8364582382ecf",
+        "android_client_info": {
+          "package_name": "com.example.memont"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "123539295838-elbmird8cvhr4uhn803vdf021rl35v8o.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.memont",
+            "certificate_hash": "f8f5dda3a720b26fcb5f2a4d0a335ae79101eec2"
+          }
+        },
+        {
+          "client_id": "123539295838-hprdo5nq0809b5h3a1foa68g38fvqjeb.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.memont",
+            "certificate_hash": "0ff2874d779df0b4f344228707e277213ce26554"
+          }
+        },
+        {
+          "client_id": "123539295838-h9g5b1vpcr14pnu3tucesj9s1724si89.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAX5P9_syVoZjHZGRSzbzx59FzIyTLQ6Dc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "123539295838-h9g5b1vpcr14pnu3tucesj9s1724si89.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "123539295838-55mqm0uqt6crf4kjil0rgo6vlbvhg6eh.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.dingpie.memont"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

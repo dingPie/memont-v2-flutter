@@ -1,20 +1,20 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'person.dart';
+part of 'tag_dto.dart';
 
 // **************************************************************************
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$PersonImpl _$$PersonImplFromJson(Map<String, dynamic> json) => _$PersonImpl(
-      id: json['id'] as int,
+_$TagDtoImpl _$$TagDtoImplFromJson(Map<String, dynamic> json) => _$TagDtoImpl(
+      id: json['id'] as int?,
       name: json['name'] as String,
-      age: json['age'] as int,
+      color: json['color'] as String?,
     );
 
-Map<String, dynamic> _$$PersonImplToJson(_$PersonImpl instance) =>
+Map<String, dynamic> _$$TagDtoImplToJson(_$TagDtoImpl instance) =>
     <String, dynamic>{
       'id': instance.id,
       'name': instance.name,
-      'age': instance.age,
+      'color': instance.color,
     };

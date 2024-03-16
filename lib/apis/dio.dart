@@ -1,12 +1,15 @@
 import 'dart:io';
 
 import 'package:dio/dio.dart';
-import 'package:flutter/foundation.dart';
-import 'package:memont/apis/refresh.dart';
-import 'package:memont/constants/api_code.dart';
 
-import 'package:memont/global_state/singleton_storage.dart';
-import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:memont_v2/apis/refresh.dart';
+import 'package:memont_v2/constants/api_code.dart';
+import 'package:memont_v2/constants/key.dart';
+
+import 'package:memont_v2/global_state/singleton_storage.dart';
+
+import 'package:memont_v2/utils/util_method.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 final class DioIn {
   SingletonStorage storage = SingletonStorage();
@@ -15,14 +18,10 @@ final class DioIn {
   DioIn._() {
     print('DIO INIT');
 
-    String? _baseUrl = kReleaseMode
-        ? dotenv.env['PROD_API_BASE_URL']
-        : Platform.isAndroid
-            ? dotenv.env['DEV_ANDROID_API_BASE_URL']
-            : dotenv.env['DEV_IOS_API_BASE_URL'];
+    String baseUrl = UtilMethod.getBaseUrl();
 
     BaseOptions options = BaseOptions(
-      baseUrl: _baseUrl ?? '',
+      baseUrl: baseUrl,
       connectTimeout: const Duration(seconds: 5),
       receiveTimeout: const Duration(seconds: 5),
       sendTimeout: const Duration(seconds: 5),
@@ -42,9 +41,15 @@ final class DioIn {
           RequestInterceptorHandler handler,
         ) async {
           final String? token = storage.accessToken;
+          // P_TODO: 현재 임시로 provider_uid client에서 보내주는 로직 적용중. 추후 변경될 수 있음.
+          final SharedPreferences prefs = await SharedPreferences.getInstance();
+          String? providerUid = prefs.getString(KEY.PROVIDER_UID);
+
           if (token != null) {
             options.headers['Authorization'] = 'Bearer $token';
+            options.headers['provider_uid'] = '$providerUid';
           }
+
           return handler.next(options);
         },
         onResponse: (
@@ -65,6 +70,7 @@ final class DioIn {
 
           // // P_TODO: 에러코드별 동작 정의
           if (isExpired) {
+            print('여긴가???????? $statusCode');
             Refresh().refresh(error.requestOptions);
           }
           if (isUnAuthorization) {

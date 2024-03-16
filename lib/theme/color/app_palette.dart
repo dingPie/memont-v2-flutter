@@ -29,6 +29,8 @@ class AppPalette {
     900: Color(0xFF292A2E),
   };
 
-  static const Color success = Color(0xFF4850FF);
+  static const Color success = Color.fromARGB(255, 54, 205, 132);
   static const Color warning = Color(0xFFFF6060);
+  static const Color white = Colors.white;
+  static const Color black = Colors.black;
 }

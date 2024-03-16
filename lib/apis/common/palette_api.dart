@@ -1,10 +1,10 @@
-import 'package:memont/apis/dio.dart';
-import 'package:memont/models/palette.dart';
+import 'package:memont_v2/apis/dio.dart';
+import 'package:memont_v2/models/palette.dart';
 
 class PaletteApi {
-  var dio = DioIn().dio;
+  static final dio = DioIn().dio;
 
-  Future<List<Palette>?> getPalette() async {
+  static Future<List<Palette>?> getPalette() async {
     try {
       final res = await dio.get('/common/palette');
       final List<dynamic> responseData = res.data['result'][
