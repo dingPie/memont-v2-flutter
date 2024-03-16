@@ -31,6 +31,22 @@ class TagApi {
     }
   }
 
+  static Future<TagDto?> getById(String tagId) async {
+    try {
+      final res = await dio.get(
+        '/tag',
+        queryParameters: {'id': tagId},
+      );
+      final dynamic responseData = res.data['result']['data'];
+      var result = TagDto.fromJson(responseData);
+
+      return result;
+    } catch (err) {
+      print('tag 목록 조회 에러: ${err.toString()}');
+      return null;
+    }
+  }
+
   static void create(TagDto body) async {
     try {
       final res = await dio.post(
