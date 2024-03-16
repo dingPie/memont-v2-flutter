@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:go_router/go_router.dart';
 import 'package:memont_v2/apis/content/content_api.dart';
 
 import 'package:memont_v2/apis/tag/tag_api.dart';
@@ -133,7 +134,10 @@ class _TalkScreenState extends State<TalkScreen> {
 
   // P_TODO: 태그보기버튼 눌렀을 떄 구현해야 함.
   void onPressMoreTagViewButton(ContentDto? content) {
-    print("태그보기버튼 클릭");
+    var uri = Uri(
+      path: '/detail/${content?.tagId.toString()}',
+    ).toString();
+    context.push(uri);
   }
 
   // P_TODO: 상단고정버튼 눌렀을 떄 구현해야 함.
