@@ -13,7 +13,7 @@ class DetailScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var id = goRouterState?.pathParameters['id'];
+    var tagId = goRouterState?.pathParameters['id'];
 
     void onPressedBackButton() => context.pop();
 
@@ -32,7 +32,7 @@ class DetailScreen extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Text(
-              '동적 라우팅 디테일 페이지',
+              '동적 라우팅 디테일 페이지 $tagId',
               style: context.textStyle.h1.copyWith(
                 color: context.colors.primary[500],
                 fontSize: 24,

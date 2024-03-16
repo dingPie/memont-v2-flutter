@@ -56,7 +56,7 @@ class _TalkScreenState extends State<TalkScreen> {
 
     GetTagDto getTagDto = GetTagDto(cursor: tagProvider.cursor);
     try {
-      var tagResult = await TagApi.getList(getTagDto);
+      var tagResult = await TagApi.getListByCursor(getTagDto);
       if (tagResult != null) {
         tagProvider.tag = tagResult;
       }
@@ -74,7 +74,7 @@ class _TalkScreenState extends State<TalkScreen> {
     try {
       await Future.delayed(const Duration(seconds: 1));
       GetContentDto getContentDto = GetContentDto(cursor: pageKey);
-      print('아니 이건???? $getContentDto');
+
       var contentList = await ContentApi.getListByCursor(getContentDto);
       if (contentList == null) throw '';
 

@@ -8,7 +8,8 @@ import 'package:memont_v2/models/tag_dto/tag_dto.dart';
 class TagApi {
   static final dio = DioIn().dio;
 
-  static Future<CursorResponse<TagDto>?> getList(GetTagDto getTagDto) async {
+  static Future<CursorResponse<TagDto>?> getListByCursor(
+      GetTagDto getTagDto) async {
     try {
       final res = await dio.get(
         '/tag/by-cursor',
