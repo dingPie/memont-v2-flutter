@@ -34,7 +34,7 @@ class _TagScreenState extends State<TagScreen> {
   // 무한스크롤 형식으로 데이터 받이오기
   Future<void> getTagInfinityScroll(int pageKey) async {
     try {
-      await Future.delayed(const Duration(seconds: 1));
+      await Future.delayed(const Duration(microseconds: 500));
       GetTagDto getTagDto = GetTagDto(cursor: pageKey);
       var tagList = await TagApi.getListByCursor(getTagDto);
       if (tagList == null) throw '';
@@ -65,9 +65,6 @@ class _TagScreenState extends State<TagScreen> {
 
   @override
   Widget build(BuildContext context) {
-    var colors = context.colors;
-    var textStyle = context.textStyle;
-
     void onPressTagItem(TagDto tag) {
       var uri = Uri(
         path: '/detail/${tag.id.toString()}',
@@ -96,6 +93,7 @@ class _TagScreenState extends State<TagScreen> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
+              Text('여기 이제 삭제예정, 태그없음 넣자 그냥...'),
               Expanded(
                 child: PagedGridView<int, TagDto>(
                   pagingController: pagingController,

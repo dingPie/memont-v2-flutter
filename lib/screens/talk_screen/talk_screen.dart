@@ -73,7 +73,7 @@ class _TalkScreenState extends State<TalkScreen> {
   // 무한스크롤 형식으로 데이터 받이오기
   Future<void> getContentInfinityScroll(int pageKey) async {
     try {
-      await Future.delayed(const Duration(seconds: 1));
+      await Future.delayed(const Duration(microseconds: 500));
       GetContentDto getContentDto = GetContentDto(cursor: pageKey);
 
       var contentList = await ContentApi.getListByCursor(getContentDto);
@@ -95,7 +95,7 @@ class _TalkScreenState extends State<TalkScreen> {
     }
   }
 
-  // P_TODO: 함수 이름 바꾸자. moreButton 은 따로 구현해야할듯.
+  // 아이템 확대보기
   void onPressItemExpendButton(ContentDto? content) {
     setState(() {
       if (content == null) {
@@ -106,13 +106,13 @@ class _TalkScreenState extends State<TalkScreen> {
     });
   }
 
-  // P_TODO: 수정버튼 눌렀을 떄 구현해야 함.
+  // 수정버튼 클릭
   void onPressMoreEditButton(ContentDto? content) {
     selectedContent = content;
     String string = '${content?.content}';
     if (content?.tag?.name != null) string += ' #${content?.tag?.name}';
     bottomInputController.text = string;
-    print("수정버튼 클릭 $string");
+    setState(() => isOpenTagMenu = true);
   }
 
   // 삭제버튼 눌렀을 떄
@@ -168,24 +168,25 @@ class _TalkScreenState extends State<TalkScreen> {
     var colors = context.colors;
 
     // tag Munu open, 추천태그 표시
-    void onChangeTextInput(String text) => setState(() {
-          isOpenTagMenu = text.isNotEmpty;
+    void onChangeTextInput(String text) {
+      // P_TODO: 태그 뽑는거 utils로 빼자.
+      var arr = text.split('#');
+      bool hasTag = arr.asMap().containsKey(1);
+      String? tagName = hasTag ? arr[1] : null;
+      setState(() {
+        isOpenTagMenu = text.isNotEmpty;
+      });
+      if (tagName == null) return;
 
-          // P_TODO: 태그 뽑는거 utils로 빼자.
-          var arr = text.split('#');
-          bool hasTag = arr.asMap().containsKey(1);
-          String? tagName = hasTag ? arr[1] : null;
-          if (tagName == null) return;
+      TagDto? target = tagProvider.tagList
+          .firstWhereOrNull((ele) => ele.name.contains(tagName));
+      print('teest');
+      setState(() {
+        searchedTag = target;
+      });
+    }
 
-          TagDto? target = tagProvider.tagList
-              .firstWhereOrNull((ele) => ele.name.contains(tagName));
-
-          setState(() {
-            searchedTag = target;
-          });
-        });
-
-    // P_TODO: + 눌러서 저장.
+    // + 눌러서 저장.
     void onPressSaveMemoButton() async {
       try {
         // P_TODO: global로 하면 뒤 배경까지 안보이는 이슈.  따로 처리해야 함.
@@ -199,6 +200,7 @@ class _TalkScreenState extends State<TalkScreen> {
 
         if (selectedContent == null) {
           var contentDto = ContentDto(content: content, tagName: tagName);
+
           var newContent = await ContentApi.createMemo(contentDto);
 
           if (newContent != null) {
@@ -208,6 +210,7 @@ class _TalkScreenState extends State<TalkScreen> {
           // P_TODO: 수정로직 수정해야함.
           var contentDto = ContentDto(
               content: content, tagName: tagName, id: selectedContent?.id);
+
           var updatedContent = await ContentApi.update(contentDto);
 
           if (updatedContent != null) {
@@ -221,6 +224,7 @@ class _TalkScreenState extends State<TalkScreen> {
 
         setState(() {
           bottomInputController.clear();
+          isOpenTagMenu = false;
         });
       } catch (err) {
         if (!mounted) return;
@@ -228,7 +232,7 @@ class _TalkScreenState extends State<TalkScreen> {
           context: context,
           content: '메모 저장에 실패했습니다.', // P_TODO: 에러처리. 메세지보고 하자.
         );
-      } finally {}
+      }
     }
 
     // tag button 클릭
