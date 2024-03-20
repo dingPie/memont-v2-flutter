@@ -42,7 +42,7 @@ class TagApi {
 
       return result;
     } catch (err) {
-      print('tag 목록 조회 에러: ${err.toString()}');
+      print('tag 단일 조회 에러: ${err.toString()}');
       return null;
     }
   }

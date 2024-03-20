@@ -7,6 +7,7 @@ import 'package:memont_v2/constants/routes.dart';
 import 'package:memont_v2/models/tag_dto/tag_dto.dart';
 import 'package:memont_v2/screens/login_screen/widgets/common_app_bar/app_bar_icon_button.dart';
 import 'package:memont_v2/screens/login_screen/widgets/common_app_bar/common_app_bar.dart';
+import 'package:memont_v2/widgets/tag_item.dart';
 import 'package:memont_v2/utils/util_hooks.dart';
 import 'package:memont_v2/utils/util_method.dart';
 import 'package:memont_v2/widgets/common_layout.dart';
@@ -26,9 +27,16 @@ class DetailScreen extends StatefulWidget {
 class _DetailScreenState extends State<DetailScreen> {
   TagDto? tagInfo;
   Future<void> getTagInfo() async {
+    // P_TODO: 각 항목 조회하는 이벤트 등 넣자..
+    // P_TODO: 태그가 없을때도 생겨버렸음
     try {
-      var tagData = await TagApi.getById(widget.tagId!);
-      setState(() => tagInfo = tagData);
+      print('TAG ID ${widget.tagId}');
+      if (widget.tagId != '0' && widget.tagId != 'isToBeDeleted') {
+        var tagData = await TagApi.getById(widget.tagId!);
+        setState(() => tagInfo = tagData);
+      }
+
+      // P_TODO: content만 조회하는 이벤트도 넣자ㅇㅇ
     } catch (e) {
       if (!mounted) return;
       UtilHooks.useCustomToast(
@@ -84,13 +92,9 @@ class _DetailScreenState extends State<DetailScreen> {
                     ),
                   ],
                 ),
-                child: Padding(
-                  padding: const EdgeInsets.all(8),
-                  child: Text(
-                    tagInfo?.name ?? '',
-                    style: textStyle.heading['sm'],
-                    overflow: TextOverflow.ellipsis,
-                  ),
+                child: TagItem(
+                  tag: tagInfo,
+                  isToBeDeleted: widget.tagId == 'isToBeDeleted',
                 ),
               ),
             ],

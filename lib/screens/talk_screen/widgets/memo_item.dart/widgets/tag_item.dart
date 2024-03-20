@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:memont_v2/config/build_context_extension.dart';
-import 'package:memont_v2/models/content_dto/content_dto.dart';
+
 import 'package:memont_v2/models/tag_dto/tag_dto.dart';
 import 'package:memont_v2/utils/util_method.dart';
 
@@ -11,7 +11,7 @@ class TagItem extends StatelessWidget {
     required this.isExpended,
   });
 
-  final TagDto tag;
+  final TagDto? tag;
   final bool isExpended;
 
   @override
@@ -30,11 +30,11 @@ class TagItem extends StatelessWidget {
       decoration: BoxDecoration(
         color: tag != null
             ? UtilMethod.hexToColor(
-                tag.color,
+                tag?.color,
               )
             : colors.white,
         shape: BoxShape.rectangle,
-        borderRadius: BorderRadius.circular(100),
+        borderRadius: BorderRadius.circular(isExpended ? 8 : 100),
         boxShadow: [
           BoxShadow(
             color: colors.gray[300]!,
@@ -45,7 +45,7 @@ class TagItem extends StatelessWidget {
         ],
       ),
       child: Text(
-        tag.name,
+        tag?.name ?? '',
         style: textStyle.body['md']?.copyWith(
           fontWeight: FontWeight.w600,
         ),

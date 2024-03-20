@@ -11,7 +11,7 @@ import 'package:memont_v2/models/get_tag_dto/get_tag_dto.dart';
 import 'package:memont_v2/models/tag_dto/tag_dto.dart';
 import 'package:memont_v2/screens/login_screen/widgets/common_app_bar/app_bar_icon_button.dart';
 import 'package:memont_v2/screens/login_screen/widgets/common_app_bar/common_app_bar.dart';
-import 'package:memont_v2/screens/tag_screen/widgets/tag_item.dart';
+import 'package:memont_v2/widgets/tag_item.dart';
 import 'package:memont_v2/theme/color/app_colors_extension.dart';
 import 'package:memont_v2/theme/textStyle/app_text_style_extension.dart';
 import 'package:memont_v2/utils/util_hooks.dart';
@@ -65,9 +65,14 @@ class _TagScreenState extends State<TagScreen> {
 
   @override
   Widget build(BuildContext context) {
-    void onPressTagItem(TagDto tag) {
+    void onPressTagItem(TagDto? tag, {bool isToBeDeleted = false}) {
+      var tagId = isToBeDeleted
+          ? 'isToBeDeleted'
+          : tag == null
+              ? '0'
+              : tag.id.toString();
       var uri = Uri(
-        path: '/detail/${tag.id.toString()}',
+        path: '/detail/$tagId',
       ).toString();
       context.push(uri);
     }
@@ -93,7 +98,29 @@ class _TagScreenState extends State<TagScreen> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Text('여기 이제 삭제예정, 태그없음 넣자 그냥...'),
+              Padding(
+                padding: const EdgeInsets.only(left: 16, right: 16, top: 16),
+                child: Row(
+                  // mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Expanded(
+                      child: TagItem(
+                        onPressTagItem: onPressTagItem,
+                      ),
+                    ),
+                    const SizedBox(
+                      width: 8,
+                    ),
+                    Expanded(
+                      child: TagItem(
+                        isToBeDeleted: true,
+                        onPressTagItem: (tag) =>
+                            onPressTagItem(tag, isToBeDeleted: true),
+                      ),
+                    )
+                  ],
+                ),
+              ),
               Expanded(
                 child: PagedGridView<int, TagDto>(
                   pagingController: pagingController,
@@ -106,15 +133,20 @@ class _TagScreenState extends State<TagScreen> {
                   ),
 
                   builderDelegate: PagedChildBuilderDelegate<TagDto>(
-                    itemBuilder: (context, item, index) => Padding(
-                      padding: const EdgeInsets.only(bottom: 3, top: 3),
-                      child: TagItem(
-                        tag: item,
-                        onPressTagItem: onPressTagItem,
-                      ),
-                    ),
+                    itemBuilder: (context, item, index) {
+                      return Padding(
+                        padding: const EdgeInsets.only(bottom: 3, top: 3),
+                        child: TagItem(
+                          tag: item,
+                          onPressTagItem: onPressTagItem,
+                        ),
+                      );
+                    },
                   ),
-                  padding: const EdgeInsets.all(16),
+
+                  // P_TODO: 맨 위 값 추가에 따라 수정될수도.
+                  padding: const EdgeInsets.only(
+                      left: 16, right: 16, bottom: 16, top: 12),
                 ),
               ),
             ],
