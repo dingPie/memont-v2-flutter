@@ -45,6 +45,7 @@ class _MemoItemState extends State<MemoItem> {
 
     return Flex(
       direction: isExpended ? Axis.vertical : Axis.horizontal,
+      crossAxisAlignment: CrossAxisAlignment.start,
       mainAxisSize: MainAxisSize.min, // P_MEMO: 이걸 왜 추가해서 된거지 ?
       children: [
         // 상단 태그항목
