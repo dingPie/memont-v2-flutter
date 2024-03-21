@@ -6,19 +6,23 @@ import 'package:memont_v2/constants/routes.dart';
 class AppBarIconButton extends StatelessWidget {
   const AppBarIconButton({
     super.key,
-    required this.routes,
     required this.iconData,
+    this.routes,
   });
 
-  final ROUTES routes;
   final IconData iconData;
+  final ROUTES? routes;
 
   @override
   Widget build(BuildContext context) {
     var colors = context.colors;
 
     void onPressNavigationButton() {
-      context.push(routes.path);
+      if (routes != null) {
+        context.push(routes!.path);
+      } else {
+        context.pop();
+      }
     }
 
     return IconButton(

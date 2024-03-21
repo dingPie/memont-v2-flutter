@@ -8,7 +8,8 @@ import 'package:memont_v2/models/tag_dto/tag_dto.dart';
 class TagApi {
   static final dio = DioIn().dio;
 
-  static Future<CursorResponse<TagDto>?> getList(GetTagDto getTagDto) async {
+  static Future<CursorResponse<TagDto>?> getListByCursor(
+      GetTagDto getTagDto) async {
     try {
       final res = await dio.get(
         '/tag/by-cursor',
@@ -26,6 +27,22 @@ class TagApi {
       return result;
     } catch (err) {
       print('tag 목록 조회 에러: ${err.toString()}');
+      return null;
+    }
+  }
+
+  static Future<TagDto?> getById(String tagId) async {
+    try {
+      final res = await dio.get(
+        '/tag',
+        queryParameters: {'id': tagId},
+      );
+      final dynamic responseData = res.data['result']['data'];
+      var result = TagDto.fromJson(responseData);
+
+      return result;
+    } catch (err) {
+      print('tag 단일 조회 에러: ${err.toString()}');
       return null;
     }
   }

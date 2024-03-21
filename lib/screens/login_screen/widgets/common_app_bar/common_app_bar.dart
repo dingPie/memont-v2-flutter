@@ -43,6 +43,9 @@ class CommonAppBar extends StatelessWidget {
       ),
       actions: [
         for (var iconButton in iconButtonList) iconButton,
+        const SizedBox(
+          width: 8,
+        )
       ],
     );
   }

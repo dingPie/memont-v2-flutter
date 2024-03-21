@@ -11,6 +11,9 @@ _$GetContentDtoImpl _$$GetContentDtoImplFromJson(Map<String, dynamic> json) =>
       cursor: json['cursor'] as int?,
       limit: json['limit'] as int?,
       tagId: json['tagId'] as int?,
+      sort: json['sort'] as String?,
+      isToBeDeleted: json['isToBeDeleted'] as bool?,
+      isNotTagged: json['isNotTagged'] as bool?,
     );
 
 Map<String, dynamic> _$$GetContentDtoImplToJson(_$GetContentDtoImpl instance) =>
@@ -18,4 +21,7 @@ Map<String, dynamic> _$$GetContentDtoImplToJson(_$GetContentDtoImpl instance) =>
       'cursor': instance.cursor,
       'limit': instance.limit,
       'tagId': instance.tagId,
+      'sort': instance.sort,
+      'isToBeDeleted': instance.isToBeDeleted,
+      'isNotTagged': instance.isNotTagged,
     };

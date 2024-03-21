@@ -4,7 +4,7 @@ import 'package:memont_v2/models/delete_tag_dto/delete_tag_dto.dart';
 import 'package:memont_v2/models/user_dto/user_dto.dart';
 import 'package:memont_v2/models/user_setting_dto/user_setting_dto.dart';
 
-class TagApi {
+class UserApi {
   static final dio = DioIn().dio;
 
   static Future<UserDto?> getMe() async {

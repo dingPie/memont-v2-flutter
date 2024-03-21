@@ -35,7 +35,7 @@ class AppRouter {
         path: ROUTES.detail.path,
         name: ROUTES.detail.name,
         builder: (context, state) => DetailScreen(
-          goRouterState: state,
+          tagId: state.pathParameters['id'],
         ),
       ),
       GoRoute(
