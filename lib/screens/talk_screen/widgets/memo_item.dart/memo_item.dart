@@ -23,7 +23,8 @@ class MemoItem extends StatefulWidget {
   final void Function(List<int> idList) onPressItemUnTagButton;
   final void Function(ContentDto content) onPressMoreEditButton;
   final void Function(ContentDto content) onPressMoreDeleteButton;
-  final void Function(ContentDto content) onPressMoreTagViewButton;
+  final void Function(ContentDto content, {bool isToBeDeleted})
+      onPressMoreTagViewButton;
   final void Function(ContentDto content) onPressMorePinButton;
 
   @override

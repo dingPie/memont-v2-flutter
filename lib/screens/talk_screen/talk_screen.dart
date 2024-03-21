@@ -133,9 +133,15 @@ class _TalkScreenState extends State<TalkScreen> {
   }
 
   // P_TODO: 태그보기버튼 눌렀을 떄 구현해야 함.
-  void onPressMoreTagViewButton(ContentDto? content) {
+  void onPressMoreTagViewButton(ContentDto? content,
+      {bool isToBeDeleted = false}) {
+    var tagId = isToBeDeleted
+        ? 'isToBeDeleted'
+        : content?.tagId == null
+            ? '0'
+            : content?.tagId.toString();
     var uri = Uri(
-      path: '/detail/${content?.tagId.toString()}',
+      path: '/detail/$tagId',
     ).toString();
     context.push(uri);
   }
