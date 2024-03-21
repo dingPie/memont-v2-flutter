@@ -10,6 +10,9 @@ class GetContentDto with _$GetContentDto {
     int? cursor,
     int? limit,
     int? tagId,
+    String? sort,
+    bool? isToBeDeleted,
+    bool? isNotTagged,
   }) = _GetContentDto;
 
   // json 확장
