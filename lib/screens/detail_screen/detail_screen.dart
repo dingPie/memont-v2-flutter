@@ -37,16 +37,27 @@ class _DetailScreenState extends State<DetailScreen> {
   TextEditingController editTextController = TextEditingController();
 
 // P_TODO: 일단 아이디만
-  int? selectedContentId;
+  ContentDto? selectedContent;
 
-  void onPressDetailItem(ContentDto content) {
-    print('저장 API 호춣해야 할 이전 값. $selectedContentId');
-    print('그리고 이게 수정중인 값인지 확인. ${editTextController.text}');
+  void onPressDetailItem(ContentDto content) async {
+    if (selectedContent != null &&
+        selectedContent!.content != editTextController.text) {
+      print('업데이트 실행');
+      ContentDto editedContent = selectedContent!.copyWith(
+        content: editTextController.text,
+      );
+      ContentApi.update(editedContent);
+      pagingController.itemList = pagingController.itemList
+          ?.map(
+            (ele) => selectedContent?.id != ele.id ? ele : editedContent,
+          )
+          .toList();
+    }
     // P_TODO: 저장 할 떄 content도 알아야 하는데... TextField를 하나 만들어서 아래 Props로??
     // P_TODO: 그럼 새로 눌렀을 떄 이전값은 저장하고, 지금 값은 controller에 연결하는 뭐 그런건가;
     // P_TODO: 이게 되려나... 조건부 렌더링이 더 무겁거나 문제가 있다면..아예 이전처럼 absolute로 띄우는 방식으로도 괜찮을 듯 하지만..
     // 아니면 저장한 값을 계속 setState쳐야하는건데 그건 또 별로일듯.
-    setState(() => selectedContentId = content.id);
+    setState(() => selectedContent = content);
     editTextController.text = content.content;
     print('set Stata 할 지금 값 ${content.id}');
   }
@@ -183,7 +194,7 @@ class _DetailScreenState extends State<DetailScreen> {
                           child: DetailItem(
                             content: item,
                             onPressDetailItem: onPressDetailItem,
-                            isEditing: selectedContentId == item.id,
+                            isEditing: selectedContent?.id == item.id,
                             editTextController: editTextController,
                           )),
                     ),
