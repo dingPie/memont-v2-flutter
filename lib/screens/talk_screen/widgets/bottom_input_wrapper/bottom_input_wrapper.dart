@@ -4,19 +4,20 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:memont_v2/config/build_context_extension.dart';
 import 'package:memont_v2/global_state/provider/tag_provider.dart';
 import 'package:memont_v2/models/tag_dto/tag_dto.dart';
-import 'package:memont_v2/screens/talk_screen/widgets/memo_item.dart/widgets/tag_item.dart';
+
 import 'package:memont_v2/screens/talk_screen/widgets/tag_button_item.dart';
 import 'package:provider/provider.dart';
 
 class BottomInputWrapper extends StatelessWidget {
-  const BottomInputWrapper(
-      {super.key,
-      required this.isOpenTagMenu,
-      required this.searchedTag,
-      required this.onPressSaveMemoButton,
-      required this.onChangeTextInput,
-      required this.bottomInputController,
-      required this.onPressInputBoxTagItemButton});
+  const BottomInputWrapper({
+    super.key,
+    required this.isOpenTagMenu,
+    required this.searchedTag,
+    required this.onPressSaveMemoButton,
+    required this.onChangeTextInput,
+    required this.bottomInputController,
+    required this.onPressInputBoxTagItemButton,
+  });
   final bool isOpenTagMenu;
   final TagDto? searchedTag;
   final TextEditingController bottomInputController;

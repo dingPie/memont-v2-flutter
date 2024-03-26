@@ -1,10 +1,12 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:go_router/go_router.dart';
 import 'package:memont_v2/apis/auth/auth_api.dart';
 
 import 'package:memont_v2/config/build_context_extension.dart';
 import 'package:memont_v2/constants/key.dart';
+import 'package:memont_v2/constants/routes.dart';
 
 import 'package:memont_v2/global_state/provider/app_state.dart';
 import 'package:memont_v2/global_state/singleton_storage.dart';
@@ -15,7 +17,7 @@ import 'package:memont_v2/widgets/common_layout.dart';
 
 import 'package:memont_v2/widgets/pressable.dart';
 import 'package:provider/provider.dart';
-import 'package:google_sign_in/google_sign_in.dart';
+
 import 'package:shared_preferences/shared_preferences.dart';
 
 class LoginScreen extends StatelessWidget {
@@ -80,6 +82,7 @@ class LoginScreen extends StatelessWidget {
         prefs.setString(KEY.REFRESH_TOKEN, res?.refreshToken ?? '');
         prefs.setString(KEY.PROVIDER_UID, body.providerUid);
         appState.isLogin = true;
+        context.replace(ROUTES.talk.path);
       } catch (err) {
         print("로그인 이후 로직 에러 ${err.toString()}");
       } finally {

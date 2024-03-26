@@ -186,7 +186,7 @@ class _TalkScreenState extends State<TalkScreen> {
 
       TagDto? target = tagProvider.tagList
           .firstWhereOrNull((ele) => ele.name.contains(tagName));
-      print('teest');
+
       setState(() {
         searchedTag = target;
       });
