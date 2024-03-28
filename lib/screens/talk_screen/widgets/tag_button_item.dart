@@ -5,13 +5,14 @@ import 'package:memont_v2/models/tag_dto/tag_dto.dart';
 import 'package:memont_v2/utils/util_method.dart';
 
 class TagButtonItem extends StatelessWidget {
-  const TagButtonItem(
-      {super.key,
-      required this.tag,
-      required this.onPressInputBoxTagItemButton});
+  const TagButtonItem({
+    super.key,
+    required this.tag,
+    required this.onPressTagButton,
+  });
 
   final TagDto? tag;
-  final void Function(TagDto? tagDto) onPressInputBoxTagItemButton;
+  final void Function(TagDto? tagDto) onPressTagButton;
 
   @override
   Widget build(BuildContext context) {
@@ -23,7 +24,7 @@ class TagButtonItem extends StatelessWidget {
       child: ConstrainedBox(
         constraints: const BoxConstraints(maxHeight: 32),
         child: ElevatedButton(
-          onPressed: () => onPressInputBoxTagItemButton(tag),
+          onPressed: () => onPressTagButton(tag),
           style: ElevatedButton.styleFrom(
             maximumSize: const Size(100, 32),
             minimumSize: const Size(40, 32),

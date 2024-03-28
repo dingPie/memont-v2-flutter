@@ -4,8 +4,11 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:memont_v2/config/build_context_extension.dart';
 import 'package:memont_v2/global_state/provider/tag_provider.dart';
 import 'package:memont_v2/models/tag_dto/tag_dto.dart';
+import 'package:memont_v2/screens/talk_screen/widgets/bottom_input_wrapper/widgets/botton_input.dart';
 
 import 'package:memont_v2/screens/talk_screen/widgets/tag_button_item.dart';
+
+import 'package:memont_v2/widgets/tag_button_list_wrapper.dart';
 import 'package:provider/provider.dart';
 
 class BottomInputWrapper extends StatelessWidget {
@@ -29,7 +32,6 @@ class BottomInputWrapper extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var colors = context.colors;
-    var textStyle = context.textStyle;
     var tagProvider = context.watch<TagProvider>();
 
     double deviceWidth = MediaQuery.of(context).size.width;
@@ -61,30 +63,16 @@ class BottomInputWrapper extends StatelessWidget {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  SizedBox(
-                    height: 40,
-                    width: tagContainerWidth,
-                    child: ListView.separated(
-                      padding: const EdgeInsets.symmetric(vertical: 4),
-                      itemBuilder: (BuildContext context, int index) =>
-                          TagButtonItem(
-                        tag: tagProvider.tagList[index],
-                        onPressInputBoxTagItemButton: (TagDto? tag) =>
-                            onPressInputBoxTagItemButton(tag),
-                      ),
-                      separatorBuilder: (context, index) =>
-                          const SizedBox(width: 4),
-                      shrinkWrap: true,
-                      scrollDirection: Axis.horizontal,
-                      itemCount: tagProvider.tagList.length,
-                      physics: const BouncingScrollPhysics(),
-                    ),
+                  TagButtonListWrapper(
+                    containerWidth: tagContainerWidth,
+                    tagList: tagProvider.tagList,
+                    onPressTagButton: onPressInputBoxTagItemButton,
                   ),
 
                   if (searchedTag != null)
                     TagButtonItem(
                       tag: searchedTag,
-                      onPressInputBoxTagItemButton: (TagDto? tag) =>
+                      onPressTagButton: (TagDto? tag) =>
                           onPressInputBoxTagItemButton(tag),
                     ),
 
@@ -107,64 +95,16 @@ class BottomInputWrapper extends StatelessWidget {
                   ),
                 ],
               ),
+
             const SizedBox(
               height: 8,
             ),
-            Row(
-              children: [
-                Expanded(
-                  child: TextField(
-                    maxLines: null,
-                    controller: bottomInputController,
-                    onChanged: onChangeTextInput,
-                    style: textStyle.body['md'],
-                    decoration: InputDecoration(
-                      hintText: '내용과 #으로 태그를 붙여주세요.', // P_TODO: 첫번째 태그만 반영됨
 
-                      contentPadding: const EdgeInsets.all(12),
-                      focusedBorder: OutlineInputBorder(
-                        borderSide: BorderSide(
-                          width: 1,
-                          color: colors.gray[300]!,
-                        ),
-                      ),
-                      enabledBorder: OutlineInputBorder(
-                        borderSide: BorderSide(
-                          color: colors.white,
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-                const SizedBox(
-                  width: 12,
-                ),
-                // 추가버튼
-                Container(
-                  width: 40,
-                  height: 40,
-                  constraints: const BoxConstraints(), // constraints
-                  decoration: BoxDecoration(
-                    border: Border.all(
-                      color: colors.gray[400]!,
-                      width: 2,
-                    ),
-                    shape: BoxShape.circle,
-                  ),
-                  child: IconButton(
-                    padding: const EdgeInsets.all(0), // 패딩 설정
-                    constraints: const BoxConstraints(), // constraints
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: colors.white,
-                    ),
-                    onPressed: onPressSaveMemoButton,
-                    icon: Icon(
-                      Icons.add,
-                      color: colors.gray[500],
-                    ),
-                  ),
-                ),
-              ],
+            // 하단 인풋
+            BottomInput(
+              bottomInputController: bottomInputController,
+              onChangeTextInput: onChangeTextInput,
+              onPressSaveMemoButton: onPressSaveMemoButton,
             ),
           ],
         ),
