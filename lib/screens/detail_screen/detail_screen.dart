@@ -5,17 +5,19 @@ import 'package:memont_v2/apis/content/content_api.dart';
 import 'package:memont_v2/apis/tag/tag_api.dart';
 import 'package:memont_v2/config/build_context_extension.dart';
 import 'package:memont_v2/constants/routes.dart';
+import 'package:memont_v2/global_state/provider/tag_provider.dart';
 import 'package:memont_v2/models/content_dto/content_dto.dart';
 import 'package:memont_v2/models/get_content_dto/get_content_dto.dart';
 
 import 'package:memont_v2/models/tag_dto/tag_dto.dart';
-import 'package:memont_v2/screens/detail_screen/widgets/detail_item.dart';
+import 'package:memont_v2/screens/detail_screen/widgets/detail_content_item.dart';
 import 'package:memont_v2/screens/login_screen/widgets/common_app_bar/app_bar_icon_button.dart';
 import 'package:memont_v2/screens/login_screen/widgets/common_app_bar/common_app_bar.dart';
 import 'package:memont_v2/widgets/tag_item.dart';
 import 'package:memont_v2/utils/util_hooks.dart';
 import 'package:memont_v2/utils/util_method.dart';
 import 'package:memont_v2/widgets/common_layout.dart';
+import 'package:provider/provider.dart';
 
 class DetailScreen extends StatefulWidget {
   const DetailScreen({
@@ -35,32 +37,7 @@ class _DetailScreenState extends State<DetailScreen> {
   bool isNotTagged = false;
 
   TextEditingController editTextController = TextEditingController();
-
-// P_TODO: 일단 아이디만
   ContentDto? selectedContent;
-
-  void onPressDetailItem(ContentDto content) async {
-    if (selectedContent != null &&
-        selectedContent!.content != editTextController.text) {
-      print('업데이트 실행');
-      ContentDto editedContent = selectedContent!.copyWith(
-        content: editTextController.text,
-      );
-      ContentApi.update(editedContent);
-      pagingController.itemList = pagingController.itemList
-          ?.map(
-            (ele) => selectedContent?.id != ele.id ? ele : editedContent,
-          )
-          .toList();
-    }
-    // P_TODO: 저장 할 떄 content도 알아야 하는데... TextField를 하나 만들어서 아래 Props로??
-    // P_TODO: 그럼 새로 눌렀을 떄 이전값은 저장하고, 지금 값은 controller에 연결하는 뭐 그런건가;
-    // P_TODO: 이게 되려나... 조건부 렌더링이 더 무겁거나 문제가 있다면..아예 이전처럼 absolute로 띄우는 방식으로도 괜찮을 듯 하지만..
-    // 아니면 저장한 값을 계속 setState쳐야하는건데 그건 또 별로일듯.
-    setState(() => selectedContent = content);
-    editTextController.text = content.content;
-    print('set Stata 할 지금 값 ${content.id}');
-  }
 
   TagDto? tagInfo;
   Future<void> getTagInfo() async {
@@ -88,7 +65,6 @@ class _DetailScreenState extends State<DetailScreen> {
         tagId: isNotTagged ? null : int.tryParse(widget.tagId ?? ""),
         isNotTagged: isNotTagged,
         isToBeDeleted: widget.tagId == 'isToBeDeleted',
-        // P_TODO: 이거 정렬 다르게 했을때 조회 이상 없을지 테스트해야함.
         sort: "ASC",
       );
 
@@ -105,10 +81,66 @@ class _DetailScreenState extends State<DetailScreen> {
       if (!mounted) return;
       UtilHooks.useCustomToast(
         context: context,
-        content: '메모를 불러오는데에 실패했습니다.', // P_TODO: 에러처리. 메세지보고 하자.
+        content: '메모를 불러오는데에 실패했습니다.',
       );
       pagingController.error = e;
     }
+  }
+
+  // 콘텐츠 클릭, 선택항목 선택 및 이전 항목 저장
+  void onPressDetailItem(ContentDto content) async {
+    if (selectedContent != null &&
+        selectedContent!.content != editTextController.text) {
+      ContentDto editedContent = selectedContent!.copyWith(
+        content: editTextController.text,
+      );
+      ContentApi.update(editedContent);
+      pagingController.itemList = pagingController.itemList
+          ?.map(
+            (ele) => selectedContent?.id != ele.id ? ele : editedContent,
+          )
+          .toList();
+    }
+    setState(() => selectedContent = content);
+    editTextController.text = content.content;
+  }
+
+  // 콘텐츠 삭제
+  void onPressDeleteMemoButton() {
+    UtilHooks.useShowCustomDialog(
+      context: context,
+      title: '메모 삭제',
+      content: '이 메모를 삭제할까요?',
+      successButtonText: '확인',
+      successButtonAction: () {
+        if (selectedContent == null) return;
+        ContentApi.delete(selectedContent?.id ?? 0);
+        pagingController.itemList = pagingController.itemList!
+            .where((ele) => ele.id != selectedContent?.id)
+            .toList();
+      },
+    );
+  }
+
+  // 해당 콘텐츠 태그변경
+  void onPressContentTagButton(TagDto? tag) {
+    UtilHooks.useShowCustomDialog(
+      context: context,
+      title: '태그 변경',
+      content: '이 메모의 태그를 변경할까요?',
+      successButtonText: '확인',
+      successButtonAction: () {
+        if (selectedContent == null) return;
+        ContentDto editedContent = selectedContent!.copyWith(
+          tagId: tag?.id,
+        );
+        ContentApi.update(editedContent);
+        pagingController.itemList = pagingController.itemList!
+            .where((ele) => ele.id != selectedContent?.id)
+            .toList();
+        selectedContent = null;
+      },
+    );
   }
 
   @override
@@ -171,6 +203,7 @@ class _DetailScreenState extends State<DetailScreen> {
                 height: 8,
               ),
 
+              // 중단  메모들
               Expanded(
                 child: Container(
                   padding: const EdgeInsets.all(8),
@@ -182,25 +215,30 @@ class _DetailScreenState extends State<DetailScreen> {
                         color: colors.gray[300] as Color,
                         blurStyle: BlurStyle.solid,
                         blurRadius: 6,
-                        offset: Offset(0, 4),
+                        offset: const Offset(0, 4),
                       ),
                     ],
                   ),
+                  clipBehavior: Clip.none,
                   child: PagedListView<int, ContentDto>(
                     pagingController: pagingController, //저장했던 정보들
                     builderDelegate: PagedChildBuilderDelegate<ContentDto>(
                       itemBuilder: (context, item, index) => Padding(
                           padding: const EdgeInsets.only(bottom: 3, top: 3),
-                          child: DetailItem(
+                          child: DetailContentItem(
                             content: item,
-                            onPressDetailItem: onPressDetailItem,
                             isEditing: selectedContent?.id == item.id,
                             editTextController: editTextController,
+                            onPressDetailItem: onPressDetailItem,
+                            onPressDeleteMemoButton: onPressDeleteMemoButton,
+                            onPressContentTagButton: onPressContentTagButton,
                           )),
                     ),
                   ),
                 ),
               ),
+
+              // P_TODO:  맨 아래 추가로 쓸 수 있는 칸도 일단 있어야 해./..
             ],
           ),
         ),
