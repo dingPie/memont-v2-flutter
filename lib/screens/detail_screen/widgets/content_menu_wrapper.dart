@@ -18,8 +18,19 @@ class ContentMenuWrapper extends TagButtonListWrapper {
     var colors = context.colors;
 
     return Container(
-        height: 40,
-        color: colors.primary[300],
+        height: 44,
+        decoration: BoxDecoration(
+          color: colors.gray[100],
+          borderRadius: BorderRadius.circular(8),
+          boxShadow: [
+            BoxShadow(
+              color: colors.gray[300]!,
+              blurStyle: BlurStyle.solid,
+              blurRadius: 20,
+              offset: const Offset(0, 4),
+            ),
+          ],
+        ),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
@@ -27,20 +38,43 @@ class ContentMenuWrapper extends TagButtonListWrapper {
               tagList: tagList,
               onPressTagButton: onPressTagButton,
             ),
-
-            // 삭제버튼
-            IconButton(
-              padding: const EdgeInsets.all(6), // 패딩 설정
-              constraints: const BoxConstraints(), // constraints
-              style: ElevatedButton.styleFrom(
-                backgroundColor: colors.white,
-              ),
-              onPressed: onPressDeleteMemoButton,
-              icon: Icon(
-                FontAwesomeIcons.trash,
-                size: 14,
-                color: colors.gray[700],
-              ),
+            Row(
+              children: [
+                IconButton(
+                  onPressed: () => onPressTagButton(null),
+                  padding: const EdgeInsets.all(8), // 패딩 설정
+                  constraints: const BoxConstraints(),
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: colors.white,
+                    tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                    elevation: 2,
+                    shadowColor: colors.gray[100],
+                  ),
+                  icon: Icon(
+                    size: 16,
+                    FontAwesomeIcons.hashtag,
+                    color: colors.gray[800],
+                  ),
+                ),
+                const SizedBox(width: 8),
+                // 삭제버튼
+                IconButton(
+                  onPressed: onPressDeleteMemoButton,
+                  padding: const EdgeInsets.all(8), // 패딩 설정
+                  constraints: const BoxConstraints(), // constraints
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: colors.white,
+                    tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                    elevation: 2,
+                    shadowColor: colors.gray[100],
+                  ),
+                  icon: Icon(
+                    FontAwesomeIcons.trash,
+                    size: 16,
+                    color: colors.gray[700],
+                  ),
+                )
+              ],
             )
           ],
         ));

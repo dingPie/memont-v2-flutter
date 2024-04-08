@@ -58,11 +58,6 @@ class _DetailItemState extends State<DetailContentItem> {
               // 수정중인 인풋 및 메뉴
               ? Column(
                   children: [
-                    ContentMenuWrapper(
-                      onPressDeleteMemoButton: widget.onPressDeleteMemoButton,
-                      tagList: tagProvider.tagList,
-                      onPressTagButton: widget.onPressContentTagButton,
-                    ),
                     GestureDetector(
                       onTap: () => widget.onPressDetailItem(widget.content),
                       child: TextField(
@@ -70,8 +65,9 @@ class _DetailItemState extends State<DetailContentItem> {
                         maxLines: null,
                         style: textStyle.body['sm'],
                         decoration: InputDecoration(
+                          isDense: true, // text field 의 input을 조정하게 해줌
                           contentPadding: const EdgeInsets.symmetric(
-                              horizontal: 6, vertical: 6),
+                              horizontal: 6, vertical: 8),
                           focusedBorder: UnderlineInputBorder(
                             borderSide: BorderSide(
                               color: colors.gray[700]!,
@@ -80,6 +76,11 @@ class _DetailItemState extends State<DetailContentItem> {
                         ),
                       ),
                     ),
+                    ContentMenuWrapper(
+                      onPressDeleteMemoButton: widget.onPressDeleteMemoButton,
+                      tagList: tagProvider.tagList,
+                      onPressTagButton: widget.onPressContentTagButton,
+                    ),
                   ],
                 )
               // 일반 아이템
@@ -87,7 +88,7 @@ class _DetailItemState extends State<DetailContentItem> {
                   onTap: () => widget.onPressDetailItem(widget.content),
                   child: Container(
                     padding:
-                        const EdgeInsets.symmetric(horizontal: 6, vertical: 6),
+                        const EdgeInsets.symmetric(horizontal: 6, vertical: 8),
                     decoration: BoxDecoration(
                       border: Border(
                         bottom: BorderSide(
