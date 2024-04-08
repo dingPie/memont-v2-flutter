@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -121,34 +123,45 @@ class _TalkScreenState extends State<TalkScreen> {
       context: context,
       title: '메모 삭제',
       content: '이 메모를 삭제할까요?',
-      successButtonText: '확인',
-      successButtonAction: () {
-        if (content == null) return;
-        ContentApi.delete(content.id!);
-        pagingController.itemList = pagingController.itemList!
-            .where((ele) => ele.id != content.id)
-            .toList();
-      },
+      buttonList: [
+        DialogButton(
+          text: '확인',
+          onPress: () {
+            if (content == null) return;
+            ContentApi.delete(content.id!);
+            pagingController.itemList = pagingController.itemList!
+                .where((ele) => ele.id != content.id)
+                .toList();
+          },
+        )
+      ],
     );
   }
 
-  // P_TODO: 태그보기버튼 눌렀을 떄 구현해야 함.
+  //  태그보기버튼 눌렀을 떄 구현해야 함.
   void onPressMoreTagViewButton(ContentDto? content,
       {bool isToBeDeleted = false}) {
     var tagId = isToBeDeleted
-        ? 'isToBeDeleted'
-        : content?.tagId == null
+        // ? 'isToBeDeleted'
+        ? '-1'
+        : content?.tag?.id == null
             ? '0'
-            : content?.tagId.toString();
+            : content?.tag?.id.toString();
+
     var uri = Uri(
       path: '/detail/$tagId',
     ).toString();
-    context.push(uri);
+    context.push(uri).then(refreshBack);
   }
 
   // P_TODO: 상단고정버튼 눌렀을 떄 구현해야 함.
   void onPressMorePinButton(ContentDto? content) {
     print("상단고정버튼 클릭");
+  }
+
+  // route.back 등으로 돌아왔을 때 refresh 시키기 위한 이벤트
+  FutureOr refreshBack(dynamic value) {
+    pagingController.refresh();
   }
 
   @override
@@ -275,17 +288,19 @@ class _TalkScreenState extends State<TalkScreen> {
         child: Scaffold(
           backgroundColor: colors.gray[100],
           // P_TODO: 이거 웹에서는 어떻게 나오는지 확인해야 함
-          appBar: const PreferredSize(
-            preferredSize: Size.fromHeight(60.0),
+          appBar: PreferredSize(
+            preferredSize: const Size.fromHeight(60.0),
             child: CommonAppBar(
               iconButtonList: [
                 AppBarIconButton(
                   routes: ROUTES.setting,
                   iconData: FontAwesomeIcons.gear,
+                  routeThen: refreshBack,
                 ),
                 AppBarIconButton(
                   routes: ROUTES.tag,
                   iconData: FontAwesomeIcons.tag,
+                  routeThen: refreshBack,
                 )
               ],
             ),
