@@ -8,8 +8,9 @@ part 'delete_tag_dto.g.dart';
 class DeleteTagDto with _$DeleteTagDto {
   // constructor 및 본인을 반환하는 factory를 만들어주는 기본 문법
   factory DeleteTagDto({
-    required int id,
+    required double id,
     bool? isDeleteWithContent,
+    bool? isToBeDeleted,
   }) = _DeleteTagDto;
 
   // json 확장

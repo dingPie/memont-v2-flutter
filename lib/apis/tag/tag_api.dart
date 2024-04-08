@@ -60,7 +60,7 @@ class TagApi {
     }
   }
 
-  static void update(TagDto body) async {
+  static Future<void> update(TagDto body) async {
     try {
       final res = await dio.patch(
         '/tag/update/${body.id ?? 0}',
@@ -73,10 +73,13 @@ class TagApi {
     }
   }
 
-  static void delete(DeleteTagDto body) async {
+  static Future<void> delete(DeleteTagDto body) async {
     try {
       final res = await dio.delete(
         '/tag/delete/${body.id}',
+        queryParameters: {
+          'id': body.id,
+        },
         data: body.toJson(),
       );
       print('res: ${res.toString()}');
