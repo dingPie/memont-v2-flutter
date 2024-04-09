@@ -42,10 +42,12 @@ class _DetailScreenState extends State<DetailScreen> {
       PagingController(firstPageKey: 0);
   double tagId = 0;
 
-  TextEditingController editTextController = TextEditingController();
+  TextEditingController textEditingController = TextEditingController();
   ContentDto? selectedContent;
+  bool isEditingTag = false;
 
   TagDto? tagInfo;
+
   Future<void> getTagInfo() async {
     try {
       if (tagId > 0) {
@@ -56,7 +58,7 @@ class _DetailScreenState extends State<DetailScreen> {
       if (!mounted) return;
       UtilHooks.useCustomToast(
         context: context,
-        content: '태그 목록을 불러오는데에 실패했습니다.', // P_TODO: 에러처리. 메세지보고 하자.
+        content: '태그 목록을 불러오는데에 실패했습니다.',
       );
     }
   }
@@ -93,7 +95,7 @@ class _DetailScreenState extends State<DetailScreen> {
     }
   }
 
-  // 태그 삭제 삭제
+  // 태그 삭제
   void onPressDeleteTagButton() {
     String content = tagId < 1
         ? '태그가 없는 항목들은 현재 메모만 삭제됩니다.'
@@ -185,22 +187,70 @@ class _DetailScreenState extends State<DetailScreen> {
     );
   }
 
-  // 콘텐츠 클릭, 선택항목 선택 및 이전 항목 저장
-  void onPressDetailItem(ContentDto? content) async {
+  // 태그수정버튼 클릭
+  void onPressEditTagButton() async {
     if (selectedContent != null &&
-        selectedContent!.content != editTextController.text) {
+        selectedContent?.content != textEditingController.text) {
       ContentDto editedContent = selectedContent!.copyWith(
-        content: editTextController.text,
+        content: textEditingController.text,
       );
-      ContentApi.update(editedContent);
+      await ContentApi.update(editedContent);
       pagingController.itemList = pagingController.itemList
           ?.map(
             (ele) => selectedContent?.id != ele.id ? ele : editedContent,
           )
           .toList();
     }
+    textEditingController.text = tagInfo?.name ?? "";
+    setState(() {
+      selectedContent = null;
+      isEditingTag = true;
+    });
+  }
+
+  // 태그 수정 확인버튼 클릭
+  void onPressConfirmEditTagButton() async {
+    if (tagInfo == null) return;
+    if (tagInfo?.name != textEditingController.text) {
+      var updateTag = tagInfo!.copyWith(name: textEditingController.text);
+      await TagApi.update(updateTag);
+
+      if (!context.mounted) return;
+      UtilHooks.useCustomToast(
+        context: context,
+        content: '태그명 수정에 성공했습니다.',
+        toastType: ToastType.success,
+      );
+      tagInfo = updateTag;
+    }
+    textEditingController.clear();
+    setState(() => isEditingTag = false);
+  }
+
+  // 색상변경
+  void onPressChangeColorButton() async {
+    // P_TODO: 색상변경 이벤트 넣어야 함.
+  }
+
+  // 콘텐츠 클릭, 선택항목 선택 및 이전 항목 저장
+  void onPressContentItem(ContentDto? content) async {
+    if (isEditingTag) return;
+
+    if (selectedContent != null &&
+        selectedContent!.content != textEditingController.text) {
+      ContentDto editedContent = selectedContent!.copyWith(
+        content: textEditingController.text,
+      );
+      await ContentApi.update(editedContent);
+      pagingController.itemList = pagingController.itemList
+          ?.map(
+            (ele) => selectedContent?.id != ele.id ? ele : editedContent,
+          )
+          .toList();
+    }
+
     setState(() => selectedContent = content);
-    editTextController.text = content?.content ?? '';
+    textEditingController.text = content?.content ?? '';
   }
 
   // 콘텐츠 삭제
@@ -282,84 +332,133 @@ class _DetailScreenState extends State<DetailScreen> {
           ),
         ),
         body: GestureDetector(
-          onTap: () => onPressDetailItem(null),
+          onTap: () => onPressContentItem(null),
           child: Padding(
             padding: const EdgeInsets.all(16),
             child: Column(
               children: [
-                // P_TODO: 최상단 제목. 클릭이벤트 넣어야함.
-                PopupMenuButton<String>(
-                  itemBuilder: (BuildContext buildContext) {
-                    return [
-                      MoreItemPopupItem(
-                        icon: FontAwesomeIcons.trash,
-                        text: '삭제',
-                        onTapMoreItemPopupButton: onPressDeleteTagButton,
-                      ),
-                      // P_TODO: tagId가 있을떄만
-                      MoreItemPopupItem(
-                        icon: FontAwesomeIcons.pen,
-                        text: '수정',
-                        onTapMoreItemPopupButton: () => print('test'),
-                      ),
-                      // P_TODO: tagId가 있을떄만
-                      MoreItemPopupItem(
-                        icon: FontAwesomeIcons.palette,
-                        text: '색상변경',
-                        onTapMoreItemPopupButton: () => print('test'),
-                      ),
-                      // P_TODO: 아이콘이랑 텍스트. 수정, 삭제 상단 고정, 모아보기
-                      // P_TODO: 최소값이 줄어들질 않네...
-                    ];
-                  },
-
-                  color: Colors.white,
-                  surfaceTintColor: colors.white, // P_MEMO: 둘다줘야함.
-                  elevation: 1,
-                  constraints: const BoxConstraints(minWidth: 0),
-                  position: PopupMenuPosition.under,
-                  offset: Offset(10, 0),
-
-                  child: Container(
-                    width: double.infinity,
-                    decoration: BoxDecoration(
-                      color: UtilMethod.hexToColor(tagInfo?.color),
-                      borderRadius: BorderRadius.circular(8),
-                      boxShadow: [
-                        BoxShadow(
-                          color: colors.gray[300]!,
-                          blurStyle: BlurStyle.solid,
-                          blurRadius: 20,
-                          offset: const Offset(0, 8),
+                !isEditingTag
+                    ? PopupMenuButton<String>(
+                        itemBuilder: (BuildContext buildContext) {
+                          return [
+                            MoreItemPopupItem(
+                              icon: FontAwesomeIcons.trash,
+                              text: '삭제',
+                              onTapMoreItemPopupButton: onPressDeleteTagButton,
+                            ),
+                            if (tagId > 0) ...{
+                              MoreItemPopupItem(
+                                icon: FontAwesomeIcons.pen,
+                                text: '수정',
+                                onTapMoreItemPopupButton: onPressEditTagButton,
+                              ),
+                              // P_TODO: 색상변경 버튼 클릭 이벤트 넣어함 .
+                              MoreItemPopupItem(
+                                icon: FontAwesomeIcons.palette,
+                                text: '색상변경',
+                                onTapMoreItemPopupButton:
+                                    onPressChangeColorButton,
+                              ),
+                            },
+                          ];
+                        },
+                        color: Colors.white,
+                        surfaceTintColor: colors.white, // P_MEMO: 둘다줘야함.
+                        elevation: 1,
+                        constraints: const BoxConstraints(minWidth: 0),
+                        position: PopupMenuPosition.under,
+                        offset: const Offset(10, 0),
+                        child: Container(
+                          width: double.infinity,
+                          decoration: BoxDecoration(
+                            color: UtilMethod.hexToColor(tagInfo?.color),
+                            borderRadius: BorderRadius.circular(8),
+                            boxShadow: [
+                              BoxShadow(
+                                color: colors.gray[300]!,
+                                blurStyle: BlurStyle.solid,
+                                blurRadius: 20,
+                                offset: const Offset(0, 8),
+                              ),
+                            ],
+                          ),
+                          child: TagItem(
+                            tag: tagInfo,
+                            isToBeDeleted: widget.tagId == '-1',
+                          ),
                         ),
-                      ],
-                    ),
-                    child: TagItem(
-                      tag: tagInfo,
-                      isToBeDeleted: widget.tagId == '-1',
-                    ),
-                  ),
-                ),
-                // P_TODO:TEST
-                // Container(
-                //   width: double.infinity,
-                //   decoration: BoxDecoration(
-                //     color: UtilMethod.hexToColor(tagInfo?.color),
-                //     borderRadius: BorderRadius.circular(8),
-                //     boxShadow: [
-                //       BoxShadow(
-                //         color: colors.gray[300]!,
-                //         blurStyle: BlurStyle.solid,
-                //         blurRadius: 20,
-                //         offset: const Offset(0, 8),
-                //       ),
-                //     ],
-                //   ),
-                //   child: TagItem(
-                //     tag: tagInfo,
-                //     isToBeDeleted: widget.tagId == '-1',
-                //   ),
-                // ),
+                      )
+                    : Column(
+                        children: [
+                          Container(
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(8),
+                              boxShadow: [
+                                BoxShadow(
+                                  color: colors.gray[300]!,
+                                  blurStyle: BlurStyle.solid,
+                                  blurRadius: 20,
+                                  offset: const Offset(0, 8),
+                                ),
+                              ],
+                            ),
+                            child: TextField(
+                              controller: textEditingController,
+                              style: textStyle.heading['sm'],
+                              decoration: InputDecoration(
+                                filled: true,
+                                fillColor:
+                                    UtilMethod.hexToColor(tagInfo?.color),
+                                isDense: true, // text field 의 input을 조정하게 해줌
+                                contentPadding: const EdgeInsets.symmetric(
+                                    horizontal: 10, vertical: 9),
+                                focusedBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(8),
+                                  borderSide: BorderSide(
+                                    color: colors.gray[700]!,
+                                    width: 0,
+                                  ),
+                                ),
+                                enabledBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(8),
+                                  borderSide: BorderSide(
+                                    color: colors.gray[700]!,
+                                    width: 0,
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ),
+                          const SizedBox(
+                            height: 6,
+                          ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.end,
+                            children: [
+                              // 삭제버튼
+                              IconButton(
+                                onPressed: onPressConfirmEditTagButton,
+                                padding: const EdgeInsets.all(8), // 패딩 설정
+                                constraints:
+                                    const BoxConstraints(), // constraints
+                                style: ElevatedButton.styleFrom(
+                                  backgroundColor: colors.white,
+                                  tapTargetSize:
+                                      MaterialTapTargetSize.shrinkWrap,
+                                  elevation: 2,
+                                  shadowColor: colors.gray[100],
+                                ),
+                                icon: Icon(
+                                  FontAwesomeIcons.check,
+                                  size: 16,
+                                  color: colors.gray[700],
+                                ),
+                              )
+                            ],
+                          )
+                        ],
+                      ),
+
                 const SizedBox(
                   height: 8,
                 ),
@@ -389,8 +488,8 @@ class _DetailScreenState extends State<DetailScreen> {
                             child: DetailContentItem(
                               content: item,
                               isEditing: selectedContent?.id == item.id,
-                              editTextController: editTextController,
-                              onPressDetailItem: onPressDetailItem,
+                              textEditingController: textEditingController,
+                              onPressContentItem: onPressContentItem,
                               onPressDeleteMemoButton: onPressDeleteMemoButton,
                               onPressContentTagButton: onPressContentTagButton,
                             )),

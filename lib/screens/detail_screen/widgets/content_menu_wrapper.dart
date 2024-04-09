@@ -4,7 +4,7 @@ import 'package:memont_v2/config/build_context_extension.dart';
 import 'package:memont_v2/widgets/tag_button_list_wrapper.dart';
 
 class ContentMenuWrapper extends TagButtonListWrapper {
-  ContentMenuWrapper({
+  const ContentMenuWrapper({
     super.key,
     required this.onPressDeleteMemoButton,
     required super.tagList,

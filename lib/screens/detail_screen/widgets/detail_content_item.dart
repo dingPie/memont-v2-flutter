@@ -13,16 +13,16 @@ class DetailContentItem extends StatefulWidget {
     super.key,
     required this.content,
     required this.isEditing,
-    required this.editTextController,
-    required this.onPressDetailItem,
+    required this.textEditingController,
+    required this.onPressContentItem,
     required this.onPressDeleteMemoButton,
     required this.onPressContentTagButton,
   });
 
   final ContentDto content;
   final bool isEditing;
-  final TextEditingController editTextController;
-  final void Function(ContentDto content) onPressDetailItem;
+  final TextEditingController textEditingController;
+  final void Function(ContentDto content) onPressContentItem;
   final void Function() onPressDeleteMemoButton;
   final void Function(TagDto? content) onPressContentTagButton;
 
@@ -59,9 +59,9 @@ class _DetailItemState extends State<DetailContentItem> {
               ? Column(
                   children: [
                     GestureDetector(
-                      onTap: () => widget.onPressDetailItem(widget.content),
+                      onTap: () => widget.onPressContentItem(widget.content),
                       child: TextField(
-                        controller: widget.editTextController,
+                        controller: widget.textEditingController,
                         maxLines: null,
                         style: textStyle.body['sm'],
                         decoration: InputDecoration(
@@ -85,7 +85,7 @@ class _DetailItemState extends State<DetailContentItem> {
                 )
               // 일반 아이템
               : GestureDetector(
-                  onTap: () => widget.onPressDetailItem(widget.content),
+                  onTap: () => widget.onPressContentItem(widget.content),
                   child: Container(
                     padding:
                         const EdgeInsets.symmetric(horizontal: 6, vertical: 8),
