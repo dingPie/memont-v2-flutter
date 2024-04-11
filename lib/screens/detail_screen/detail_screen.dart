@@ -14,6 +14,7 @@ import 'package:memont_v2/models/delete_tag_dto/delete_tag_dto.dart';
 import 'package:memont_v2/models/get_content_dto/get_content_dto.dart';
 
 import 'package:memont_v2/models/tag_dto/tag_dto.dart';
+import 'package:memont_v2/screens/detail_screen/tag_info_wrapper/tag_info_wrapper.dart';
 import 'package:memont_v2/screens/detail_screen/widgets/detail_content_item.dart';
 import 'package:memont_v2/screens/login_screen/widgets/common_app_bar/app_bar_icon_button.dart';
 import 'package:memont_v2/screens/login_screen/widgets/common_app_bar/common_app_bar.dart';
@@ -337,127 +338,16 @@ class _DetailScreenState extends State<DetailScreen> {
             padding: const EdgeInsets.all(16),
             child: Column(
               children: [
-                !isEditingTag
-                    ? PopupMenuButton<String>(
-                        itemBuilder: (BuildContext buildContext) {
-                          return [
-                            MoreItemPopupItem(
-                              icon: FontAwesomeIcons.trash,
-                              text: '삭제',
-                              onTapMoreItemPopupButton: onPressDeleteTagButton,
-                            ),
-                            if (tagId > 0) ...{
-                              MoreItemPopupItem(
-                                icon: FontAwesomeIcons.pen,
-                                text: '수정',
-                                onTapMoreItemPopupButton: onPressEditTagButton,
-                              ),
-                              // P_TODO: 색상변경 버튼 클릭 이벤트 넣어함 .
-                              MoreItemPopupItem(
-                                icon: FontAwesomeIcons.palette,
-                                text: '색상변경',
-                                onTapMoreItemPopupButton:
-                                    onPressChangeColorButton,
-                              ),
-                            },
-                          ];
-                        },
-                        color: Colors.white,
-                        surfaceTintColor: colors.white, // P_MEMO: 둘다줘야함.
-                        elevation: 1,
-                        constraints: const BoxConstraints(minWidth: 0),
-                        position: PopupMenuPosition.under,
-                        offset: const Offset(10, 0),
-                        child: Container(
-                          width: double.infinity,
-                          decoration: BoxDecoration(
-                            color: UtilMethod.hexToColor(tagInfo?.color),
-                            borderRadius: BorderRadius.circular(8),
-                            boxShadow: [
-                              BoxShadow(
-                                color: colors.gray[300]!,
-                                blurStyle: BlurStyle.solid,
-                                blurRadius: 20,
-                                offset: const Offset(0, 8),
-                              ),
-                            ],
-                          ),
-                          child: TagItem(
-                            tag: tagInfo,
-                            isToBeDeleted: widget.tagId == '-1',
-                          ),
-                        ),
-                      )
-                    : Column(
-                        children: [
-                          Container(
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(8),
-                              boxShadow: [
-                                BoxShadow(
-                                  color: colors.gray[300]!,
-                                  blurStyle: BlurStyle.solid,
-                                  blurRadius: 20,
-                                  offset: const Offset(0, 8),
-                                ),
-                              ],
-                            ),
-                            child: TextField(
-                              controller: textEditingController,
-                              style: textStyle.heading['sm'],
-                              decoration: InputDecoration(
-                                filled: true,
-                                fillColor:
-                                    UtilMethod.hexToColor(tagInfo?.color),
-                                isDense: true, // text field 의 input을 조정하게 해줌
-                                contentPadding: const EdgeInsets.symmetric(
-                                    horizontal: 10, vertical: 9),
-                                focusedBorder: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(8),
-                                  borderSide: BorderSide(
-                                    color: colors.gray[700]!,
-                                    width: 0,
-                                  ),
-                                ),
-                                enabledBorder: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(8),
-                                  borderSide: BorderSide(
-                                    color: colors.gray[700]!,
-                                    width: 0,
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ),
-                          const SizedBox(
-                            height: 6,
-                          ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.end,
-                            children: [
-                              // 삭제버튼
-                              IconButton(
-                                onPressed: onPressConfirmEditTagButton,
-                                padding: const EdgeInsets.all(8), // 패딩 설정
-                                constraints:
-                                    const BoxConstraints(), // constraints
-                                style: ElevatedButton.styleFrom(
-                                  backgroundColor: colors.white,
-                                  tapTargetSize:
-                                      MaterialTapTargetSize.shrinkWrap,
-                                  elevation: 2,
-                                  shadowColor: colors.gray[100],
-                                ),
-                                icon: Icon(
-                                  FontAwesomeIcons.check,
-                                  size: 16,
-                                  color: colors.gray[700],
-                                ),
-                              )
-                            ],
-                          )
-                        ],
-                      ),
+                TagInfoWrapper(
+                  tagId: tagId,
+                  tagInfo: tagInfo,
+                  isEditingTag: isEditingTag,
+                  textEditingController: textEditingController,
+                  onPressDeleteTagButton: onPressDeleteTagButton,
+                  onPressConfirmEditTagButton: onPressConfirmEditTagButton,
+                  onPressChangeColorButton: onPressChangeColorButton,
+                  onPressEditTagButton: onPressEditTagButton,
+                ),
 
                 const SizedBox(
                   height: 8,

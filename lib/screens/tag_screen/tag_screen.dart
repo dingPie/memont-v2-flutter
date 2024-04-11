@@ -35,8 +35,6 @@ class _TagScreenState extends State<TagScreen> {
 
   // 무한스크롤 형식으로 데이터 받이오기
   Future<void> getTagInfinityScroll(int pageKey) async {
-    print('여기 처음? ${pageKey}');
-
     try {
       await Future.delayed(const Duration(microseconds: 500));
       GetTagDto getTagDto = GetTagDto(cursor: pageKey);
@@ -45,7 +43,6 @@ class _TagScreenState extends State<TagScreen> {
 
       bool isLast = tagList.cursor == null;
 
-      print('이즈 라스트? $isLast ${pagingController.itemList}');
       if (isLast) {
         pagingController.appendLastPage(tagList.data);
       } else {
