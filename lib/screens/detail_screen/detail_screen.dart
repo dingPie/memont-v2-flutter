@@ -9,21 +9,23 @@ import 'package:memont_v2/apis/tag/tag_api.dart';
 import 'package:memont_v2/config/build_context_extension.dart';
 import 'package:memont_v2/constants/routes.dart';
 import 'package:memont_v2/global_state/provider/tag_provider.dart';
+import 'package:memont_v2/global_state/singleton_storage.dart';
 import 'package:memont_v2/models/content_dto/content_dto.dart';
 import 'package:memont_v2/models/delete_tag_dto/delete_tag_dto.dart';
 import 'package:memont_v2/models/get_content_dto/get_content_dto.dart';
+import 'package:memont_v2/models/palette_dto.dart';
 
 import 'package:memont_v2/models/tag_dto/tag_dto.dart';
-import 'package:memont_v2/screens/detail_screen/tag_info_wrapper/tag_info_wrapper.dart';
+
 import 'package:memont_v2/screens/detail_screen/widgets/detail_content_item.dart';
+import 'package:memont_v2/screens/detail_screen/widgets/tag_info_wrapper/tag_info_wrapper.dart';
 import 'package:memont_v2/screens/login_screen/widgets/common_app_bar/app_bar_icon_button.dart';
 import 'package:memont_v2/screens/login_screen/widgets/common_app_bar/common_app_bar.dart';
-import 'package:memont_v2/screens/tag_screen/tag_screen.dart';
-import 'package:memont_v2/screens/talk_screen/widgets/memo_item.dart/widgets/more_item_popup_button.dart';
-import 'package:memont_v2/widgets/tag_item.dart';
+
 import 'package:memont_v2/utils/util_hooks.dart';
 import 'package:memont_v2/utils/util_method.dart';
 import 'package:memont_v2/widgets/common_layout.dart';
+import 'package:memont_v2/widgets/tag_item.dart';
 import 'package:provider/provider.dart';
 
 class DetailScreen extends StatefulWidget {
@@ -39,15 +41,18 @@ class DetailScreen extends StatefulWidget {
 }
 
 class _DetailScreenState extends State<DetailScreen> {
+  SingletonStorage storage = SingletonStorage();
+  double tagId = 0;
+  TagDto? tagInfo;
+
   final PagingController<int, ContentDto> pagingController =
       PagingController(firstPageKey: 0);
-  double tagId = 0;
-
   TextEditingController textEditingController = TextEditingController();
-  ContentDto? selectedContent;
-  bool isEditingTag = false;
 
-  TagDto? tagInfo;
+  ContentDto? selectedContent;
+  PaletteDto? selectedPalette;
+  bool isEditingTag = false;
+  bool isChangingColor = false;
 
   Future<void> getTagInfo() async {
     try {
@@ -230,7 +235,37 @@ class _DetailScreenState extends State<DetailScreen> {
 
   // 색상변경
   void onPressChangeColorButton() async {
-    // P_TODO: 색상변경 이벤트 넣어야 함.
+    setState(() {
+      var target = storage.paletteList
+          ?.where((palette) => palette.color == tagInfo?.color)
+          .toList();
+      selectedPalette = target?[0];
+      isChangingColor = true;
+    });
+  }
+
+  // 색상변경 각 팔레트 클릭
+  void onPressTagColorItem(PaletteDto? palette) async {
+    setState(() {
+      selectedPalette = palette;
+    });
+  }
+
+  // 색상변경 확인 (api 호출)
+  void onPressConfirmChangeColorButton() async {
+    if (tagInfo == null) return;
+
+    var updateTag = tagInfo!.copyWith(color: selectedPalette?.color);
+    TagApi.update(updateTag);
+    tagInfo = updateTag;
+    if (!context.mounted) return;
+    UtilHooks.useCustomToast(
+      context: context,
+      content: '태그 색상 수정에 성공했습니다.',
+      toastType: ToastType.success,
+    );
+
+    setState(() => selectedPalette = null);
   }
 
   // 콘텐츠 클릭, 선택항목 선택 및 이전 항목 저장
@@ -314,7 +349,6 @@ class _DetailScreenState extends State<DetailScreen> {
   @override
   Widget build(BuildContext context) {
     var colors = context.colors;
-    var textStyle = context.textStyle;
 
     return CommonLayout(
       child: Scaffold(
@@ -343,10 +377,15 @@ class _DetailScreenState extends State<DetailScreen> {
                   tagInfo: tagInfo,
                   isEditingTag: isEditingTag,
                   textEditingController: textEditingController,
+                  paletteList: storage.paletteList,
+                  selectedPalette: selectedPalette,
                   onPressDeleteTagButton: onPressDeleteTagButton,
                   onPressConfirmEditTagButton: onPressConfirmEditTagButton,
                   onPressChangeColorButton: onPressChangeColorButton,
                   onPressEditTagButton: onPressEditTagButton,
+                  onPressConfirmChangeColorButton:
+                      onPressConfirmChangeColorButton,
+                  onPressTagColorItem: onPressTagColorItem,
                 ),
 
                 const SizedBox(
