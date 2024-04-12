@@ -48,6 +48,7 @@ class _DetailScreenState extends State<DetailScreen> {
   final PagingController<int, ContentDto> pagingController =
       PagingController(firstPageKey: 0);
   TextEditingController textEditingController = TextEditingController();
+  TextEditingController newMemoInputController = TextEditingController();
 
   ContentDto? selectedContent;
   PaletteDto? selectedPalette;
@@ -272,6 +273,15 @@ class _DetailScreenState extends State<DetailScreen> {
   void onPressContentItem(ContentDto? content) async {
     if (isEditingTag) return;
 
+    // P_MEMO: 입력중인 값이 있을 때. 새로운 메모 추가 이벤트
+    if (newMemoInputController.text.isNotEmpty) {
+      var contentDto =
+          ContentDto(content: newMemoInputController.text, tagId: tagInfo?.id);
+      var newContent = await ContentApi.createMemo(contentDto);
+      pagingController.itemList?.add(newContent!);
+      newMemoInputController.clear();
+    }
+
     if (selectedContent != null &&
         selectedContent!.content != textEditingController.text) {
       ContentDto editedContent = selectedContent!.copyWith(
@@ -349,6 +359,7 @@ class _DetailScreenState extends State<DetailScreen> {
   @override
   Widget build(BuildContext context) {
     var colors = context.colors;
+    var textStyle = context.textStyle;
 
     return CommonLayout(
       child: Scaffold(
@@ -370,65 +381,106 @@ class _DetailScreenState extends State<DetailScreen> {
           onTap: () => onPressContentItem(null),
           child: Padding(
             padding: const EdgeInsets.all(16),
-            child: Column(
-              children: [
-                TagInfoWrapper(
-                  tagId: tagId,
-                  tagInfo: tagInfo,
-                  isEditingTag: isEditingTag,
-                  textEditingController: textEditingController,
-                  paletteList: storage.paletteList,
-                  selectedPalette: selectedPalette,
-                  onPressDeleteTagButton: onPressDeleteTagButton,
-                  onPressConfirmEditTagButton: onPressConfirmEditTagButton,
-                  onPressChangeColorButton: onPressChangeColorButton,
-                  onPressEditTagButton: onPressEditTagButton,
-                  onPressConfirmChangeColorButton:
-                      onPressConfirmChangeColorButton,
-                  onPressTagColorItem: onPressTagColorItem,
-                ),
-
-                const SizedBox(
-                  height: 8,
-                ),
-
-                // 중단  메모들
-                Expanded(
-                  child: Container(
-                    padding: const EdgeInsets.all(8),
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(8),
-                      color: colors.white,
-                      boxShadow: [
-                        BoxShadow(
-                          color: colors.gray[300] as Color,
-                          blurStyle: BlurStyle.solid,
-                          blurRadius: 6,
-                          offset: const Offset(0, 4),
-                        ),
-                      ],
+            child: Container(
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(16),
+                color: colors.white,
+                boxShadow: [
+                  BoxShadow(
+                    color: colors.gray[300] as Color,
+                    blurStyle: BlurStyle.solid,
+                    blurRadius: 6,
+                    offset: const Offset(0, 4),
+                  ),
+                ],
+              ),
+              child: CustomScrollView(
+                slivers: [
+                  // 상단 태그정보
+                  SliverToBoxAdapter(
+                    child: TagInfoWrapper(
+                      tagId: tagId,
+                      tagInfo: tagInfo,
+                      isEditingTag: isEditingTag,
+                      textEditingController: textEditingController,
+                      paletteList: storage.paletteList,
+                      selectedPalette: selectedPalette,
+                      onPressDeleteTagButton: onPressDeleteTagButton,
+                      onPressConfirmEditTagButton: onPressConfirmEditTagButton,
+                      onPressChangeColorButton: onPressChangeColorButton,
+                      onPressEditTagButton: onPressEditTagButton,
+                      onPressConfirmChangeColorButton:
+                          onPressConfirmChangeColorButton,
+                      onPressTagColorItem: onPressTagColorItem,
                     ),
-                    clipBehavior: Clip.none,
-                    child: PagedListView<int, ContentDto>(
-                      pagingController: pagingController, //저장했던 정보들
-                      builderDelegate: PagedChildBuilderDelegate<ContentDto>(
-                        itemBuilder: (context, item, index) => Padding(
-                            padding: const EdgeInsets.only(bottom: 3, top: 3),
-                            child: DetailContentItem(
-                              content: item,
-                              isEditing: selectedContent?.id == item.id,
-                              textEditingController: textEditingController,
-                              onPressContentItem: onPressContentItem,
-                              onPressDeleteMemoButton: onPressDeleteMemoButton,
-                              onPressContentTagButton: onPressContentTagButton,
-                            )),
+                  ),
+
+                  const SliverToBoxAdapter(
+                    child: SizedBox(
+                      height: 8,
+                    ),
+                  ),
+
+                  // 아이템 목록
+                  PagedSliverList<int, ContentDto>(
+                    pagingController: pagingController, //저장했던 정보들
+                    builderDelegate: PagedChildBuilderDelegate<ContentDto>(
+                      itemBuilder: (context, item, index) => Padding(
+                        padding: const EdgeInsets.only(bottom: 3, top: 3),
+                        child: DetailContentItem(
+                          content: item,
+                          isEditing: selectedContent?.id == item.id,
+                          textEditingController: textEditingController,
+                          onPressContentItem: onPressContentItem,
+                          onPressDeleteMemoButton: onPressDeleteMemoButton,
+                          onPressContentTagButton: onPressContentTagButton,
+                        ),
                       ),
                     ),
                   ),
-                ),
 
-                // P_TODO:  맨 아래 추가로 쓸 수 있는 칸도 일단 있어야 해./..
-              ],
+                  // 하단 추가 아이템
+                  SliverPadding(
+                    padding: const EdgeInsets.only(
+                      top: 8,
+                      left: 4,
+                      right: 4,
+                    ),
+                    sliver: SliverToBoxAdapter(
+                      child: TextField(
+                        onTap: () => onPressContentItem(null),
+                        controller: newMemoInputController,
+                        maxLines: null,
+                        style: textStyle.body['sm'],
+                        decoration: InputDecoration(
+                          isDense: true, // text field 의 input을 조정하게 해줌
+                          contentPadding: const EdgeInsets.symmetric(
+                              horizontal: 6, vertical: 8),
+                          focusedBorder: UnderlineInputBorder(
+                            borderRadius: BorderRadius.circular(8),
+                            borderSide: BorderSide(
+                              color: colors.gray[600]!,
+                              width: 0,
+                            ),
+                          ),
+                          enabledBorder: UnderlineInputBorder(
+                            borderRadius: BorderRadius.circular(8),
+                            borderSide: BorderSide(
+                              color: colors.gray[600]!,
+                              width: 0,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                  const SliverToBoxAdapter(
+                    child: SizedBox(
+                      height: 40,
+                    ),
+                  ),
+                ],
+              ),
             ),
           ),
         ),
