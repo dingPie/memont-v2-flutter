@@ -3,6 +3,16 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:memont_v2/config/build_context_extension.dart';
 import 'package:memont_v2/models/user_dto/user_dto.dart';
 
+const List<int> hourList = [
+  0,
+  1,
+  2,
+  3,
+  4,
+  5,
+  6,
+];
+
 class SetDeleteHourWrapper extends StatelessWidget {
   const SetDeleteHourWrapper({
     super.key,
@@ -17,16 +27,6 @@ class SetDeleteHourWrapper extends StatelessWidget {
   Widget build(BuildContext context) {
     var colors = context.colors;
     var textStyle = context.textStyle;
-
-    const List<int> hourList = [
-      0,
-      1,
-      2,
-      3,
-      4,
-      5,
-      6,
-    ];
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -50,29 +50,33 @@ class SetDeleteHourWrapper extends StatelessWidget {
           children: [
             const Text('매일'),
             const SizedBox(width: 12),
-            ButtonTheme(
-              alignedDropdown: true,
-              child: DropdownMenu<int>(
-                inputDecorationTheme: InputDecorationTheme(
-                  isDense: true,
-                  fillColor: colors.white,
-                  contentPadding: const EdgeInsets.only(left: 16),
-                  constraints: BoxConstraints.tight(
-                    const Size(150, 40),
-                  ),
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(8),
-                  ),
+            DropdownMenu<int>(
+              onSelected: onSelectDeleteHour,
+              inputDecorationTheme: InputDecorationTheme(
+                isDense: true,
+                contentPadding: const EdgeInsets.only(left: 16),
+                constraints: BoxConstraints.tight(
+                  const Size(150, 40),
                 ),
-                textStyle: textStyle.body['sm'],
-                initialSelection: hourList.first,
-                onSelected: onSelectDeleteHour,
-                dropdownMenuEntries:
-                    hourList.map<DropdownMenuEntry<int>>((int value) {
-                  return DropdownMenuEntry<int>(
-                      value: value, label: 'AM: 0${value}:00');
-                }).toList(),
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(8),
+                ),
               ),
+              textStyle: textStyle.body['sm'],
+              initialSelection: userInfo == null
+                  ? hourList.first
+                  : hourList
+                      .where((ele) => ele == userInfo?.userSetting?.deleteHour)
+                      .toList()[0],
+              dropdownMenuEntries:
+                  hourList.map<DropdownMenuEntry<int>>((int value) {
+                return DropdownMenuEntry<int>(
+                  value: value,
+                  label: 'AM: 0${value}:00',
+                  style:
+                      ElevatedButton.styleFrom(backgroundColor: colors.white),
+                );
+              }).toList(),
             ),
             const Text('시에 '),
             const Text('삭제 예정 메모가'),
