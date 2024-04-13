@@ -7,6 +7,7 @@ import 'package:memont_v2/config/build_context_extension.dart';
 import 'package:memont_v2/models/user_dto/user_dto.dart';
 import 'package:memont_v2/screens/login_screen/widgets/common_app_bar/app_bar_icon_button.dart';
 import 'package:memont_v2/screens/login_screen/widgets/common_app_bar/common_app_bar.dart';
+import 'package:memont_v2/screens/setting_screen/widgets/set_delete_hour_wrapper.dart';
 import 'package:memont_v2/screens/setting_screen/widgets/user_info_wrapper.dart';
 import 'package:memont_v2/utils/util_hooks.dart';
 import 'package:memont_v2/widgets/common_layout.dart';
@@ -60,6 +61,10 @@ class _SettingScreenState extends State<SettingScreen> {
     );
   }
 
+  void onSelectDeleteHour(int? hour) {
+    // P_TODO: 시간 변경 이벤트 호출
+  }
+
   @override
   Widget build(BuildContext context) {
     var colors = context.colors;
@@ -85,6 +90,11 @@ class _SettingScreenState extends State<SettingScreen> {
                 userInfo: userInfo,
                 onPressLogoutButton: onPressLogoutButton,
               ),
+              const SizedBox(height: 32),
+              SetDeleteHourWrapper(
+                userInfo: userInfo,
+                onSelectDeleteHour: onSelectDeleteHour,
+              )
             ],
           ),
         ),
