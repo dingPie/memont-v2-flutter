@@ -35,7 +35,12 @@ Future main() async {
     String accessToken = result.data['result']['data']['accessToken'];
     storage.accessToken = accessToken;
 
-    storage.paletteList = await PaletteApi.getPalette();
+    var paletteList = await PaletteApi.getPalette();
+    var filteredList = paletteList
+        ?.where((ele) => ele.name != 'White' && ele.name != 'Dark Gray')
+        .toList();
+
+    storage.paletteList = filteredList;
 
     runApp(MyApp(
       isLogin: true,

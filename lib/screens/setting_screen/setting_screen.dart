@@ -1,47 +1,52 @@
 import 'package:flutter/material.dart';
-import 'package:memont_v2/config/build_context_extension.dart';
-import 'package:memont_v2/constants/routes.dart';
-import 'package:memont_v2/global_state/provider/app_state.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 import 'package:go_router/go_router.dart';
+import 'package:memont_v2/apis/user/user_api.dart';
+import 'package:memont_v2/models/user_dto/user_dto.dart';
+import 'package:memont_v2/screens/login_screen/widgets/common_app_bar/app_bar_icon_button.dart';
+import 'package:memont_v2/screens/login_screen/widgets/common_app_bar/common_app_bar.dart';
+import 'package:memont_v2/widgets/common_layout.dart';
 import 'package:provider/provider.dart';
 
-class SettingScreen extends StatelessWidget {
+class SettingScreen extends StatefulWidget {
   const SettingScreen({
     super.key,
   });
 
   @override
-  Widget build(BuildContext context) {
-    void onPressedBackButton() => context.pop();
+  State<SettingScreen> createState() => _SettingScreenState();
+}
 
-    return Scaffold(
-      appBar: AppBar(
-        backgroundColor: context.colors.gray[200],
-        title: Text(
-          ROUTES.setting.name,
+class _SettingScreenState extends State<SettingScreen> {
+  UserDto? userInfo;
+
+  void getMyInfo() async {
+    var me = await UserApi.getMe();
+    setState(() => userInfo = me);
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    getMyInfo();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return CommonLayout(
+      child: Scaffold(
+        appBar: const PreferredSize(
+          preferredSize: Size.fromHeight(60.0),
+          child: CommonAppBar(
+            iconButtonList: [
+              AppBarIconButton(
+                iconData: FontAwesomeIcons.reply,
+              )
+            ],
+          ),
         ),
-      ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Text(
-              '마이페이지',
-              style: context.textStyle.h1.copyWith(
-                color: context.colors.primary[500],
-                fontSize: 24,
-              ),
-            ),
-            const SizedBox(
-              height: 4,
-            ),
-            ElevatedButton(
-              onPressed: onPressedBackButton,
-              child: const Text('뒤로가기'),
-            )
-          ],
-        ),
+        body: Text(userInfo?.userName ?? ""),
       ),
     );
   }
