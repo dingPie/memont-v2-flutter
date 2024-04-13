@@ -17,7 +17,8 @@ class MoreButton extends StatelessWidget {
   final ContentDto content;
   final void Function(ContentDto content) onPressMoreEditButton;
   final void Function(ContentDto content) onPressMoreDeleteButton;
-  final void Function(ContentDto content) onPressMoreTagViewButton;
+  final void Function(ContentDto content, {bool isToBeDeleted})
+      onPressMoreTagViewButton;
   final void Function(ContentDto content) onPressMorePinButton;
 
   @override
@@ -41,7 +42,10 @@ class MoreButton extends StatelessWidget {
           MoreItemPopupItem(
             icon: FontAwesomeIcons.tag,
             text: '태그보기',
-            onTapMoreItemPopupButton: () => onPressMoreTagViewButton(content),
+            onTapMoreItemPopupButton: () => onPressMoreTagViewButton(
+              content,
+              isToBeDeleted: content.isToBeDeleted ?? false,
+            ),
           ),
           MoreItemPopupItem(
             icon: FontAwesomeIcons.thumbtack,

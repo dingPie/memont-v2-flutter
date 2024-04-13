@@ -1,20 +1,20 @@
 import 'dart:ui';
 
-class Palette {
+class PaletteDto {
   int id;
   String name;
-  Color color;
+  String color;
 
-  Palette({
+  PaletteDto({
     required this.id,
     required this.name,
     required this.color,
   });
 
-  Palette.fromJson(Map<String, dynamic> json)
+  PaletteDto.fromJson(Map<String, dynamic> json)
       : id = json['id'],
         name = json['name'],
-        color = Color(int.parse('0xFF${(json['color']).split('#')[1]}'));
+        color = json['color'];
 
   Map<String, Object?> toJson() {
     return {
@@ -24,12 +24,12 @@ class Palette {
     };
   }
 
-  Palette copyWith({
+  PaletteDto copyWith({
     int? id,
     String? name,
-    Color? color,
+    String? color,
   }) {
-    return Palette(
+    return PaletteDto(
       id: id ?? this.id,
       name: name ?? this.name,
       color: color ?? this.color,
@@ -38,7 +38,7 @@ class Palette {
 
   @override
   String toString() {
-    return 'Palette('
+    return 'PaletteDto('
         'id: $id, '
         'name: $name, '
         'color: ${color.toString()}'
@@ -47,7 +47,7 @@ class Palette {
 
   @override
   bool operator ==(Object other) {
-    return other is Palette &&
+    return other is PaletteDto &&
         id == other.id &&
         name == other.name &&
         color == other.color;

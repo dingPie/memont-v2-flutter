@@ -7,6 +7,17 @@ import 'package:memont_v2/theme/textStyle/app_text_style_extension.dart';
 
 enum ToastType { error, success }
 
+class DialogButton {
+  String? text;
+  TextStyle? styleProps;
+  void Function()? onPress;
+  DialogButton({
+    this.text,
+    this.onPress,
+    this.styleProps,
+  });
+}
+
 class UtilHooks {
   static useCustomToast({
     required BuildContext context,
@@ -34,9 +45,9 @@ class UtilHooks {
         borderRadius: BorderRadius.circular(25),
         color: bgColor,
       ),
-      child: Row(
-        mainAxisSize: MainAxisSize.min,
-        crossAxisAlignment: CrossAxisAlignment.center,
+      child: Wrap(
+        direction: Axis.horizontal,
+        alignment: WrapAlignment.start,
         children: [
           Icon(
             icon,
@@ -47,10 +58,11 @@ class UtilHooks {
           ),
           Text(
             content,
-            style: textStyle.body['lg']!.copyWith(
+            style: textStyle.body['md']!.copyWith(
               color: colors.white,
               fontWeight: FontWeight.w600,
             ),
+            overflow: TextOverflow.visible,
           ),
         ],
       ),
@@ -67,8 +79,7 @@ class UtilHooks {
     required BuildContext context,
     required String title,
     required String content,
-    String? successButtonText,
-    void Function()? successButtonAction,
+    List<DialogButton>? buttonList,
   }) {
     showDialog(
         context: context,
@@ -96,7 +107,9 @@ class UtilHooks {
             actionsPadding: const EdgeInsets.all(8),
             actions: [
               TextButton(
-                onPressed: () => Navigator.of(context).pop(),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
                 child: Text(
                   '취소',
                   style: TextStyle(
@@ -107,22 +120,24 @@ class UtilHooks {
                   ),
                 ),
               ),
-              if (successButtonText != null && successButtonAction != null)
-                TextButton(
-                  onPressed: () {
-                    Navigator.of(context).pop();
-                    successButtonAction();
-                  },
-                  child: Text(
-                    successButtonText,
-                    style: TextStyle(
-                      color: Theme.of(context)
-                          .extension<AppColorsExtension>()!
-                          .primary[500],
-                      fontWeight: FontWeight.w700,
+              if (buttonList != null)
+                for (var button in buttonList)
+                  TextButton(
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                      if (button.onPress != null) button.onPress!();
+                    },
+                    child: Text(
+                      button.text ?? '',
+                      style: button.styleProps ??
+                          TextStyle(
+                            color: Theme.of(context)
+                                .extension<AppColorsExtension>()!
+                                .primary[500],
+                            fontWeight: FontWeight.w700,
+                          ),
                     ),
                   ),
-                ),
             ],
           );
         });

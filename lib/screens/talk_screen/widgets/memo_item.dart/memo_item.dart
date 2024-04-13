@@ -23,7 +23,8 @@ class MemoItem extends StatefulWidget {
   final void Function(List<int> idList) onPressItemUnTagButton;
   final void Function(ContentDto content) onPressMoreEditButton;
   final void Function(ContentDto content) onPressMoreDeleteButton;
-  final void Function(ContentDto content) onPressMoreTagViewButton;
+  final void Function(ContentDto content, {bool isToBeDeleted})
+      onPressMoreTagViewButton;
   final void Function(ContentDto content) onPressMorePinButton;
 
   @override
@@ -44,6 +45,7 @@ class _MemoItemState extends State<MemoItem> {
 
     return Flex(
       direction: isExpended ? Axis.vertical : Axis.horizontal,
+      crossAxisAlignment: CrossAxisAlignment.start,
       mainAxisSize: MainAxisSize.min, // P_MEMO: 이걸 왜 추가해서 된거지 ?
       children: [
         // 상단 태그항목

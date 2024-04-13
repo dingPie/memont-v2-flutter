@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:go_router/go_router.dart';
@@ -40,6 +42,7 @@ class _TagScreenState extends State<TagScreen> {
       if (tagList == null) throw '';
 
       bool isLast = tagList.cursor == null;
+
       if (isLast) {
         pagingController.appendLastPage(tagList.data);
       } else {
@@ -55,6 +58,10 @@ class _TagScreenState extends State<TagScreen> {
     }
   }
 
+  FutureOr refreshBack(dynamic value) {
+    pagingController.refresh();
+  }
+
   @override
   void initState() {
     super.initState();
@@ -67,29 +74,32 @@ class _TagScreenState extends State<TagScreen> {
   Widget build(BuildContext context) {
     void onPressTagItem(TagDto? tag, {bool isToBeDeleted = false}) {
       var tagId = isToBeDeleted
-          ? 'isToBeDeleted'
+          ? '-1'
           : tag == null
               ? '0'
               : tag.id.toString();
       var uri = Uri(
         path: '/detail/$tagId',
       ).toString();
-      context.push(uri);
+      // P_TODO: 뒤로가기 등으로 해당 페이지에 다시 접근시 상태를 refresh 하기 위함
+      context.push(uri).then(refreshBack);
     }
 
     return CommonLayout(
       child: Scaffold(
-        appBar: const PreferredSize(
+        appBar: PreferredSize(
           preferredSize: Size.fromHeight(60.0),
           child: CommonAppBar(
             iconButtonList: [
               AppBarIconButton(
                 routes: ROUTES.setting,
                 iconData: FontAwesomeIcons.gear,
+                routeThen: refreshBack,
               ),
               AppBarIconButton(
                 routes: ROUTES.talk,
                 iconData: FontAwesomeIcons.solidMessage,
+                routeThen: refreshBack,
               )
             ],
           ),
