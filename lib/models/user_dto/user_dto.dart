@@ -4,7 +4,6 @@ import 'package:memont_v2/models/user_setting_dto/user_setting_dto.dart';
 part 'user_dto.freezed.dart';
 part 'user_dto.g.dart';
 
-// P_TODO: 샘플 코드입니다.
 @freezed
 class UserDto with _$UserDto {
   // constructor 및 본인을 반환하는 factory를 만들어주는 기본 문법

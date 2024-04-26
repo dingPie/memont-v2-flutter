@@ -142,7 +142,6 @@ class _TalkScreenState extends State<TalkScreen> {
   void onPressMoreTagViewButton(ContentDto? content,
       {bool isToBeDeleted = false}) {
     var tagId = isToBeDeleted
-        // ? 'isToBeDeleted'
         ? '-1'
         : content?.tag?.id == null
             ? '0'
@@ -218,7 +217,11 @@ class _TalkScreenState extends State<TalkScreen> {
         String? tagName = hasTag ? arr[1] : null;
 
         if (selectedContent == null) {
-          var contentDto = ContentDto(content: content, tagName: tagName);
+          var contentDto = ContentDto(
+            content: content,
+            tagName: tagName,
+            isToBeDeleted: tagName == null,
+          );
 
           var newContent = await ContentApi.createMemo(contentDto);
 

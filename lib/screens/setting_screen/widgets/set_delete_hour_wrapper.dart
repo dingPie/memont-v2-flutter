@@ -4,7 +4,6 @@ import 'package:memont_v2/config/build_context_extension.dart';
 import 'package:memont_v2/models/user_dto/user_dto.dart';
 
 const List<int> hourList = [
-  0,
   1,
   2,
   3,
@@ -83,7 +82,7 @@ class SetDeleteHourWrapper extends StatelessWidget {
             const Text('삭제됩니다.'),
           ],
         ),
-        SizedBox(height: 12),
+        const SizedBox(height: 20),
         Text(
           '삭제가 진행되는 동안은 앱 이용이 불가능합니다.\n이용이 적은 시간대로 선택해주세요.',
           style: textStyle.detail['lg']?.copyWith(

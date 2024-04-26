@@ -3,7 +3,6 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 part 'token.freezed.dart';
 part 'token.g.dart';
 
-// P_TODO: 샘플 코드입니다.
 @freezed
 class Token with _$Token {
   // constructor 및 본인을 반환하는 factory를 만들어주는 기본 문법
