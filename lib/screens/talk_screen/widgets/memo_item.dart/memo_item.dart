@@ -97,6 +97,8 @@ class _MemoItemState extends State<MemoItem> {
                           style: textStyle.body['md']?.copyWith(
                             color: colors.black,
                           ),
+                          maxLines: isExpended ? 10 : 1,
+                          overflow: TextOverflow.ellipsis,
                         ),
                       ),
                       const SizedBox(width: 4),
