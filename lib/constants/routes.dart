@@ -24,6 +24,10 @@ enum ROUTES {
     path: '/setting',
     name: '설정 페이지',
   ),
+  deleting(
+    path: '/deleting',
+    name: '삭제중 안내 페이지',
+  ),
   error(
     path: '/error',
     name: 'NOT FOUND',

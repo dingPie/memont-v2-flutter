@@ -73,6 +73,10 @@ final class MyApp extends StatelessWidget {
     var fToast = FToast();
     fToast.init(context);
 
+    bool isDeleting =
+        userInfo?.userSetting?.deleteHour == DateTime.now().hour &&
+            DateTime.now().minute < 10;
+
     return MultiProvider(
       // P_TODO: 이거 자리잡으면 Global Provider로 뺴도 될듯
       providers: [
@@ -83,8 +87,7 @@ final class MyApp extends StatelessWidget {
         ChangeNotifierProvider(
           create: (context) => AppState(
             isLogin: isLogin,
-            // P_TODO: 현재 시간부터 10분이면 이거 처리 ex. 1시 ~ 1시 10분이면 이거,,ㅇ
-            isDeleting: false,
+            isDeleting: isDeleting,
           ),
         ),
         ChangeNotifierProvider(
