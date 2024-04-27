@@ -6,6 +6,7 @@ import 'package:memont_v2/models/get_content_dto/get_content_dto.dart';
 class ContentApi {
   static final dio = DioIn().dio;
 
+  /// cursor pagination 기반 콘텐츠 목록 불러오기
   static Future<CursorResponse<ContentDto>?> getListByCursor(
       GetContentDto getContentDto) async {
     try {
@@ -30,6 +31,7 @@ class ContentApi {
     }
   }
 
+  /// 메모 생성
   static Future<ContentDto?> createMemo(ContentDto body) async {
     try {
       final res = await dio.post(
@@ -45,6 +47,7 @@ class ContentApi {
     }
   }
 
+  /// 메모 수정
   static Future<ContentDto?> update(ContentDto body) async {
     try {
       final res = await dio.patch(
@@ -60,6 +63,7 @@ class ContentApi {
     }
   }
 
+  /// 삭제예정 토글
   static void toggleToBeDeleted(List<int> body) async {
     try {
       final res = await dio.patch(
@@ -75,6 +79,7 @@ class ContentApi {
     }
   }
 
+  /// 콘텐츠 삭제
   static void delete(int id) async {
     try {
       final res = await dio.delete(
@@ -83,6 +88,43 @@ class ContentApi {
       print('res: ${res.toString()}');
     } catch (err) {
       print('content 목록 조회 에러: ${err.toString()}');
+      return null;
+    }
+  }
+
+  /// 핀 콘텐츠 조회
+  static Future<ContentDto?> getPinContent() async {
+    try {
+      final res = await dio.get('/content/pin');
+      final dynamic responseData = res.data['result']['data'];
+
+      ContentDto result = ContentDto.fromJson(responseData);
+
+      return result;
+    } catch (err) {
+      print('pin content 조회 에러: ${err.toString()}');
+      return null;
+    }
+  }
+
+  /// 핀 콘텐츠 수정
+  static Future<ContentDto?> patchPinContent(int? contentId) async {
+    try {
+      final res = await dio.patch(
+        '/content/pin',
+        data: {
+          'contentId': contentId,
+        },
+      );
+
+      final dynamic responseData = res.data['result']['data'];
+
+      ContentDto? result =
+          responseData == null ? null : ContentDto.fromJson(responseData);
+
+      return result;
+    } catch (err) {
+      print('content pin 에러: ${err.toString()}');
       return null;
     }
   }
