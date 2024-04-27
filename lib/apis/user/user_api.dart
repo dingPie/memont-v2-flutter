@@ -10,8 +10,10 @@ class UserApi {
   static Future<UserDto?> getMe() async {
     try {
       final res = await dio.get('/user/me');
-      final UserDto responseData = res.data['result']['data'];
-      return responseData;
+      final dynamic responseData = res.data['result']['data'];
+
+      UserDto result = UserDto.fromJson(responseData);
+      return result;
     } catch (err) {
       print('user 목록 조회 에러: ${err.toString()}');
       return null;

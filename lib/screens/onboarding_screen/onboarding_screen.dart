@@ -17,8 +17,8 @@ class OnboardingScreen extends StatelessWidget {
           children: [
             Text(
               ROUTES.onboarding.name,
-              style: context.textStyle.h1
-                  .copyWith(fontSize: 40, color: context.colors.primary[500]),
+              style: context.textStyle.heading['md']
+                  ?.copyWith(fontSize: 40, color: context.colors.primary[500]),
             ),
           ],
         ),

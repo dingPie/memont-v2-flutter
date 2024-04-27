@@ -19,8 +19,6 @@ class AppTheme with ChangeNotifier {
   // Text Theme
   //
   static final textTheme = AppTextStyleExtension(
-    body1: AppTypography.body1,
-    h1: AppTypography.h1,
     display: {
       'lg': AppTypography.display['lg']!,
       'md': AppTypography.display['md']!,

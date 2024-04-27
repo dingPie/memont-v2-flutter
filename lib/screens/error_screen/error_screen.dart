@@ -29,14 +29,14 @@ class ErrorScreen extends StatelessWidget {
           children: [
             Text(
               'ERROR!',
-              style: context.textStyle.h1.copyWith(
+              style: context.textStyle.heading['md']?.copyWith(
                 color: context.colors.warning,
                 fontSize: 40,
               ),
             ),
             Text(
               '잘못된 접근입니다.',
-              style: context.textStyle.body1.copyWith(
+              style: context.textStyle.body['md']?.copyWith(
                 color: context.colors.warning,
               ),
             ),

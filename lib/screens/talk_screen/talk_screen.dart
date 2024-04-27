@@ -13,16 +13,17 @@ import 'package:memont_v2/config/build_context_extension.dart';
 import 'package:memont_v2/constants/routes.dart';
 import 'package:memont_v2/global_state/provider/tag_provider.dart';
 
-import 'package:memont_v2/global_state/provider/app_state.dart';
 import 'package:memont_v2/models/content_dto/content_dto.dart';
 import 'package:memont_v2/models/get_content_dto/get_content_dto.dart';
 import 'package:memont_v2/models/get_tag_dto/get_tag_dto.dart';
+
 import 'package:memont_v2/models/tag_dto/tag_dto.dart';
 
 import 'package:memont_v2/screens/login_screen/widgets/common_app_bar/app_bar_icon_button.dart';
 import 'package:memont_v2/screens/login_screen/widgets/common_app_bar/common_app_bar.dart';
 import 'package:memont_v2/screens/talk_screen/widgets/bottom_input_wrapper/bottom_input_wrapper.dart';
 import 'package:memont_v2/screens/talk_screen/widgets/memo_item.dart/memo_item.dart';
+import 'package:memont_v2/screens/talk_screen/widgets/pin_memo_item/pin_memo_item.dart';
 
 import 'package:memont_v2/utils/util_hooks.dart';
 
@@ -49,11 +50,13 @@ class _TalkScreenState extends State<TalkScreen> {
   ContentDto? selectedContent;
   bool isOpenTagMenu = false;
   TagDto? searchedTag;
+  ContentDto? pinContent;
 
   final PagingController<int, ContentDto> pagingController = // ContentDto
       PagingController(firstPageKey: 0);
 
   // 태그 목록 불러와서 tag provider에 세팅해줌
+  // P_TODO: 이건 그럼 아예 init 화면으로 뺼수도?
   void setTagList() async {
     var tagProvider = Provider.of<TagProvider>(context, listen: false);
 
@@ -142,7 +145,6 @@ class _TalkScreenState extends State<TalkScreen> {
   void onPressMoreTagViewButton(ContentDto? content,
       {bool isToBeDeleted = false}) {
     var tagId = isToBeDeleted
-        // ? 'isToBeDeleted'
         ? '-1'
         : content?.tag?.id == null
             ? '0'
@@ -154,9 +156,15 @@ class _TalkScreenState extends State<TalkScreen> {
     context.push(uri).then(refreshBack);
   }
 
-  // P_TODO: 상단고정버튼 눌렀을 떄 구현해야 함.
-  void onPressMorePinButton(ContentDto? content) {
-    print("상단고정버튼 클릭");
+  void onPressRemovePinContentButton(
+    ContentDto? content,
+  ) {}
+
+  // 콘텐츠 상단고정 (핀)
+  void onPressMorePinButton(ContentDto? content) async {
+    var updatedPinContent = await ContentApi.patchPinContent(content?.id);
+    setState(() => pinContent = updatedPinContent);
+    // 서버에서 줘야할 것 같은데?
   }
 
   // route.back 등으로 돌아왔을 때 refresh 시키기 위한 이벤트
@@ -167,8 +175,9 @@ class _TalkScreenState extends State<TalkScreen> {
   @override
   void initState() {
     super.initState();
-    pagingController.addPageRequestListener((pageKey) {
+    pagingController.addPageRequestListener((pageKey) async {
       getContentInfinityScroll(pageKey);
+      pinContent = await ContentApi.getPinContent();
     });
     // P_MEMO: 빌드가 끝나는 시점에 실행함.
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
@@ -176,17 +185,12 @@ class _TalkScreenState extends State<TalkScreen> {
     });
   }
 
-  // @override
-  // void didUpdateWidget(Widget oldWidget) {
-  // }
-
   @override
   Widget build(BuildContext context) {
-    var appState = context.watch<AppState>();
-    var tagProvider = context.watch<TagProvider>();
     var colors = context.colors;
+    var tagProvider = context.watch<TagProvider>();
 
-    // tag Munu open, 추천태그 표시
+    // tag Menu open, 추천태그 표시
     void onChangeTextInput(String text) {
       // P_TODO: 태그 뽑는거 utils로 빼자.
       var arr = text.split('#');
@@ -205,7 +209,7 @@ class _TalkScreenState extends State<TalkScreen> {
       });
     }
 
-    // + 눌러서 저장.
+    // + 눌러서 저장, 수정
     void onPressSaveMemoButton() async {
       try {
         // P_TODO: global로 하면 뒤 배경까지 안보이는 이슈.  따로 처리해야 함.
@@ -218,7 +222,11 @@ class _TalkScreenState extends State<TalkScreen> {
         String? tagName = hasTag ? arr[1] : null;
 
         if (selectedContent == null) {
-          var contentDto = ContentDto(content: content, tagName: tagName);
+          var contentDto = ContentDto(
+            content: content,
+            tagName: tagName,
+            isToBeDeleted: tagName == null,
+          );
 
           var newContent = await ContentApi.createMemo(contentDto);
 
@@ -226,17 +234,19 @@ class _TalkScreenState extends State<TalkScreen> {
             pagingController.itemList?.insert(0, newContent);
           }
         } else {
-          // P_TODO: 수정로직 수정해야함.
           var contentDto = ContentDto(
-              content: content, tagName: tagName, id: selectedContent?.id);
-
+            content: content,
+            tagName: tagName,
+            id: selectedContent?.id,
+          );
           var updatedContent = await ContentApi.update(contentDto);
 
-          if (updatedContent != null) {
-            pagingController.itemList = pagingController.itemList
-                ?.map((ele) =>
-                    ele.id != selectedContent?.id ? ele : updatedContent)
-                .toList();
+          pagingController.itemList = pagingController.itemList
+              ?.map((ele) =>
+                  ele.id != selectedContent?.id ? ele : updatedContent!)
+              .toList();
+          if (updatedContent?.id == pinContent?.id) {
+            pinContent = updatedContent;
           }
           selectedContent = null;
         }
@@ -309,7 +319,18 @@ class _TalkScreenState extends State<TalkScreen> {
           body: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              // P_TODO: pinn 항목이 들어갈 영역. 따로 API를 파야 하나?
+              // P_MEMO pin 항목이 들어갈 영역.
+              if (pinContent != null)
+                Container(
+                  color: colors.primary[500],
+                  padding: const EdgeInsets.only(
+                      left: 16, right: 16, top: 0, bottom: 12),
+                  child: PinMemoItem(
+                    content: pinContent!,
+                    onPressMoreTagViewButton: onPressMoreTagViewButton,
+                    onPressRemovePinContentButton: onPressMorePinButton,
+                  ),
+                ),
 
               // P_MEMO: 아이템 영역
               Expanded(

@@ -3,7 +3,6 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 part 'login_dto.freezed.dart';
 part 'login_dto.g.dart';
 
-// P_TODO: 샘플 코드입니다.
 @freezed
 class LoginDto with _$LoginDto {
   // constructor 및 본인을 반환하는 factory를 만들어주는 기본 문법

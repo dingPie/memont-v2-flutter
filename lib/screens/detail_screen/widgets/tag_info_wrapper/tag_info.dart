@@ -41,7 +41,6 @@ class TagInfo extends StatelessWidget {
               text: '수정',
               onTapMoreItemPopupButton: onPressEditTagButton,
             ),
-            // P_TODO: 색상변경 버튼 클릭 이벤트 넣어함 .
             MoreItemPopupItem(
               icon: FontAwesomeIcons.palette,
               text: '색상변경',

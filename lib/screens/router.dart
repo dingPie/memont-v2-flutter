@@ -1,5 +1,6 @@
 import 'package:memont_v2/constants/routes.dart';
 import 'package:memont_v2/global_state/provider/app_state.dart';
+import 'package:memont_v2/screens/deleting_screen/deleting_screen.dart';
 
 import 'package:memont_v2/screens/error_screen/error_screen.dart';
 import 'package:memont_v2/screens/login_screen/login_screen.dart';
@@ -49,6 +50,11 @@ class AppRouter {
         builder: (context, state) => const OnboardingScreen(),
       ),
       GoRoute(
+        path: ROUTES.deleting.path,
+        name: ROUTES.deleting.name,
+        builder: (context, state) => const DeletingScreen(),
+      ),
+      GoRoute(
         path: ROUTES.login.path,
         name: ROUTES.login.name,
         builder: (context, state) => const LoginScreen(),
@@ -58,6 +64,9 @@ class AppRouter {
       goRouterState: state,
     ),
     redirect: (context, state) {
+      if (appState?.isDeleting == true) {
+        return ROUTES.deleting.path;
+      }
       String firstPath =
           state.uri.pathSegments.isNotEmpty ? "${state.uri}" : '';
       bool isUnAuth = (firstPath != ROUTES.login.path ||

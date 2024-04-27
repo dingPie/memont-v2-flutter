@@ -8,8 +8,6 @@ import 'package:flutter/material.dart';
 /// `style: AppTypography.h1.copyWith(color: context.theme.appColors.error)`.
 class AppTextStyleExtension extends ThemeExtension<AppTextStyleExtension> {
   const AppTextStyleExtension({
-    required this.h1,
-    required this.body1,
     required this.display,
     required this.title,
     required this.heading,
@@ -17,8 +15,6 @@ class AppTextStyleExtension extends ThemeExtension<AppTextStyleExtension> {
     required this.detail,
   });
 
-  final TextStyle h1;
-  final TextStyle body1;
   final Map<String, TextStyle> display;
   final Map<String, TextStyle> title;
   final Map<String, TextStyle> heading;
@@ -26,13 +22,8 @@ class AppTextStyleExtension extends ThemeExtension<AppTextStyleExtension> {
   final Map<String, TextStyle> detail;
 
   @override
-  ThemeExtension<AppTextStyleExtension> copyWith({
-    TextStyle? h1,
-    TextStyle? body1,
-  }) {
+  ThemeExtension<AppTextStyleExtension> copyWith() {
     return AppTextStyleExtension(
-      h1: h1 ?? this.h1,
-      body1: body1 ?? this.body1,
       display: display ?? this.display,
       title: title ?? this.title,
       heading: heading ?? this.heading,
@@ -51,8 +42,6 @@ class AppTextStyleExtension extends ThemeExtension<AppTextStyleExtension> {
     }
 
     return AppTextStyleExtension(
-      h1: TextStyle.lerp(h1, other.h1, t)!,
-      body1: TextStyle.lerp(body1, other.body1, t)!,
       display: {
         'lg': TextStyle.lerp(display['lg'], other.display['lg'], t)!,
         'md': TextStyle.lerp(display['md'], other.display['md'], t)!,
