@@ -22,7 +22,6 @@ class PinTagItem extends StatelessWidget {
     return AnimatedContainer(
       curve: Curves.easeInOut,
       duration: const Duration(milliseconds: 250),
-      foregroundDecoration: const Duration(milliseconds: 100),
       width: !isExpended
           ? 32
           : MediaQuery.of(context).size.width - (44 * 3 + 8), //

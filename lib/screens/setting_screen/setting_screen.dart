@@ -2,14 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 import 'package:go_router/go_router.dart';
-import 'package:memont_v2/apis/auth/auth_api.dart';
 import 'package:memont_v2/apis/user/user_api.dart';
-import 'package:memont_v2/config/build_context_extension.dart';
 import 'package:memont_v2/constants/key.dart';
 import 'package:memont_v2/constants/routes.dart';
 import 'package:memont_v2/global_state/provider/app_state.dart';
+import 'package:memont_v2/global_state/provider/user_info_provider.dart';
 import 'package:memont_v2/global_state/singleton_storage.dart';
-import 'package:memont_v2/models/user_dto/user_dto.dart';
 import 'package:memont_v2/screens/login_screen/widgets/common_app_bar/app_bar_icon_button.dart';
 import 'package:memont_v2/screens/login_screen/widgets/common_app_bar/common_app_bar.dart';
 import 'package:memont_v2/screens/setting_screen/widgets/set_delete_hour_wrapper.dart';
@@ -19,47 +17,27 @@ import 'package:memont_v2/widgets/common_layout.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-class SettingScreen extends StatefulWidget {
+class SettingScreen extends StatelessWidget {
   const SettingScreen({
     super.key,
   });
 
   @override
-  State<SettingScreen> createState() => _SettingScreenState();
-}
-
-class _SettingScreenState extends State<SettingScreen> {
-  SingletonStorage storage = SingletonStorage();
-  UserDto? userInfo;
-
-  void getMyInfo() async {
-    var me = await UserApi.getMe();
-    setState(() => userInfo = me);
-  }
-
-  @override
-  void initState() {
-    super.initState();
-    getMyInfo();
-  }
-
-  void onSelectDeleteHour(int? hour) async {
-    // P_TODO: 시간 변경 이벤트 호출
-
-    var updatedUserSetting = userInfo?.userSetting?.copyWith(deleteHour: hour);
-    UserApi.updateSetting(updatedUserSetting!);
-
-    userInfo = userInfo?.copyWith(userSetting: updatedUserSetting);
-  }
-
-  @override
   Widget build(BuildContext context) {
-    var colors = context.colors;
-    var textStyle = context.textStyle;
-
+    SingletonStorage storage = SingletonStorage();
     var appState = context.watch<AppState>();
+    var userInfo = context.watch<UserInfoProvider>().userInfo;
 
-    // 로그아웃 버튼
+    //  시간 변경 이벤트
+    void onSelectDeleteHour(int? hour) async {
+      var updatedUserSetting =
+          userInfo?.userSetting?.copyWith(deleteHour: hour);
+      UserApi.updateSetting(updatedUserSetting!);
+
+      userInfo = userInfo?.copyWith(userSetting: updatedUserSetting);
+    }
+
+    // 로그아웃 버튼 클릭
     void onPressLogoutButton() {
       UtilHooks.useShowCustomDialog(
         context: context,
@@ -77,8 +55,8 @@ class _SettingScreenState extends State<SettingScreen> {
               prefs.remove(KEY.PROVIDER_UID);
 
               appState.isLogin = false;
+              if (!context.mounted) return;
               context.replace(ROUTES.login.path);
-              if (!mounted) return;
               //   로그아웃 이후 띄워줌
               UtilHooks.useCustomToast(
                 context: context,
