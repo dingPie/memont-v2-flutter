@@ -47,13 +47,12 @@ class MoreButton extends StatelessWidget {
               isToBeDeleted: content.isToBeDeleted ?? false,
             ),
           ),
-          MoreItemPopupItem(
-            icon: FontAwesomeIcons.thumbtack,
-            text: '상단 고정',
-            onTapMoreItemPopupButton: () => onPressMorePinButton(content),
-          )
-          // P_TODO: 아이콘이랑 텍스트. 수정, 삭제 상단 고정, 모아보기
-          // P_TODO: 최소값이 줄어들질 않네...
+          if (content.isToBeDeleted == false)
+            MoreItemPopupItem(
+              icon: FontAwesomeIcons.thumbtack,
+              text: '상단 고정',
+              onTapMoreItemPopupButton: () => onPressMorePinButton(content),
+            )
         ];
       },
 
