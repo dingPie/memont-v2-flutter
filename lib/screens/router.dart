@@ -64,9 +64,13 @@ class AppRouter {
       goRouterState: state,
     ),
     redirect: (context, state) {
-      if (appState?.isDeleting == true) {
+      if (appState!.isOnboarding) {
+        return ROUTES.onboarding.path;
+      }
+      if (appState!.isDeleting) {
         return ROUTES.deleting.path;
       }
+
       String firstPath =
           state.uri.pathSegments.isNotEmpty ? "${state.uri}" : '';
       bool isUnAuth = (firstPath != ROUTES.login.path ||

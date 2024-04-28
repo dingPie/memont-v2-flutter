@@ -76,6 +76,9 @@ dependencies:
   # toast 표출용
   fluttertoast: ^8.2.4
 
+  # 온보딩시 사용할 slider
+  carousel_slider: ^4.2.1
+
   # firebase
   firebase_core: ^2.25.2
   firebase_auth: ^4.17.2
@@ -98,6 +101,9 @@ dev_dependencies:
   # rules and activating additional ones.
   flutter_lints: ^2.0.0
 
+  # 플러터 아이콘
+  flutter_launcher_icons: "^0.13.1"
+
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
 
@@ -111,7 +117,7 @@ flutter:
   # To add assets to your application, add an assets section, like this:
   assets:
     - .env
-    # - images/a_dot_burr.jpeg
+    - assets/image/
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware

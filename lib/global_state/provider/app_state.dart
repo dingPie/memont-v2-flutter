@@ -5,10 +5,13 @@ class AppState extends ChangeNotifier {
   bool _isLoading = false;
   bool _isLogin = false;
   bool _isDeleting = false;
+  bool _isOnboarding = false;
 
   bool get isLoading => _isLoading;
   bool get isLogin => _isLogin;
   bool get isDeleting => _isDeleting;
+
+  bool get isOnboarding => _isOnboarding;
 
   set isLoading(bool value) {
     _isLoading = value;
@@ -25,9 +28,16 @@ class AppState extends ChangeNotifier {
     notifyListeners();
   }
 
+  set isOnboarding(bool value) {
+    _isOnboarding = value;
+    notifyListeners();
+  }
+
   AppState({
     required bool isLogin,
     required bool isDeleting,
+    required bool isOnboarding,
   })  : _isLogin = isLogin,
-        _isDeleting = isDeleting;
+        _isDeleting = isDeleting,
+        _isOnboarding = isOnboarding;
 }
