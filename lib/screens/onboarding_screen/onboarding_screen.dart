@@ -46,11 +46,17 @@ class OnboardingScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     var appState = context.watch<AppState>();
 
+    var safePadding = MediaQuery.paddingOf(context);
+
     void onPressStartButton() async {
       final SharedPreferences prefs = await SharedPreferences.getInstance();
+      var isOnboarding = prefs.getBool(KEY.IS_ONBORDING);
       prefs.setBool(KEY.IS_ONBORDING, false);
-
-      appState.isOnboarding = false;
+      if (isOnboarding == false) {
+        context.pop();
+      } else {
+        appState.isOnboarding = false;
+      }
     }
 
     var colors = context.colors;
@@ -61,7 +67,8 @@ class OnboardingScreen extends StatelessWidget {
           children: [
             CarouselSlider(
               options: CarouselOptions(
-                height: MediaQuery.of(context).size.height - 250,
+                height: MediaQuery.of(context).size.height -
+                    (safePadding.top + safePadding.bottom + 20),
                 enableInfiniteScroll: false,
                 viewportFraction: 1,
               ),
@@ -69,10 +76,14 @@ class OnboardingScreen extends StatelessWidget {
                 return Builder(
                   builder: (BuildContext context) {
                     return Container(
+                      color: colors.primary[100],
                       width: MediaQuery.of(context).size.width,
                       child: Padding(
-                        padding: const EdgeInsets.symmetric(
-                            vertical: 80, horizontal: 20),
+                        padding: EdgeInsets.only(
+                          top: safePadding.top + 80,
+                          left: 20,
+                          right: 20,
+                        ),
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
@@ -108,14 +119,14 @@ class OnboardingScreen extends StatelessWidget {
                   borderRadius: BorderRadius.circular(8),
                 ),
               ),
+              onPressed: onPressStartButton,
               child: Text(
-                '시작하기',
+                appState.isOnboarding == false ? '닫기' : '시작하기',
                 style: textStyle.body['md']?.copyWith(
                   color: colors.white,
                   fontWeight: FontWeight.w700,
                 ),
               ),
-              onPressed: onPressStartButton,
             ),
           ],
         ),
