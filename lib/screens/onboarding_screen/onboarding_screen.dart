@@ -68,7 +68,7 @@ class OnboardingScreen extends StatelessWidget {
             CarouselSlider(
               options: CarouselOptions(
                 height: MediaQuery.of(context).size.height -
-                    (safePadding.top + safePadding.bottom + 20),
+                    (safePadding.top + safePadding.bottom + 40),
                 enableInfiniteScroll: false,
                 viewportFraction: 1,
               ),

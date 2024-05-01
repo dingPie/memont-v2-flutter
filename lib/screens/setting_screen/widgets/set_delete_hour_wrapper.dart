@@ -52,6 +52,7 @@ class SetDeleteHourWrapper extends StatelessWidget {
             DropdownMenu<int>(
               onSelected: onSelectDeleteHour,
               inputDecorationTheme: InputDecorationTheme(
+                fillColor: colors.white,
                 isDense: true,
                 contentPadding: const EdgeInsets.only(left: 16),
                 constraints: BoxConstraints.tight(
