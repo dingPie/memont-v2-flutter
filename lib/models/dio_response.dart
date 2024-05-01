@@ -7,7 +7,7 @@ class DioResponse {
   DioResponse({
     required this.code,
     required this.message,
-    required this.data,
+    this.data,
   });
 
   DioResponse.fromJson(Map<String, dynamic> json)

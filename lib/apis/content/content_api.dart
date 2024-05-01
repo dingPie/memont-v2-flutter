@@ -1,6 +1,8 @@
+import 'package:dio/dio.dart';
 import 'package:memont_v2/apis/dio.dart';
 import 'package:memont_v2/models/content_dto/content_dto.dart';
 import 'package:memont_v2/models/cursor_response.dart';
+import 'package:memont_v2/models/dio_response.dart';
 import 'package:memont_v2/models/get_content_dto/get_content_dto.dart';
 
 class ContentApi {
@@ -25,9 +27,10 @@ class ContentApi {
       );
 
       return result;
-    } catch (err) {
-      print('content 목록 조회 에러: ${err.toString()}');
-      return null;
+    } on DioException catch (err) {
+      var error = DioResponse.fromJson(err.response?.data);
+      print('content 목록 조회 에러: $error');
+      rethrow;
     }
   }
 
@@ -41,9 +44,10 @@ class ContentApi {
       final dynamic responseData = res.data['result']['data'];
       print('RES: ${ContentDto.fromJson(responseData)}');
       return ContentDto.fromJson(responseData);
-    } catch (err) {
-      print('content 생성 에러: ${err.toString()}');
-      return null;
+    } on DioException catch (err) {
+      var error = DioResponse.fromJson(err.response?.data);
+      print('content 생성 에러: $error');
+      throw error;
     }
   }
 
@@ -57,9 +61,10 @@ class ContentApi {
       final dynamic responseData = res.data['result']['data'];
       print('RES: ${ContentDto.fromJson(responseData)}');
       return ContentDto.fromJson(responseData);
-    } catch (err) {
-      print('content 수정 에러: ${err}');
-      return null;
+    } on DioException catch (err) {
+      var error = DioResponse.fromJson(err.response?.data);
+      print('content 수정 에러: $error');
+      throw error;
     }
   }
 
@@ -73,9 +78,10 @@ class ContentApi {
         },
       );
       print('res: ${res.toString()}');
-    } catch (err) {
-      print('content 수정 에러: ${err.toString()}');
-      return null;
+    } on DioException catch (err) {
+      var error = DioResponse.fromJson(err.response?.data);
+      print('삭제예정 변경 에러: $error');
+      throw error;
     }
   }
 
@@ -86,9 +92,10 @@ class ContentApi {
         '/content/delete/$id',
       );
       print('res: ${res.toString()}');
-    } catch (err) {
-      print('content 목록 조회 에러: ${err.toString()}');
-      return null;
+    } on DioException catch (err) {
+      var error = DioResponse.fromJson(err.response?.data);
+      print('content 삭제 에러: $error');
+      throw error;
     }
   }
 
@@ -101,9 +108,10 @@ class ContentApi {
       ContentDto result = ContentDto.fromJson(responseData);
 
       return result;
-    } catch (err) {
-      print('pin content 조회 에러: ${err.toString()}');
-      return null;
+    } on DioException catch (err) {
+      var error = DioResponse.fromJson(err.response?.data);
+      print('pin content 조회 에러: $error');
+      throw error;
     }
   }
 
@@ -116,16 +124,15 @@ class ContentApi {
           'contentId': contentId,
         },
       );
-
       final dynamic responseData = res.data['result']['data'];
-
       ContentDto? result =
           responseData == null ? null : ContentDto.fromJson(responseData);
 
       return result;
-    } catch (err) {
-      print('content pin 에러: ${err.toString()}');
-      return null;
+    } on DioException catch (err) {
+      var error = DioResponse.fromJson(err.response?.data);
+      print('pin content 설정 에러: $error');
+      throw error;
     }
   }
 }
