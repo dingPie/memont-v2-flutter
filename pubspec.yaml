@@ -33,63 +33,63 @@ dependencies:
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
-  cupertino_icons: ^1.0.2
+  cupertino_icons: 1.0.2
 
   # Core Library #
   # router
-  go_router: ^12.1.1
+  go_router: 12.1.1
 
   # async storage 같은 스토리지
-  shared_preferences: ^2.2.2
+  shared_preferences: 2.2.2
 
   # env 파일 읽는 dotenv
-  flutter_dotenv: ^5.1.0
+  flutter_dotenv: 5.1.0
 
   # 전역 상태관리 아키텍처 라이브러리
-  provider: ^6.1.1
+  provider: 6.1.1
 
   # https 통신 및 parsing까지 해주는 라이브러리. axios와 비슷
-  dio: ^5.4.0
+  dio: 5.4.0
 
   # Utils Library#
   # 무한스크롤 구현이 되어있는 라이브러리. (써본후 별로다 싶으면 삭제해도 됨)
-  infinite_scroll_pagination: ^4.0.0
+  infinite_scroll_pagination: 4.0.0
 
   # native app splash 적용을 위한 라이브러리
-  flutter_native_splash: ^2.3.6
+  flutter_native_splash: 2.3.6
 
   # Style Library #
   # 스타일링 폰트 적용을 위한 google font
-  google_fonts: ^6.1.0
+  google_fonts: 6.1.0
 
   # 애니메이션 텍스트를 적용하기 위한 라이브러리 (써보자.)
-  animated_text_kit: ^4.2.2
+  animated_text_kit: 4.2.2
 
   # 위젯 애니메이션 적용을 위한 라이브러리
-  flutter_animate: ^4.3.0
+  flutter_animate: 4.3.0
 
-  json_annotation: ^4.8.0 # freezed 설치에 필요
+  json_annotation: 4.8.0 # freezed 설치에 필요
 
-  font_awesome_flutter: ^10.7.0
+  font_awesome_flutter: 10.7.0
 
-  intl: ^0.19.0
+  intl: 0.19.0
   # toast 표출용
-  fluttertoast: ^8.2.4
+  fluttertoast: 8.2.4
 
   # 온보딩시 사용할 slider
-  carousel_slider: ^4.2.1
+  carousel_slider: 4.2.1
 
   # firebase
-  firebase_core: ^2.25.2
-  firebase_auth: ^4.17.2
-  # firebase_messaging: ^14.7.13
-  # google_sign_in: ^6.2.1
+  firebase_core: 2.25.2
+  firebase_auth: 4.17.2
+  # firebase_messaging: 14.7.13
+  # google_sign_in: 6.2.1
 
 dev_dependencies:
   # Date Class 등 기본적인 Class 생성시 반복적으로 사용되는 코드를 줄이게 해줌
-  build_runner: ^2.3.3
-  json_serializable: ^6.6.0
-  freezed: ^2.4.5
+  build_runner: 2.3.3
+  json_serializable: 6.6.0
+  freezed: 2.4.5
 
   flutter_test:
     sdk: flutter
