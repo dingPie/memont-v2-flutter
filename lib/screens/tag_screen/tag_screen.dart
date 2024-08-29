@@ -72,6 +72,7 @@ class _TagScreenState extends State<TagScreen> {
 
   @override
   Widget build(BuildContext context) {
+    var colors = context.colors;
     void onPressTagItem(TagDto? tag, {bool isToBeDeleted = false}) {
       var tagId = isToBeDeleted
           ? '-1'
@@ -87,6 +88,7 @@ class _TagScreenState extends State<TagScreen> {
 
     return CommonLayout(
       child: Scaffold(
+        backgroundColor: colors.gray[100],
         appBar: PreferredSize(
           preferredSize: Size.fromHeight(60.0),
           child: CommonAppBar(

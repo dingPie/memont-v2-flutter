@@ -47,13 +47,12 @@ class MoreButton extends StatelessWidget {
               isToBeDeleted: content.isToBeDeleted ?? false,
             ),
           ),
-          MoreItemPopupItem(
-            icon: FontAwesomeIcons.thumbtack,
-            text: '상단 고정',
-            onTapMoreItemPopupButton: () => onPressMorePinButton(content),
-          )
-          // P_TODO: 아이콘이랑 텍스트. 수정, 삭제 상단 고정, 모아보기
-          // P_TODO: 최소값이 줄어들질 않네...
+          if (content.isToBeDeleted == false)
+            MoreItemPopupItem(
+              icon: FontAwesomeIcons.thumbtack,
+              text: '상단 고정',
+              onTapMoreItemPopupButton: () => onPressMorePinButton(content),
+            )
         ];
       },
 
@@ -64,25 +63,12 @@ class MoreButton extends StatelessWidget {
 
       child: Container(
         padding: const EdgeInsets.all(4),
-        child: const Icon(
+        child: Icon(
           FontAwesomeIcons.ellipsis,
           size: 16,
+          color: colors.gray[800]!,
         ),
       ),
     );
-
-    // P_MEMO: 레거시
-    //   return IconButton(
-    //     icon: const Icon(
-    //       FontAwesomeIcons.ellipsis,
-    //       size: 16,
-    //     ),
-    //     onPressed: () => onPressItemMoreButton(content),
-    //     padding: const EdgeInsets.all(6), // 패딩 설정
-    //     constraints: const BoxConstraints(),
-    //     style: ElevatedButton.styleFrom(
-    //       tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-    //     ),
-    //   );
   }
 }

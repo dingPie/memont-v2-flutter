@@ -27,6 +27,7 @@ Future main() async {
   );
   final SharedPreferences prefs = await SharedPreferences.getInstance();
   var refreshToken = prefs.getString(KEY.REFRESH_TOKEN);
+
   String baseUrl = UtilMethod.getBaseUrl();
 
   try {
@@ -48,11 +49,17 @@ Future main() async {
     runApp(MyApp(
       isLogin: true,
       userInfo: userInfo,
+      isOnboarding: false,
     ));
   } on DioException catch (error) {
     print('refresh ERROR: ${error.response}');
+    bool isOnboarding = prefs.getBool(KEY.IS_ONBORDING) ?? true;
+
+    print('dddddddddddddddddd $isOnboarding');
+
     runApp(MyApp(
       isLogin: false,
+      isOnboarding: isOnboarding,
     ));
   }
 }
@@ -61,10 +68,12 @@ Future main() async {
 final class MyApp extends StatelessWidget {
   bool isLogin = false;
   UserDto? userInfo;
+  bool isOnboarding = false;
 
   MyApp({
     super.key,
     required this.isLogin,
+    required this.isOnboarding,
     this.userInfo,
   });
 
@@ -88,6 +97,7 @@ final class MyApp extends StatelessWidget {
           create: (context) => AppState(
             isLogin: isLogin,
             isDeleting: isDeleting,
+            isOnboarding: isOnboarding,
           ),
         ),
         ChangeNotifierProvider(

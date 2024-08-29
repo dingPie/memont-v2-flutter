@@ -26,6 +26,7 @@ class MoreItemPopupItem extends PopupMenuEntry<String> {
 class MoreItemPopupItemState extends State<MoreItemPopupItem> {
   @override
   Widget build(BuildContext context) {
+    var colors = context.colors;
     var textStyle = context.textStyle;
     return PopupMenuItem(
       onTap: () => widget.onTapMoreItemPopupButton(),
@@ -39,7 +40,9 @@ class MoreItemPopupItemState extends State<MoreItemPopupItem> {
           ),
           Text(
             widget.text,
-            style: textStyle.body['sm'],
+            style: textStyle.body['sm']!.copyWith(
+              color: colors.gray[800],
+            ),
           )
         ],
       ),

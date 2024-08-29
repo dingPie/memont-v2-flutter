@@ -14,9 +14,11 @@ class ErrorScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var colors = context.colors;
     void onPressedBackButton() => context.pop();
 
     return Scaffold(
+      backgroundColor: colors.gray[100],
       appBar: AppBar(
         backgroundColor: context.colors.gray[200],
         title: Text(

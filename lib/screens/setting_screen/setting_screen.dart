@@ -3,6 +3,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 import 'package:go_router/go_router.dart';
 import 'package:memont_v2/apis/user/user_api.dart';
+import 'package:memont_v2/config/build_context_extension.dart';
 import 'package:memont_v2/constants/key.dart';
 import 'package:memont_v2/constants/routes.dart';
 import 'package:memont_v2/global_state/provider/app_state.dart';
@@ -14,6 +15,7 @@ import 'package:memont_v2/screens/setting_screen/widgets/set_delete_hour_wrapper
 import 'package:memont_v2/screens/setting_screen/widgets/user_info_wrapper.dart';
 import 'package:memont_v2/utils/util_hooks.dart';
 import 'package:memont_v2/widgets/common_layout.dart';
+import 'package:memont_v2/widgets/pressable.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -24,6 +26,8 @@ class SettingScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var colors = context.colors;
+    var textStyle = context.textStyle;
     SingletonStorage storage = SingletonStorage();
     var appState = context.watch<AppState>();
     var userInfo = context.watch<UserInfoProvider>().userInfo;
@@ -69,8 +73,13 @@ class SettingScreen extends StatelessWidget {
       );
     }
 
+    void onPressViewOnboardingButton() {
+      context.push(ROUTES.onboarding.path);
+    }
+
     return CommonLayout(
       child: Scaffold(
+        backgroundColor: colors.gray[100],
         appBar: const PreferredSize(
           preferredSize: Size.fromHeight(60.0),
           child: CommonAppBar(
@@ -84,6 +93,7 @@ class SettingScreen extends StatelessWidget {
         body: Padding(
           padding: const EdgeInsets.all(16),
           child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               UserInfoWrapper(
                 userInfo: userInfo,
@@ -93,7 +103,19 @@ class SettingScreen extends StatelessWidget {
               SetDeleteHourWrapper(
                 userInfo: userInfo,
                 onSelectDeleteHour: onSelectDeleteHour,
-              )
+              ),
+              const SizedBox(height: 32),
+              TextButton(
+                onPressed: onPressViewOnboardingButton,
+                child: Text(
+                  '설명 다시보기',
+                  style: textStyle.body['sm']?.copyWith(
+                    color: colors.black,
+                    fontWeight: FontWeight.w700,
+                    decoration: TextDecoration.underline,
+                  ),
+                ),
+              ),
             ],
           ),
         ),
