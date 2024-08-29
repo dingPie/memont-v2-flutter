@@ -30,6 +30,7 @@ class BottomInput extends StatelessWidget {
               hintText: '내용과 #으로 태그를 붙여주세요.', // P_TODO: 첫번째 태그만 반영됨
 
               contentPadding: const EdgeInsets.all(12),
+
               focusedBorder: OutlineInputBorder(
                 borderSide: BorderSide(
                   width: 1,
@@ -38,7 +39,7 @@ class BottomInput extends StatelessWidget {
               ),
               enabledBorder: OutlineInputBorder(
                 borderSide: BorderSide(
-                  color: colors.white,
+                  color: colors.gray[300]!,
                 ),
               ),
             ),

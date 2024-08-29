@@ -79,6 +79,7 @@ class SettingScreen extends StatelessWidget {
 
     return CommonLayout(
       child: Scaffold(
+        backgroundColor: colors.gray[100],
         appBar: const PreferredSize(
           preferredSize: Size.fromHeight(60.0),
           child: CommonAppBar(

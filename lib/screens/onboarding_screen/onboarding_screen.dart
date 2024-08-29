@@ -63,6 +63,7 @@ class OnboardingScreen extends StatelessWidget {
     var textStyle = context.textStyle;
     return CommonLayout(
       child: Scaffold(
+        backgroundColor: colors.gray[100],
         body: Column(
           children: [
             CarouselSlider(

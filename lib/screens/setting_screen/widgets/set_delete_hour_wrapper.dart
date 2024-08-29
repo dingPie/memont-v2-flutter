@@ -47,7 +47,10 @@ class SetDeleteHourWrapper extends StatelessWidget {
           crossAxisAlignment: WrapCrossAlignment.center,
           runSpacing: 8,
           children: [
-            const Text('매일'),
+            Text(
+              '매일',
+              style: textStyle.body['sm'],
+            ),
             const SizedBox(width: 12),
             DropdownMenu<int>(
               onSelected: onSelectDeleteHour,
@@ -78,9 +81,18 @@ class SetDeleteHourWrapper extends StatelessWidget {
                 );
               }).toList(),
             ),
-            const Text('시에 '),
-            const Text('삭제 예정 메모가'),
-            const Text('삭제됩니다.'),
+            Text(
+              '시에 ',
+              style: textStyle.body['sm'],
+            ),
+            Text(
+              '삭제 예정 메모가',
+              style: textStyle.body['sm'],
+            ),
+            Text(
+              '삭제됩니다.',
+              style: textStyle.body['sm'],
+            ),
           ],
         ),
         const SizedBox(height: 20),
