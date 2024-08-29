@@ -1,16 +1,6 @@
-# MEMO'NT
+# MEMO'NT (v2, flutter)
 
-A new Flutter project.
+* 현재 클라이언트 배포 문제로 배포되지 않았습니다.
 
-## Getting Started
+[관련 링크](https://code-pie.notion.site/Memo-nt-Portfolio-1fa2c9906aa4408dafbd9c8b20fac62e?pvs=4)
 
-This project is a starting point for a Flutter application.
-
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
